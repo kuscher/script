@@ -1,0 +1,29 @@
+{
+  "name": "drift",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.3.0",
+    "@tiptap/extension-document": "^2.3.0",
+    "@tiptap/extension-history": "^2.3.0",
+    "@tiptap/extension-paragraph": "^2.3.0",
+    "@tiptap/extension-placeholder": "^2.3.0",
+    "@tiptap/extension-text": "^2.3.0",
+    "@tiptap/pm": "^2.3.0",
+    "idb-keyval": "^6.2.1",
+    "lowlight": "^3.1.0",
+    "lucide": "^0.370.0",
+    "marked": "^18.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0",
+    "vite-plugin-pwa": "^0.19.0",
+    "workbox-window": "^7.0.0"
+  }
+}

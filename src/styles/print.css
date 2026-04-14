@@ -1,0 +1,42 @@
+@media print {
+  /* Hide all UI Chrome */
+  .hamburger-btn,
+  .sidebar,
+  .status-bar,
+  .top-bar,
+  .floating-bar,
+  .modal-overlay,
+  #drop-overlay,
+  #recovery-banner,
+  .line-numbers-gutter {
+    display: none !important;
+  }
+
+  /* Reset layout constraints */
+  body, html, .app-container, .layout-wrapper, .workspace, .editor-container {
+    height: auto !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    position: static !important;
+    background: transparent !important;
+  }
+
+  /* Optimize Editor for Paper */
+  #editor-root {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  .ProseMirror {
+    font-size: 12pt !important;
+    color: black !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Force light theme for syntax tokens */
+  .hljs-code { color: #C25A5A !important; }
+  .hljs-link { color: #5A9E9E !important; text-decoration: none !important; }
+  .hljs-emphasis { color: #555 !important; }
+}

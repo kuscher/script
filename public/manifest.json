@@ -1,0 +1,32 @@
+{
+  "name": "Drift Text Editor",
+  "short_name": "Drift",
+  "theme_color": "#FAFAF8",
+  "background_color": "#FAFAF8",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "text/plain": [".txt"],
+        "text/markdown": [".md"],
+        "text/rtf": [".rtf"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FFFBFE" />
+    <meta name="description" content="Drift - A fast, friendly plain text editor" />
+    <title>Drift</title>
+    <!-- Modern Expressive Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;600&family=Cascadia+Code&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/sidebar.css" />
+    <link rel="stylesheet" href="/src/styles/editor.css" />
+    <link rel="stylesheet" href="/src/styles/find.css" />
+    <link rel="stylesheet" href="/src/styles/print.css" media="print" />
+  </head>
+  <body>
+    <div id="app" class="app-container">
+      
+      <!-- Persistent Top Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="hamburger-btn" id="btn-hamburger" aria-label="Toggle Navigation">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="header-title-container">
+            <i data-lucide="file-text" id="header-file-icon" style="margin-right:8px; width:20px; color:var(--text-secondary);"></i>
+            <span id="header-title" contenteditable="true" spellcheck="false" title="Click to rename">Untitled.txt</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <!-- Find / Replace Bar Persistent Container -->
+          <div id="find-bar" class="find-container">
+            <!-- Rendered by find-replace.js -->
+          </div>
+        </div>
+      </header>
+
+      <!-- Disk Saving Warning -->
+      <div id="disk-warning" class="disk-warning hidden">
+        <i data-lucide="alert-triangle"></i>
+        <span>Only saved in Script App. It has not been saved to your local disk yet.</span>
+        <button id="btn-disk-warn-save">Save to Disk</button>
+      </div>
+      
+      <!-- Top level overlay for drag and drop -->
+      <div id="drop-overlay" class="hidden">
+        <div class="drop-zone">
+          <i data-lucide="file-down" style="width:48px;height:48px;"></i>
+          <p style="font-family: var(--font-ui); font-size: 18px; font-weight:500; padding:16px;">Drop to open</p>
+        </div>
+      </div>
+
+      <!-- Wrapper for Sidebar + Main -->
+      <div class="layout-wrapper" id="layout-wrapper">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+          
+          <!-- Sidebar: Normal View -->
+          <div id="sidebar-tabs-view" class="sidebar-view active">
+            <div class="sidebar-header">
+              <button class="icon-btn" id="btn-menu" aria-haspopup="true" aria-expanded="false"><i data-lucide="more-vertical"></i></button>
+              <div class="sidebar-header-actions">
+                <button class="icon-btn" id="btn-open-file" title="Open (Ctrl+O)"><i data-lucide="folder-open"></i></button>
+                <button class="icon-btn" id="btn-save-file" title="Save (Ctrl+S)"><i data-lucide="save"></i></button>
+              </div>
+            </div>
+            
+            <div class="sidebar-body">
+              <div id="tab-list" class="tab-list" role="tablist">
+                <!-- Managed by tabs.js -->
+              </div>
+            </div>
+            
+            <div class="sidebar-footer">
+              <div class="recent-label">RECENT</div>
+              <div id="recent-list" class="recent-list">
+                <!-- Managed by recent-files.js -->
+              </div>
+              <button class="new-tab-btn" id="btn-new-tab">
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sidebar: Settings View -->
+          <div id="sidebar-settings-view" class="sidebar-view hidden">
+            <div class="sidebar-header">
+              <button class="icon-btn" id="btn-settings-back"><i data-lucide="arrow-left"></i></button>
+              <span class="settings-title">Settings</span>
+            </div>
+            <!-- Rendered by settings.js -->
+            <div id="settings-container" class="settings-container"></div>
+          </div>
+
+          <!-- Overflow Menu Dropdown -->
+          <div id="overflow-menu" class="hidden shadow-menu">
+            <ul>
+              <li data-action="new"><i data-lucide="file-plus"></i> <span>New</span> <small>Ctrl+N</small></li>
+              <li data-action="open"><i data-lucide="folder-open"></i> <span>Open</span> <small>Ctrl+O</small></li>
+              <li data-action="save"><i data-lucide="save"></i> <span>Save</span> <small>Ctrl+S</small></li>
+              <li data-action="saveAs"><i data-lucide="save"></i> <span>Save As</span> <small>Ctrl+Shift+S</small></li>
+              <li data-action="print"><i data-lucide="printer"></i> <span>Print</span> <small>Ctrl+P</small></li>
+              <li class="divider"></li>
+              <li data-action="goTo"><i data-lucide="arrow-down-to-line"></i> <span>Go to Line</span> <small>Ctrl+G</small></li>
+              <li class="divider"></li>
+              <li data-action="settings"><i data-lucide="settings"></i> <span>Settings</span></li>
+              <li data-action="shortcuts"><i data-lucide="keyboard"></i> <span>Keyboard Shortcuts</span> <small>Ctrl+/</small></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main id="main-workspace" class="workspace" role="main">
+          <!-- Crash Recovery Banner -->
+          <div id="recovery-banner" class="hidden">
+            <span id="recovery-text">Restored unsaved file(s) from your last session.</span>
+            <button class="icon-btn" id="btn-close-recovery"><i data-lucide="x"></i></button>
+          </div>
+
+          <!-- Go To Line Input -->
+          <div id="go-to-line-bar" class="hidden floating-bar">
+            <input type="number" id="input-goto-line" placeholder="Go to line..." />
+          </div>
+
+          <!-- Tiptap Editor Host -->
+          <div class="editor-container" id="editor-container">
+             <div class="line-numbers-gutter" id="line-numbers"></div>
+             <div id="editor-root"></div>
+             <div id="markdown-preview" class="hidden"></div>
+          </div>
+        </main>
+      </div>
+
+      <!-- Status Bar -->
+      <footer id="status-bar" class="status-bar" role="status">
+        <div class="left-stats">
+          <span id="stat-encoding" class="clickable">UTF-8 <i data-lucide="chevron-down" style="width:16px; margin-left:4px;"></i></span>
+          <span style="opacity: 0.5;">·</span>
+          <span id="stat-line-ending" class="clickable">LF</span>
+          <span style="opacity: 0.5;">·</span>
+          <span id="stat-cursor">Ln 1, Col 1</span>
+          <span style="opacity: 0.5;">·</span>
+          <span id="stat-words">0 words</span>
+          <span style="opacity: 0.5;">·</span>
+          <span id="stat-filetype">Plain Text</span>
+        </div>
+      </footer>
+
+      <!-- Encoding Picker Dropdown -->
+      <div id="encoding-picker" class="hidden picker-dropdown">
+        <ul>
+          <li data-enc="utf-8">UTF-8</li>
+          <li data-enc="utf-16le">UTF-16 LE</li>
+          <li data-enc="utf-16be">UTF-16 BE</li>
+          <li data-enc="iso-8859-1">ISO-8859-1</li>
+        </ul>
+      </div>
+
+      <!-- Shortcuts Overlay -->
+      <div id="shortcuts-overlay" class="hidden modal-overlay">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Keyboard Shortcuts</h2>
+            <button class="icon-btn" id="btn-close-shortcuts"><i data-lucide="x"></i></button>
+          </div>
+          <div class="modal-body" id="shortcuts-container">
+               <!-- Managed by shortcuts.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
