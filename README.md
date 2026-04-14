@@ -1,11 +1,11 @@
-# Drift
+# Script
 
-**Drift** is a beautifully designed, privacy-first, lightning-fast plain text editor built directly for the modern web. 
+**Script** is a beautifully designed, privacy-first, lightning-fast plain text editor built directly for the modern web. 
 
-It provides an unparalleled, distraction-free writing environment that lives entirely within your browser while seamlessly interacting with your local file system. From managing complex code syntax to intelligently querying an inline AI assistant, Drift elevates your raw text workflow without compromising extreme speed or local-first data integrity.
+It provides an unparalleled, distraction-free writing environment that lives entirely within your browser while seamlessly interacting with your local file system. From managing complex code syntax to intelligently querying an inline AI assistant, Script elevates your raw text workflow without compromising extreme speed or local-first data integrity.
 
 ### ✨ Features
-- **Local-First Architecture:** By leveraging the native File System Access API, Drift reads and writes locally. No centralized cloud servers scraping your data.
+- **Local-First Architecture:** By leveraging the native File System Access API, Script reads and writes locally. No centralized cloud servers scraping your data.
 - **Material Expressive UI:** Built cleanly on strict Material Design primitives, featuring dynamic sidebar navigation, elegant dark mode transitions, and extremely polished typography scaling.
 - **Instant Syntax Highlighting:** Integrated with a headless ProseMirror / Tiptap engine and Lowlight, code snippets elegantly format on the fly with custom semantic coloring.
 - **Inline `@` AI Engine:** Highlight text seamlessly by typing `@` anywhere on the page to instantly fetch absolute, terse context answers pushed straight from Google's bleeding-edge **Gemini 3 Flash Preview** models. (Powered strictly via local API storage).

@@ -1,7 +1,6 @@
 import { get, set } from 'idb-keyval';
 
-const TABS_KEY = 'drift_tabs_state';
-const RECENTS_KEY = 'drift_recent_files';
+const TABS_KEY = 'script_tabs_state';
 
 /**
  * Tabs array persistence.
@@ -24,14 +23,4 @@ export function debouncedSaveTabsState(tabs, ms = 1000) {
   timeout = setTimeout(() => {
     saveTabsState(tabs);
   }, ms);
-}
-
-// Recents persistence
-export async function loadRecents() {
-  const state = await get(RECENTS_KEY);
-  return state || [];
-}
-
-export async function saveRecents(recents) {
-  await set(RECENTS_KEY, recents);
 }

@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FFFBFE" />
-    <meta name="description" content="Drift - A fast, friendly plain text editor" />
-    <title>Drift</title>
+    <meta name="description" content="Script - A fast, friendly plain text editor" />
+    <title>Script</title>
     <!-- Modern Expressive Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;600&family=Cascadia+Code&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cascadia+Code&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="/src/styles/base.css" />
     <link rel="stylesheet" href="/src/styles/sidebar.css" />
@@ -20,6 +20,23 @@
   <body>
     <div id="app" class="app-container">
       
+      <!-- First Run Dialog -->
+      <dialog id="first-run-dialog" class="first-run-dialog">
+        <div class="dialog-content">
+          <i data-lucide="sparkles" class="hero-icon"></i>
+          <h2>Welcome to Script</h2>
+          <p>Script is a fast, friendly, local-first plain text editor beautifully designed for the modern web.</p>
+          <p>To unlock the **inline AI Mention engine**, please securely provide an active <strong>Gemini API Key</strong> below. This key is strictly written to your computer's local memory footprint natively—never sent to cloud sync points.</p>
+          <div class="input-block">
+             <input type="password" id="first-run-api-key" placeholder="Enter Gemini API key..." autocomplete="off">
+          </div>
+          <div class="dialog-actions">
+            <button class="btn-primary" id="btn-first-run-submit">Start Writing</button>
+            <button class="btn-text" id="btn-first-run-skip">Skip for now</button>
+          </div>
+        </div>
+      </dialog>
+
       <!-- Persistent Top Header -->
       <header class="app-header">
         <div class="header-left">
@@ -76,10 +93,6 @@
             </div>
             
             <div class="sidebar-footer">
-              <div class="recent-label">RECENT</div>
-              <div id="recent-list" class="recent-list">
-                <!-- Managed by recent-files.js -->
-              </div>
               <button class="new-tab-btn" id="btn-new-tab">
                 <i data-lucide="plus"></i>
               </button>

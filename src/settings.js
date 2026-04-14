@@ -1,4 +1,4 @@
-const SETTINGS_KEY = 'drift_settings';
+const SETTINGS_KEY = 'script_settings';
 
 let defaultSettings = {
   theme: 'system', // light, dark, system
@@ -71,7 +71,7 @@ export function openSettingsPanel(container, onBack) {
         <label for="set-ai-key" style="margin-bottom:8px; font-size:13px; color:var(--text-secondary);">Gemini API Key</label>
         <input type="password" id="set-ai-key" value="${settings.aiApiKey}" placeholder="AIza..." style="width: 100%; padding: 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-hairline); background: var(--bg-input); color: var(--text-primary);">
         <a href="https://aistudio.google.com/apikey" target="_blank" style="margin-top: 8px; font-size: 11px; color: var(--accent); text-decoration: none;">Get a free key from Google AI Studio &rarr;</a>
-        <p style="margin-top: 4px; font-size: 10px; color: var(--text-placeholder); line-height: 1.4;">Your key is stored only on this device. Drift never sees or transmits it.</p>
+        <p style="margin-top: 4px; font-size: 10px; color: var(--text-placeholder); line-height: 1.4;">Your key is stored only on this device. Script never sees or transmits it.</p>
       </div>
     </div>
   `;

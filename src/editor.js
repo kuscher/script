@@ -12,28 +12,64 @@ import { AiMention } from './ai-mention.js';
 
 const lowlight = createLowlight(common);
 
+export let searchMatches = [];
+export let activeSearchIndex = -1;
+
 let currentSearchTerm = '';
 const searchPlugin = new Plugin({
   key: new PluginKey('search'),
   state: {
     init() { return DecorationSet.empty; },
-    apply(tr) {
-      if (!currentSearchTerm) return DecorationSet.empty;
+    apply(tr, oldState) {
+      const action = tr.getMeta('search-update');
+      
+      if (!currentSearchTerm) {
+        searchMatches = [];
+        activeSearchIndex = -1;
+        return DecorationSet.empty;
+      }
+      
+      if (!tr.docChanged && action === undefined) {
+         return oldState;
+      }
+      
+      searchMatches = [];
       const decorations = [];
-      const regex = new RegExp(`(${currentSearchTerm.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')})`, 'gi');
+      const regex = new RegExp(`(${currentSearchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      
       tr.doc.descendants((node, pos) => {
         if (node.isText) {
           const text = node.text;
           let match;
           while ((match = regex.exec(text)) !== null) {
-            decorations.push(
-              Decoration.inline(pos + match.index, pos + match.index + match[0].length, {
-                class: 'search-highlight'
-              })
-            );
+             const from = pos + match.index;
+             const to = pos + match.index + match[0].length;
+             searchMatches.push({ from, to });
           }
         }
       });
+      
+      if (action !== undefined && action.activeIndex !== undefined) {
+         activeSearchIndex = action.activeIndex;
+      }
+      
+      if (searchMatches.length > 0) {
+         if (activeSearchIndex < 0 || activeSearchIndex >= searchMatches.length) {
+            activeSearchIndex = 0;
+         }
+      } else {
+         activeSearchIndex = -1;
+      }
+      
+      searchMatches.forEach((m, idx) => {
+         const isActive = idx === activeSearchIndex;
+         decorations.push(
+            Decoration.inline(m.from, m.to, {
+               class: isActive ? 'search-highlight search-match-active' : 'search-highlight'
+            })
+         );
+      });
+      
       return DecorationSet.create(tr.doc, decorations);
     }
   },
@@ -161,11 +197,59 @@ export function focusEditor() {
 }
 
 export function setSearchTerm(term) {
-  if (currentSearchTerm === term) return;
+  if (currentSearchTerm === term && term !== '') return;
   currentSearchTerm = term;
   if (editor) {
-    editor.view.dispatch(editor.state.tr.setMeta('search', true));
+    editor.view.dispatch(editor.state.tr.setMeta('search-update', { activeIndex: 0 }));
+    if (searchMatches.length > 0) {
+      updateSearchMatchActive(0);
+    }
+    // notify via UI callback potentially, or callers can check searchMatches.length
   }
+}
+
+export function updateSearchMatchActive(index) {
+  if (!editor || searchMatches.length === 0) return;
+  if (index < 0) index = searchMatches.length - 1;
+  else if (index >= searchMatches.length) index = 0;
+  
+  editor.view.dispatch(editor.state.tr.setMeta('search-update', { activeIndex: index }));
+  
+  const activeMatch = searchMatches[activeSearchIndex];
+  if (activeMatch) {
+     editor.chain().setTextSelection({ from: activeMatch.from, to: activeMatch.to }).run();
+     setTimeout(() => {
+        const activeHighlight = document.querySelector('.search-match-active');
+        if (activeHighlight) {
+           activeHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+     }, 50);
+  }
+}
+
+export function findNext() { updateSearchMatchActive(activeSearchIndex + 1); }
+export function findPrev() { updateSearchMatchActive(activeSearchIndex - 1); }
+
+export function replaceActive(replaceText) {
+  if (!editor || searchMatches.length === 0 || activeSearchIndex < 0) return;
+  const match = searchMatches[activeSearchIndex];
+  editor.view.dispatch(editor.state.tr.replaceWith(match.from, match.to, editor.state.schema.text(replaceText)));
+  
+  setTimeout(() => {
+     if (searchMatches.length > 0) {
+        updateSearchMatchActive(activeSearchIndex);
+     }
+  }, 10);
+}
+
+export function replaceAll(replaceText) {
+  if (!editor || searchMatches.length === 0) return;
+  const tr = editor.state.tr;
+  for (let i = searchMatches.length - 1; i >= 0; i--) {
+    const match = searchMatches[i];
+    tr.replaceWith(match.from, match.to, editor.state.schema.text(replaceText));
+  }
+  editor.view.dispatch(tr);
 }
 
 export function setSyntaxLanguage(filename) {

@@ -72,7 +72,8 @@
 .editor-container {
   flex: 1;
   display: flex;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   background-color: var(--bg-editor);
 }
@@ -128,7 +129,7 @@
   padding: 16px 40px 100px 4px;
   max-width: 900px;
   margin: 0 auto;
-  overflow-x: auto;
+  overflow: visible; /* Scroll is handled by .editor-container */
 }
 
 .ProseMirror {
@@ -204,10 +205,20 @@
 .hljs-deletion { color: #E45649; }
 [data-theme="dark"] .hljs-deletion { color: #FF5370; }
 
+/* Find / Replace Highlight */
 .search-highlight {
-  background-color: var(--accent-subtle);
-  color: var(--text-primary);
-  border-bottom: 2px solid var(--accent);
+  background-color: rgba(255, 213, 79, 0.4); /* Strong yellow for all matches */
+  border-bottom: 2px solid #FFC107;
+}
+[data-theme="dark"] .search-highlight {
+  background-color: rgba(255, 213, 79, 0.2); 
+}
+
+.search-highlight.search-match-active {
+  background-color: var(--accent);
+  color: #FFF;
+  border-bottom: transparent;
+  border-radius: 2px;
 }
 
 #recovery-banner {

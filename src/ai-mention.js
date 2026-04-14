@@ -109,7 +109,7 @@ export const AiMention = Extension.create({
             
             // Trigger Activation
             if (event.key === '@' && !state.active) {
-              const settingsData = localStorage.getItem('drift_settings');
+              const settingsData = localStorage.getItem('script_settings');
               let enabled = false;
               
               if (settingsData) {
@@ -164,7 +164,7 @@ export const AiMention = Extension.create({
                 event.preventDefault();
                 if (state.isLoading) return true; // block multiple sends
                 
-                const settingsData = localStorage.getItem('drift_settings');
+                const settingsData = localStorage.getItem('script_settings');
                 let apiKey = '';
                 if (settingsData) {
                   try { apiKey = JSON.parse(settingsData).aiApiKey; } catch(e) {}

@@ -22,11 +22,11 @@
   --icon-default: #49454F;
   --icon-hover: #6750A4;
 
-  /* Material Expressive Typographies */
+  /* Modern Layout Typographies */
   --font-mono: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', monospace;
   --font-serif: 'Georgia', 'Noto Serif', serif;
-  --font-sans: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-ui: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans: 'Google Sans', 'Inter', system-ui, sans-serif;
+  --font-ui: 'Google Sans', 'Inter', system-ui, sans-serif;
 
   --editor-font: var(--font-mono);
   --editor-font-size: 15px; 
@@ -199,4 +199,125 @@ button {
 .modal-body {
   padding: 24px;
   overflow-y: auto;
+}
+
+/* First Run Dialog */
+.first-run-dialog {
+  margin: auto; /* Centers the native dialog */
+  border: none;
+  background-color: var(--bg-editor);
+  color: var(--text-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  max-width: 440px;
+  width: 90%;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.first-run-dialog::backdrop {
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.first-run-dialog .dialog-content {
+  padding: 40px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.first-run-dialog .hero-icon {
+  width: 56px;
+  height: 56px;
+  color: var(--accent);
+  margin-bottom: 24px;
+  background: var(--accent-subtle);
+  padding: 12px;
+  border-radius: 50%;
+}
+
+.first-run-dialog h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+
+.first-run-dialog p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.first-run-dialog .input-block {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.first-run-dialog input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: var(--font-mono);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.first-run-dialog input[type="password"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+}
+
+.first-run-dialog .dialog-actions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+}
+
+.first-run-dialog .btn-primary {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--accent);
+  color: #FFF;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.first-run-dialog .btn-primary:active {
+  transform: scale(0.98);
+}
+
+.first-run-dialog .btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.first-run-dialog .btn-text {
+  background: transparent;
+  border: none;
+  color: var(--text-placeholder);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.2s;
+}
+
+.first-run-dialog .btn-text:hover {
+  color: var(--text-primary);
 }

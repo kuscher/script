@@ -1,10 +1,10 @@
 import { initTabs, getTabs, getActiveTab, setActiveTab, closeTab, createNewTab, updateActiveTabContent, markActiveTabSaved, renameActiveTab } from './tabs.js';
-import { initSidebar, renderTabs, renderRecents } from './sidebar.js';
+import { initSidebar, renderTabs } from './sidebar.js';
 import { initMenu } from './menu.js';
-import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage } from './editor.js';
+import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex } from './editor.js';
 import { loadSettings, openSettingsPanel } from './settings.js';
 import { openFilePicker, saveFilePicker, saveFileToHandle, verifyPermission } from './file-system.js';
-import { initRecents, addRecent, getRecents, handleRecentClick } from './recent-files.js';
+
 import { initStatusBar } from './status-bar.js';
 import { initShortcuts } from './shortcuts.js';
 import { initFindReplace } from './find-replace.js';
@@ -19,7 +19,7 @@ const dom = {
   tabListView: document.getElementById('sidebar-tabs-view'),
   settingsView: document.getElementById('sidebar-settings-view'),
   tabsContainer: document.getElementById('tab-list'),
-  recentsContainer: document.getElementById('recent-list'),
+
   menuEl: document.getElementById('overflow-menu'),
   
   // Sidebar actions
@@ -76,7 +76,6 @@ async function bootstrap() {
       const res = await openFilePicker();
       if (res) {
         const id = createNewTab(res.content, res.file.name, res.handle);
-        addRecent(res.file.name, res.handle);
       }
     },
     onToggleMenu: () => {},
@@ -149,7 +148,24 @@ async function bootstrap() {
   // Init Data logic
   initSidebar(dom, actions);
   
-  initRecents((rec) => renderRecents(rec, dom.recentsContainer));
+  // First Run
+  const firstRunSaved = localStorage.getItem('script_first_run');
+  const firstRunDialog = document.getElementById('first-run-dialog');
+  if (!firstRunSaved && firstRunDialog) {
+    firstRunDialog.showModal();
+    document.getElementById('btn-first-run-submit').addEventListener('click', () => {
+      const apiKey = document.getElementById('first-run-api-key').value.trim();
+      localStorage.setItem('script_first_run', 'true');
+      if (apiKey) {
+        localStorage.setItem('script_settings', JSON.stringify({ aiMentionEnabled: true, aiApiKey: apiKey }));
+      }
+      firstRunDialog.close();
+    });
+    document.getElementById('btn-first-run-skip').addEventListener('click', () => {
+      localStorage.setItem('script_first_run', 'true');
+      firstRunDialog.close();
+    });
+  }
 
   // Editable Header Title Logic
   if (dom.headerTitle) {
@@ -179,11 +195,11 @@ async function bootstrap() {
       const lineNumbers = document.getElementById('line-numbers');
       
       if (isPreviewMode) {
-        previewContainer.innerHTML = marked.parse(activeTab.content || '');
         previewContainer.classList.remove('hidden');
         editorRoot.classList.add('hidden');
         lineNumbers.classList.add('hidden');
         btnTogglePreview.innerHTML = '<i data-lucide="eye-off"></i>';
+        refreshMarkdownPreview();
       } else {
         previewContainer.classList.add('hidden');
         editorRoot.classList.remove('hidden');
@@ -195,10 +211,125 @@ async function bootstrap() {
   }
 
   const findInput = document.getElementById('find-input');
+  const findCount = document.getElementById('find-count');
+  
+  function refreshMarkdownPreview() {
+     const previewContainer = document.getElementById('markdown-preview');
+     if (!previewContainer || previewContainer.classList.contains('hidden')) return;
+     const activeTab = getActiveTab();
+     if (!activeTab) return;
+     
+     let html = marked.parse(activeTab.content || '');
+     if (findInput && findInput.value) {
+        let matchCount = 0;
+        const regex = new RegExp(`(${findInput.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![^<]*>)`, 'gi');
+        html = html.replace(regex, (match) => {
+           let cls = 'search-highlight';
+           // Match internal ProseMirror active indexing natively
+           if (matchCount === activeSearchIndex) {
+               cls += ' search-match-active';
+           }
+           matchCount++;
+           return `<span class="${cls}">${match}</span>`;
+        });
+     }
+     previewContainer.innerHTML = html;
+     
+     // Try to scroll precisely over the active map if rendering overrides it dynamically
+     setTimeout(() => {
+        const activeNode = previewContainer.querySelector('.search-match-active');
+        if (activeNode) {
+           activeNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+     }, 50);
+  }
+  
+  function updateFindCount() {
+     if (!findInput || !findInput.value) {
+       if(findCount) findCount.innerText = '';
+       refreshMarkdownPreview();
+       return;
+     }
+     if (searchMatches.length === 0) {
+       if(findCount) findCount.innerText = '0/0';
+     } else {
+       if(findCount) findCount.innerText = `${activeSearchIndex + 1}/${searchMatches.length}`;
+     }
+     refreshMarkdownPreview();
+  }
+
   if (findInput) {
     findInput.addEventListener('input', (e) => {
       setSearchTerm(e.target.value);
+      updateFindCount();
     });
+    
+    findInput.addEventListener('keydown', (e) => {
+       if (e.key === 'Enter') {
+          e.preventDefault();
+          if (e.shiftKey) findPrev();
+          else findNext();
+          updateFindCount();
+       } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          findPrev();
+          updateFindCount();
+       } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          findNext();
+          updateFindCount();
+       } else if (e.key === 'Escape') {
+          // Clear find
+          setSearchTerm('');
+          findInput.value = '';
+          updateFindCount();
+          focusEditor();
+       }
+    });
+
+    const btnNext = document.getElementById('btn-find-next');
+    if (btnNext) {
+      btnNext.addEventListener('mousedown', e => e.preventDefault());
+      btnNext.addEventListener('click', () => { findNext(); updateFindCount(); });
+    }
+    
+    const btnPrev = document.getElementById('btn-find-prev');
+    if (btnPrev) {
+      btnPrev.addEventListener('mousedown', e => e.preventDefault());
+      btnPrev.addEventListener('click', () => { findPrev(); updateFindCount(); });
+    }
+    
+    const btnToggleReplace = document.getElementById('btn-toggle-replace');
+    if (btnToggleReplace) {
+      btnToggleReplace.addEventListener('mousedown', e => e.preventDefault());
+    }
+    
+    const btnReplace = document.getElementById('btn-replace');
+    const replaceInput = document.getElementById('replace-input');
+    if (btnReplace && replaceInput) {
+       btnReplace.addEventListener('mousedown', e => e.preventDefault());
+       btnReplace.addEventListener('click', () => {
+          replaceActive(replaceInput.value);
+          // Modifying doc re-runs search automatically, just update count
+          setTimeout(updateFindCount, 10);
+       });
+       replaceInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+             e.preventDefault();
+             replaceActive(replaceInput.value);
+             setTimeout(updateFindCount, 10);
+          }
+       });
+    }
+    
+    const btnReplaceAll = document.getElementById('btn-replace-all');
+    if (btnReplaceAll && replaceInput) {
+       btnReplaceAll.addEventListener('mousedown', e => e.preventDefault());
+       btnReplaceAll.addEventListener('click', () => {
+          replaceAll(replaceInput.value);
+          setTimeout(updateFindCount, 10);
+       });
+    }
   }
 
   // Editor wireup

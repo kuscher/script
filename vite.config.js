@@ -7,8 +7,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png'],
       manifest: {
-        name: 'Drift Text Editor',
-        short_name: 'Drift',
+        name: 'Script Text Editor',
+        short_name: 'Script',
         description: 'A fast, lightweight plain text editor.',
         theme_color: '#FAFAF8',
         background_color: '#FAFAF8',

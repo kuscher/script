@@ -1,6 +1,6 @@
 {
-  "name": "Drift Text Editor",
-  "short_name": "Drift",
+  "name": "Script",
+  "short_name": "Script",
   "theme_color": "#FAFAF8",
   "background_color": "#FAFAF8",
   "display": "standalone",

@@ -5,32 +5,89 @@
   gap: 8px;
 }
 
-/* Find Inputs */
+.find-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-hairline);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.find-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+}
+
 .find-input-group {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: var(--bg-input);
-  border: 1px solid var(--border-hairline);
-  border-radius: 24px; /* Material Pill shape */
-  padding: 4px 16px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 4px 8px 4px 12px;
 }
-.find-input-group:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-subtle);
+.find-input-group.hidden {
+  display: none !important;
+}
+#replace-group {
+  border-left: 1px dashed var(--border-hairline);
+  padding-left: 8px;
+  padding-right: 12px;
 }
 
 .find-input-group input {
   background: transparent;
   border: none;
   color: var(--text-primary);
-  font-size: 14px;
-  width: 160px;
+  font-size: 13px;
+  width: 140px;
   font-family: var(--font-ui);
-  padding: 4px 0;
+  padding: 4px 6px;
 }
 .find-input-group input:focus { outline: none; }
+
+.find-nav-buttons {
+  display: flex;
+  align-items: center;
+}
+.find-nav-buttons .icon-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.find-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--border-hairline);
+  margin: 0 6px;
+}
+
+#btn-toggle-replace {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+#btn-toggle-replace.active {
+  background-color: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.text-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+.text-btn:hover {
+  background-color: var(--bg-tab-hover);
+  color: var(--text-primary);
+}
 
 .find-actions {
   display: flex;
