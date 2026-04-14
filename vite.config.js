@@ -10,8 +10,8 @@ export default defineConfig({
         name: 'Script Text Editor',
         short_name: 'Script',
         description: 'A fast, lightweight plain text editor.',
-        theme_color: '#FAFAF8',
-        background_color: '#FAFAF8',
+        theme_color: '#FFFBFE',
+        background_color: '#FFFBFE',
         display: 'standalone',
         icons: [
           {
@@ -23,6 +23,12 @@ export default defineConfig({
             src: 'icons/icon-512.png',
             sizes: '512x512',
             type: 'image/png'
+          },
+          {
+            src: 'icons/icon-512-maskable.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
           }
         ],
         file_handlers: [

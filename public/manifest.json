@@ -1,8 +1,8 @@
 {
   "name": "Script",
   "short_name": "Script",
-  "theme_color": "#FAFAF8",
-  "background_color": "#FAFAF8",
+  "theme_color": "#FFFBFE",
+  "background_color": "#FFFBFE",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
@@ -17,6 +17,12 @@
       "src": "icons/icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "file_handlers": [
