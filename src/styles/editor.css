@@ -123,12 +123,18 @@
   user-select: none;
 }
 
+/* Editor Centering Bounds */
+.editor-inner-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
 /* Editor Root (Tiptap mount) */
 #editor-root {
   flex: 1;
   padding: 16px 40px 100px 4px;
-  max-width: 900px;
-  margin: 0 auto;
   overflow: visible; /* Scroll is handled by .editor-container */
 }
 
@@ -146,9 +152,7 @@
 
 #markdown-preview {
   flex: 1;
-  padding: 16px 40px 100px 40px;
-  max-width: 900px;
-  margin: 0 auto;
+  padding: 16px 40px 100px 16px;
   overflow-y: auto;
   color: var(--text-primary);
   font-family: var(--font-sans);

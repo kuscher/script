@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#FFFBFE" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#E2E8F0" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#334155" />
     <meta name="description" content="Script - A fast, friendly plain text editor" />
     <title>Script</title>
     <!-- Modern Expressive Fonts -->
@@ -145,9 +146,11 @@
 
           <!-- Tiptap Editor Host -->
           <div class="editor-container" id="editor-container">
-             <div class="line-numbers-gutter" id="line-numbers"></div>
-             <div id="editor-root"></div>
-             <div id="markdown-preview" class="hidden"></div>
+            <div class="editor-inner-wrapper">
+              <div class="line-numbers-gutter" id="line-numbers"></div>
+              <div id="editor-root"></div>
+              <div id="markdown-preview" class="hidden"></div>
+            </div>
           </div>
         </main>
       </div>
