@@ -20,6 +20,15 @@
   border-bottom: 1px solid var(--border-hairline);
   z-index: 50;
   color: var(--text-primary);
+  -webkit-app-region: drag; /* Native OS Window Dragging */
+}
+
+/* Prevent window dragging on interactive nested header items */
+.app-header button,
+.app-header input,
+.app-header .find-container,
+.app-header [contenteditable] {
+  -webkit-app-region: no-drag;
 }
 .header-left, .header-right {
   display: flex;
