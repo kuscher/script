@@ -128,7 +128,7 @@
   display: flex;
   width: 100%;
   max-width: 980px;
-  margin: 0 auto;
+  margin: 0; /* Left align */
 }
 
 /* Editor Root (Tiptap mount) */
