@@ -207,6 +207,41 @@ async function bootstrap() {
     });
   }
 
+  // PWA Dynamic Install Prompt Logic
+  let deferredPrompt;
+  const btnInstallPwa = document.getElementById('btn-install-pwa');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile natively
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    // Update UI to notify the user they can install the PWA
+    if (btnInstallPwa) {
+      btnInstallPwa.classList.remove('hidden');
+    }
+  });
+
+  if (btnInstallPwa) {
+    btnInstallPwa.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      // Show the native install prompt
+      deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        btnInstallPwa.classList.add('hidden'); // Hide button if installed successfully
+      }
+      // Clear the saved prompt since it can't be used again
+      deferredPrompt = null;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (btnInstallPwa) btnInstallPwa.classList.add('hidden');
+    deferredPrompt = null;
+  });
+
   // Editable Header Title Logic
   if (dom.headerTitle) {
     dom.headerTitle.addEventListener('blur', (e) => {

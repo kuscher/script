@@ -14,7 +14,25 @@ export async function initTabs(onChange) {
     const unsavedCount = tabs.filter(t => t.content !== t.savedContent).length;
     return { restored: true, count: unsavedCount };
   } else {
-    createNewTab();
+    const welcomeContent = `# Welcome to Script 👋
+
+Script is a fast, robust, and lightweight plain-text & Markdown editor built with modern Material Expressive principles.
+
+### Key Features
+- **Local First:** Your documents are saved natively inside your browser's IndexedDB. No server database required!
+- **Markdown Previews:** Hit the eye icon in the top right to hot-swap to rendered Markdown (with full Github-flavored syntax support and injected syntax coloring).
+- **Find & Replace:** Seamlessly traverse large codebases directly using native keyboard shortcuts & continuous DOM-based scroll injections.
+- **PWA Ready:** Click the install icon in your address bar to snap Script right into your dock, or deploy natively to mobile!
+- **AI Assist:** Built-in generative autocomplete specifically context-mapped to your layout.
+
+---
+
+### Open Source
+Script is actively built and maintained entirely out in the open! If you want to contribute UI changes, fix a bug, or just explore the architecture, feel free to jump directly into the repository and throw us a Pull Request:
+
+[Improve the project on GitHub](https://github.com/kuscher/script)
+`;
+    createNewTab(welcomeContent, 'Welcome.md');
     return { restored: false, count: 0 };
   }
 }
