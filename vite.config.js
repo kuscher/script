@@ -10,8 +10,8 @@ export default defineConfig({
         name: 'Script Text Editor',
         short_name: 'Script',
         description: 'A fast, lightweight plain text editor.',
-        theme_color: '#FFFBFE',
-        background_color: '#FFFBFE',
+        theme_color: '#E2E8F0',
+        background_color: '#E2E8F0',
         display: 'standalone',
         icons: [
           {

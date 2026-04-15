@@ -1,8 +1,8 @@
 {
   "name": "Script",
   "short_name": "Script",
-  "theme_color": "#FFFBFE",
-  "background_color": "#FFFBFE",
+  "theme_color": "#E2E8F0",
+  "background_color": "#E2E8F0",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",

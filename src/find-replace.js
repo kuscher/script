@@ -24,6 +24,7 @@ export function initFindReplace(containerId) {
       </div>
     </div>
     <div class="find-actions">
+      <button class="toggle-btn" id="btn-toggle-word-wrap" title="Toggle Word Wrap"><i data-lucide="wrap-text"></i></button>
       <button class="toggle-btn" id="btn-toggle-preview" title="Toggle Markdown Preview" style="display: none;"><i data-lucide="eye"></i></button>
     </div>
   `;

@@ -210,6 +210,24 @@ async function bootstrap() {
     });
   }
 
+  // Word Wrap Toggle Logic
+  const btnToggleWordWrap = document.getElementById('btn-toggle-word-wrap');
+  let isWordWrap = false;
+  
+  if (btnToggleWordWrap) {
+    btnToggleWordWrap.addEventListener('click', () => {
+      isWordWrap = !isWordWrap;
+      const editorContainer = document.getElementById('editor-container');
+      if (isWordWrap) {
+        editorContainer.classList.add('word-wrapped');
+        btnToggleWordWrap.classList.add('active');
+      } else {
+        editorContainer.classList.remove('word-wrapped');
+        btnToggleWordWrap.classList.remove('active');
+      }
+    });
+  }
+
   const findInput = document.getElementById('find-input');
   const findCount = document.getElementById('find-count');
   
