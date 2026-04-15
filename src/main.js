@@ -167,6 +167,46 @@ async function bootstrap() {
     });
   }
 
+  // Sidebar Resizer Logic
+  const resizer = document.getElementById('sidebar-resizer');
+  const sidebar = document.getElementById('sidebar');
+  let isResizing = false;
+
+  if (resizer && sidebar) {
+    const savedWidth = localStorage.getItem('script_sidebar_width');
+    if (savedWidth && sidebar.style.width !== '0px') {
+      sidebar.style.width = savedWidth + 'px';
+    }
+
+    resizer.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isResizing = true;
+      sidebar.classList.add('is-resizing');
+      resizer.classList.add('is-resizing');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      let newWidth = e.clientX;
+      if (newWidth < 180) newWidth = 180;
+      if (newWidth > 700) newWidth = 700;
+      sidebar.style.width = newWidth + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        sidebar.classList.remove('is-resizing');
+        resizer.classList.remove('is-resizing');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        localStorage.setItem('script_sidebar_width', sidebar.offsetWidth);
+      }
+    });
+  }
+
   // Editable Header Title Logic
   if (dom.headerTitle) {
     dom.headerTitle.addEventListener('blur', (e) => {

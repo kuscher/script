@@ -10,9 +10,29 @@
 }
 
 .sidebar.collapsed {
-  width: 0;
+  width: 0 !important;
   border-right: none;
 }
+
+.sidebar.is-resizing {
+  transition: none !important;
+}
+
+.sidebar-resizer {
+  width: 4px;
+  background-color: transparent;
+  cursor: col-resize;
+  position: relative;
+  z-index: 50;
+  transition: background-color 0.2s;
+  margin-left: -2px; /* Pull it over the border slightly */
+  margin-right: -2px; /* Prevent it from shifting the layout */
+}
+
+.sidebar-resizer:hover, .sidebar-resizer.is-resizing {
+  background-color: var(--accent);
+}
+
 
 .sidebar-view {
   display: flex;
