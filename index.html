@@ -47,6 +47,11 @@
           <div class="header-title-container">
             <i data-lucide="file-text" id="header-file-icon" style="margin-right:8px; width:20px; color:var(--text-secondary);"></i>
             <span id="header-title" contenteditable="true" spellcheck="false" title="Click to rename">Untitled.txt</span>
+            <!-- Disk Saving Warning Inline -->
+            <div id="disk-warning" class="disk-warning-inline hidden" title="Only saved in Script App. It has not been saved to your local disk yet.">
+              <i data-lucide="alert-triangle" style="width:14px; height:14px; margin-right:6px; color:var(--danger);"></i>
+              <button id="btn-disk-warn-save">Save to Disk</button>
+            </div>
           </div>
         </div>
         <div class="header-right">
@@ -57,12 +62,7 @@
         </div>
       </header>
 
-      <!-- Disk Saving Warning -->
-      <div id="disk-warning" class="disk-warning hidden">
-        <i data-lucide="alert-triangle"></i>
-        <span>Only saved in Script App. It has not been saved to your local disk yet.</span>
-        <button id="btn-disk-warn-save">Save to Disk</button>
-      </div>
+
       
       <!-- Top level overlay for drag and drop -->
       <div id="drop-overlay" class="hidden">

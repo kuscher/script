@@ -87,36 +87,28 @@
   background-color: var(--bg-editor);
 }
 
-.disk-warning {
-  background-color: #FFF3CD;
-  color: #856404;
-  padding: 8px 16px;
+.disk-warning-inline {
   display: flex;
   align-items: center;
+  margin-left: 12px;
+  background-color: var(--bg-tab-hover);
+  padding: 4px 10px;
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
-  border-bottom: 1px solid #FFEEBA;
-  z-index: 10;
-}
-[data-theme="dark"] .disk-warning {
-  background-color: rgba(255, 193, 7, 0.15);
-  color: #FFD54F;
-  border-bottom-color: rgba(255, 193, 7, 0.2);
-}
-.disk-warning svg { width: 18px; height: 18px; margin-right: 12px; stroke-width: 2 !important; }
-.disk-warning span { flex: 1; }
-.disk-warning button {
-  margin-left: 16px;
   cursor: pointer;
+  border: 1px solid var(--border-hairline);
+  transition: 0.2s;
+  color: var(--text-primary);
+  -webkit-app-region: no-drag; /* Exclude from window drag */
+}
+.disk-warning-inline:hover {
+  background-color: var(--border-hairline);
+}
+.disk-warning-inline button {
   font-weight: 600;
   color: inherit;
-  font-size: 13px;
-  background: rgba(0,0,0,0.05);
-  padding: 4px 12px;
-  border-radius: 4px;
 }
-[data-theme="dark"] .disk-warning button { background: rgba(255,255,255,0.1); }
-.disk-warning button:hover { opacity: 0.8; }
 
 /* Reduced spacing for Line Numbers */
 .line-numbers-gutter {
