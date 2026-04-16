@@ -1,11 +1,13 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.script.app",
+      "package_name": "tools.fika.script",
       "sha256_cert_fingerprints": [
-        "YOUR_SHA256_FINGERPRINT_GOES_HERE"
+        "C8:6E:7A:6C:8D:AF:47:C6:94:36:7D:3F:9C:32:D0:08:73:42:A6:6D:45:AA:08:8C:DF:37:D7:33:5C:26:3A:8F"
       ]
     }
   }
