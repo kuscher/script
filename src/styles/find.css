@@ -196,3 +196,20 @@
   font-size: 15px;
 }
 .shortcut-row span { color: var(--text-primary); }
+
+/* Mobile Find Responsiveness */
+@media (max-width: 768px) {
+  .find-wrapper {
+    width: 100%;
+  }
+  .find-input-group {
+    flex: 1;
+    min-width: 60px;
+  }
+  .find-input-group input {
+    width: 100%;
+  }
+  .find-actions {
+    margin-left: auto; /* push find matches counter to the right */
+  }
+}

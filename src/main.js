@@ -3,7 +3,7 @@ import { initSidebar, renderTabs } from './sidebar.js';
 import { initMenu } from './menu.js';
 import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex } from './editor.js';
 import { loadSettings, openSettingsPanel } from './settings.js';
-import { openFilePicker, saveFilePicker, saveFileToHandle, verifyPermission } from './file-system.js';
+import { openFilePicker, saveFilePicker, saveFileToHandle, verifyPermission, readAsText } from './file-system.js';
 
 import { initStatusBar } from './status-bar.js';
 import { initShortcuts } from './shortcuts.js';
@@ -58,6 +58,11 @@ async function bootstrap() {
     registerSW();
   }
 
+  // Default collapse sidebar on narrow screens
+  if (window.innerWidth <= 768 && dom.sidebar) {
+    dom.sidebar.classList.add('collapsed');
+  }
+
   // Settings
   loadSettings((sett) => {
     // on settings changed
@@ -108,6 +113,14 @@ async function bootstrap() {
     },
     onToggleSidebar: () => {
        dom.sidebar.classList.toggle('collapsed');
+       const overlay = document.getElementById('mobile-sidebar-overlay');
+       if (overlay) {
+         if (dom.sidebar.classList.contains('collapsed')) {
+           overlay.classList.add('hidden');
+         } else {
+           overlay.classList.remove('hidden');
+         }
+       }
     },
     onEscape: () => {
        document.getElementById('go-to-line-bar').classList.add('hidden');
@@ -139,6 +152,14 @@ async function bootstrap() {
   });
 
   dom.hamburger.addEventListener('click', actions.onToggleSidebar);
+  
+  const mobileOverlay = document.getElementById('mobile-sidebar-overlay');
+  if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', () => {
+      dom.sidebar.classList.add('collapsed');
+      mobileOverlay.classList.add('hidden');
+    });
+  }
   
   const btnDiskWarn = document.getElementById('btn-disk-warn-save');
   if (btnDiskWarn) {
@@ -484,6 +505,23 @@ async function bootstrap() {
     icons,
     nameAttr: 'data-lucide' 
   });
+
+  // Launch Queue API for File Handling
+  if ('launchQueue' in window) {
+    window.launchQueue.setConsumer(async (launchParams) => {
+      if (!launchParams.files || !launchParams.files.length) return;
+      
+      for (const handle of launchParams.files) {
+        try {
+          const file = await handle.getFile();
+          const content = await readAsText(file);
+          createNewTab(content, file.name, handle);
+        } catch (e) {
+          console.error('Failed to open file from launchQueue', e);
+        }
+      }
+    });
+  }
 }
 
 // Start

@@ -321,3 +321,49 @@ button {
 .first-run-dialog .btn-text:hover {
   color: var(--text-primary);
 }
+
+/* Mobile Overlay Base */
+.mobile-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-overlay);
+  z-index: 150; /* below sidebar, above everything else */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: opacity 0.3s;
+}
+
+/* Base Responsive Adjustments */
+@media (max-width: 768px) {
+  .status-bar {
+    font-size: 10px;
+    padding: 0 8px;
+    height: auto;
+    min-height: 28px;
+    flex-wrap: wrap;
+    line-height: 1.4;
+    padding-bottom: 4px;
+    padding-top: 4px;
+  }
+  .first-run-dialog .dialog-content {
+    padding: 24px 16px 16px 16px;
+  }
+  .first-run-dialog h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  .first-run-dialog .hero-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-overlay {
+    display: none !important;
+  }
+}

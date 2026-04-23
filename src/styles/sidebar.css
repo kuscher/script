@@ -208,3 +208,25 @@
 .setting-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 
 .settings-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; display: block; }
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 200; /* Above everything */
+    transform: translateX(0); /* Default open position for overlay mode */
+  }
+
+  .sidebar.collapsed {
+    width: 260px !important; /* Keep width so it animates nicely, just translate */
+    transform: translateX(-100%);
+    border-right: none;
+  }
+
+  .sidebar-resizer {
+    display: none !important;
+  }
+}
