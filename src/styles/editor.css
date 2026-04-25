@@ -571,15 +571,23 @@
   border-color: rgba(240, 113, 120, 0.3);
 }
 
-/* Contextual AI Selection Bubble */
-.ai-glass-bubble {
+/* Contextual AI Magic Wrapper */
+.ai-magic-container {
   position: fixed;
   top: 0;
   left: 0;
-  transform: translate(0, 10px);
+  z-index: 250;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   width: calc(100% - 32px);
   max-width: 320px;
-  z-index: 250;
+}
+
+/* Contextual AI Selection Bubble */
+.ai-glass-bubble {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -591,8 +599,15 @@
   border-radius: 16px;
   padding: 10px 14px;
   opacity: 0;
+  transform: translateY(10px);
   transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   pointer-events: none;
+}
+.ai-magic-container.visible .ai-glass-bubble,
+.ai-magic-container.visible .ai-action-pills {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 [data-theme="dark"] .ai-glass-bubble {
   background-color: rgba(240, 113, 120, 0.15);
@@ -829,16 +844,13 @@
   }
 
   /* Fix AI bubble to bottom on mobile */
-  .ai-glass-bubble {
+  .ai-magic-container {
     top: auto !important;
     bottom: 24px !important;
     left: 50% !important;
-    transform: translate(-50%, 20px) !important;
-    position: fixed !important;
+    transform: translateX(-50%) !important;
     width: 90% !important;
-  }
-  .ai-glass-bubble.visible {
-    transform: translate(-50%, 0) !important;
+    flex-direction: column-reverse; /* Put pills above bubble on mobile! */
   }
 }
 
@@ -871,28 +883,26 @@
 
 /* AI Action Pills (Copy, Cut, Smart Copy) */
 .ai-action-pills {
-  position: absolute;
-  bottom: -44px;
-  left: 0;
   display: flex;
   gap: 8px;
-  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
   .ai-action-pills {
-    bottom: auto;
-    top: -44px;
     justify-content: center;
     width: 100%;
   }
 }
 
 .ai-pill-btn {
-  background-color: rgba(240, 113, 120, 0.4);
+  background-color: rgba(255, 255, 255, 0.85); /* Mostly opaque white as requested */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(240, 113, 120, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 10px rgba(166, 38, 164, 0.08); /* Softer shadow */
   border-radius: 20px;
   padding: 6px 14px;
@@ -908,11 +918,11 @@
   pointer-events: auto;
 }
 .ai-pill-btn:hover {
-  background-color: rgba(240, 113, 120, 0.5);
+  background-color: rgba(255, 255, 255, 0.95);
   transform: translateY(-1px);
 }
 [data-theme="dark"] .ai-pill-btn {
-  background-color: rgba(240, 113, 120, 0.3);
-  border-color: rgba(240, 113, 120, 0.5);
+  background-color: rgba(240, 113, 120, 0.15); /* Keep dark mode pinkish */
+  border-color: rgba(240, 113, 120, 0.3);
 }
 
