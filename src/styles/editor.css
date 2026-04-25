@@ -110,23 +110,23 @@
 
 .workspace-bg-grid.base-grid {
   background-size: 20px 20px;
-  background-image: radial-gradient(circle, var(--text-placeholder) 1px, transparent 1px);
-  opacity: 0.15; /* very subtle */
+  background-image: radial-gradient(circle, var(--text-secondary) 1.5px, transparent 1.5px);
+  opacity: 0.2; /* slightly more visible base */
 }
 
 .workspace-bg-grid.hover-grid {
-  background-size: 24px 24px; /* slightly zoomed/scaled */
-  background-image: radial-gradient(circle, var(--text-placeholder) 1px, transparent 1px);
-  opacity: 0.4; /* higher saturation around mouse */
+  background-size: 28px 28px; /* noticeably zoomed/scaled */
+  background-image: radial-gradient(circle, var(--text-secondary) 2px, transparent 2px);
+  opacity: 0.8; /* much higher saturation around mouse */
   /* Spotlight masking around mouse position */
-  -webkit-mask-image: radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
-  mask-image: radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
-  animation: grid-pulse 4s infinite ease-in-out;
+  -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  mask-image: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  animation: grid-pulse 3s infinite ease-in-out;
 }
 
 @keyframes grid-pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+  50% { transform: scale(1.04); }
 }
 
 .disk-warning-inline {
