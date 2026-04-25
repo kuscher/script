@@ -321,9 +321,21 @@
 }
 
 .tone-pill-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background-color: var(--bg-tab-hover);
   color: var(--text-secondary);
   border: 1px solid var(--border-hairline);
+}
+
+.tone-ai-icon {
+  width: 14px;
+  height: 14px;
+  color: #A626A4; /* Gemini-esque purple/magenta */
+}
+[data-theme="dark"] .tone-ai-icon {
+  color: #F07178;
 }
 
 .tone-pill-blunt {
