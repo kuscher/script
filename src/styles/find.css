@@ -13,52 +13,91 @@
   border-radius: 24px;
   overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s;
-}
 .find-wrapper:focus-within {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px var(--accent-subtle);
 }
 
+.glass-bubble {
+  position: absolute;
+  z-index: 150;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border-hairline);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  border-radius: 12px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+[data-theme="dark"] .glass-bubble {
+  background-color: rgba(30, 41, 59, 0.85);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.glass-bubble.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.find-bubble {
+  top: 60px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 12px;
+}
+
+.find-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .find-input-group {
   display: flex;
   align-items: center;
-  padding: 4px 8px 4px 12px;
-}
-.find-input-group.hidden {
-  display: none !important;
-}
-#replace-group {
-  border-left: 1px dashed var(--border-hairline);
-  padding-left: 8px;
-  padding-right: 12px;
+  gap: 4px;
 }
 
-.find-input-group input {
-  background: transparent;
-  border: none;
+.find-input-group input[type="text"] {
+  background: var(--bg-input);
+  border: 1px solid var(--border-hairline);
   color: var(--text-primary);
-  font-size: 13px;
-  width: 140px;
   font-family: var(--font-ui);
-  padding: 4px 6px;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  outline: none;
+  width: 140px;
+  transition: border-color 0.2s;
 }
-.find-input-group input:focus { outline: none; }
+.find-input-group input[type="text"]:focus {
+  border-color: var(--accent);
+}
 
 .find-nav-buttons {
   display: flex;
   align-items: center;
-}
-.find-nav-buttons .icon-btn {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
 }
 
 .find-divider {
   width: 1px;
   height: 16px;
   background-color: var(--border-hairline);
-  margin: 0 6px;
+  margin: 0 4px;
+}
+
+.find-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border-hairline);
+  padding-top: 8px;
 }
 
 #btn-toggle-replace {

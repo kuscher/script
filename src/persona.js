@@ -1,4 +1,4 @@
-import { getEditorContent } from './editor.js';
+import { getEditorContent, getEditorSelectionText } from './editor.js';
 
 let toggleBtn, overlay, closeBtn, personaPills, feedbackText;
 let currentPersona = 'mom';
@@ -65,7 +65,7 @@ function setPersona(persona) {
 }
 
 async function fetchFeedback() {
-  const text = getEditorContent();
+  const text = getEditorSelectionText() || getEditorContent();
   
   if (!text || text.trim() === '') {
     feedbackText.innerHTML = '<em>Write something first to get feedback!</em>';

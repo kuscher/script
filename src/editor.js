@@ -247,6 +247,24 @@ export function getEditorContent() {
   return extractContentFromTiptap(editor.getJSON());
 }
 
+export function getEditorSelectionText() {
+  if (!editor) return '';
+  const { from, to, empty } = editor.state.selection;
+  if (empty) return '';
+  return editor.state.doc.textBetween(from, to, '\n');
+}
+
+export function getSelectionCoords(from, to) {
+  if (!editor) return null;
+  try {
+    const start = editor.view.coordsAtPos(from);
+    const end = editor.view.coordsAtPos(to);
+    return { top: start.top, bottom: end.bottom, left: start.left, right: end.right };
+  } catch (e) {
+    return null;
+  }
+}
+
 export function undo() {
   if (editor) editor.chain().undo().run();
 }

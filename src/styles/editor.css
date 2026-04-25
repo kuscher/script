@@ -501,6 +501,35 @@
   border-color: rgba(240, 113, 120, 0.3);
 }
 
+/* Contextual AI Selection Bubble */
+.ai-glass-bubble {
+  position: absolute;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: rgba(240, 113, 120, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(240, 113, 120, 0.3);
+  box-shadow: 0 0 15px 2px rgba(166, 38, 164, 0.15), 0 0 10px 1px rgba(240, 113, 120, 0.2);
+  border-radius: 12px;
+  padding: 8px 12px;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+[data-theme="dark"] .ai-glass-bubble {
+  background-color: rgba(240, 113, 120, 0.15);
+  border-color: rgba(240, 113, 120, 0.4);
+}
+.ai-glass-bubble.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 .persona-feedback-text {
   flex: 1;
   overflow-y: auto;

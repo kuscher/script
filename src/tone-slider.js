@@ -1,6 +1,6 @@
-import { replaceSelectionWithReSelect, setToneEditingRange } from './editor.js';
+import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords } from './editor.js';
 
-let container, slider, placeholder, labelBlunt, labelDiplomatic;
+let bubble, container, slider, placeholder, labelBlunt, labelDiplomatic;
 let state = {
   originalText: '',
   currentRange: null,
@@ -10,13 +10,14 @@ let state = {
 };
 
 export function initToneSlider() {
+  bubble = document.getElementById('ai-selection-bubble');
   container = document.getElementById('tone-slider-container');
   slider = document.getElementById('tone-slider');
   placeholder = document.getElementById('tone-placeholder');
   labelBlunt = document.getElementById('tone-label-blunt');
   labelDiplomatic = document.getElementById('tone-label-diplomatic');
 
-  if (!container || !slider) return;
+  if (!container || !slider || !bubble) return;
 
   slider.addEventListener('input', (e) => {
     state.isDragging = true;
@@ -55,6 +56,25 @@ export function handleSelectionChange(text, range) {
     labelDiplomatic?.classList.remove('hidden');
     slider.classList.remove('hidden');
     setToneEditingRange(range);
+
+    // Position the bubble
+    if (bubble && range) {
+      const coords = getSelectionCoords(range.from, range.to);
+      if (coords) {
+        // Position slightly above the selection
+        const yOffset = 10;
+        let top = coords.top - bubble.offsetHeight - yOffset + window.scrollY;
+        let left = coords.left + window.scrollX;
+        
+        // Prevent floating off top screen
+        if (top < 10) top = coords.bottom + yOffset + window.scrollY;
+
+        bubble.style.top = `${top}px`;
+        bubble.style.left = `${left}px`;
+        bubble.classList.remove('hidden');
+        bubble.classList.add('visible');
+      }
+    }
   } else {
     resetState();
   }
@@ -118,5 +138,9 @@ function resetState() {
   labelBlunt?.classList.add('hidden');
   labelDiplomatic?.classList.add('hidden');
   slider?.classList.add('hidden');
+  if (bubble) {
+    bubble.classList.remove('visible');
+    bubble.classList.add('hidden');
+  }
   setToneEditingRange(null);
 }

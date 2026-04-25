@@ -72,7 +72,7 @@ async function bootstrap() {
 
   // UI Setup
   statusBarCtrl = initStatusBar(dom.statusBars);
-  const findCtrl = initFindReplace('find-bar');
+  const findCtrl = initFindReplace('find-bubble-overlay');
 
   // Actions map
   const actions = {
@@ -166,6 +166,23 @@ async function bootstrap() {
   const btnDiskWarn = document.getElementById('btn-disk-warn-save');
   if (btnDiskWarn) {
     btnDiskWarn.addEventListener('click', actions.onSave);
+  }
+
+  // Find Bubble Toggle Logic
+  const btnFindToggle = document.getElementById('btn-find-toggle');
+  const findBubbleOverlay = document.getElementById('find-bubble-overlay');
+  if (btnFindToggle && findBubbleOverlay) {
+    btnFindToggle.addEventListener('click', () => {
+      const isHidden = findBubbleOverlay.classList.contains('hidden');
+      if (isHidden) {
+        findBubbleOverlay.classList.remove('hidden');
+        findBubbleOverlay.classList.add('visible');
+        actions.onFind();
+      } else {
+        findBubbleOverlay.classList.add('hidden');
+        findBubbleOverlay.classList.remove('visible');
+      }
+    });
   }
 
   // Init Data logic
