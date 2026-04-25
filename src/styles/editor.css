@@ -98,9 +98,13 @@
   position: relative;
   background-color: transparent; /* Changed from var(--bg-editor) to allow grid to show through */
   z-index: 10;
+  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M4 4L10 20L13 14L19 11L4 4Z' fill='%23A626A4' stroke='white' stroke-width='1.5' stroke-linejoin='round'/><circle cx='18' cy='6' r='2' fill='%2338BDF8'/></svg>") 4 4, auto;
 }
 
 /* Subtle Dotted Grid Backgrounds */
+.workspace {
+  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M4 4L10 20L13 14L19 11L4 4Z' fill='%23A626A4' stroke='white' stroke-width='1.5' stroke-linejoin='round'/><circle cx='18' cy='6' r='2' fill='%2338BDF8'/></svg>") 4 4, auto;
+}
 .workspace-bg-grid {
   position: absolute;
   inset: 0;
@@ -113,17 +117,17 @@
   background-image: radial-gradient(circle, var(--text-placeholder) 1px, transparent 1px);
   opacity: 0.15; /* perfect subtleness restored */
   /* Fade out base grid where hover grid appears to avoid duplicate overlapping */
-  -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 100%);
-  mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 100%);
+  -webkit-mask-image: radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 100%);
+  mask-image: radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 100%);
 }
 
 .workspace-bg-grid.hover-grid {
   background-size: 20px 20px; /* EXACT same size so dots align perfectly (no duplicates) */
-  background-image: radial-gradient(circle, var(--text-secondary) 2px, transparent 2px); /* Bigger, more saturated dots */
-  opacity: 0.6; /* more obvious on hover */
+  background-image: radial-gradient(circle, #A626A4 2px, transparent 2px); /* Bigger, purple saturated dots */
+  opacity: 0.8; /* more obvious on hover */
   /* Spotlight masking around mouse position */
-  -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
-  mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  mask-image: radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
 }
 
 .disk-warning-inline {
@@ -541,10 +545,10 @@
 
 /* Contextual AI Selection Bubble */
 .ai-glass-bubble {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translate(-50%, 20px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(0, 10px);
   width: calc(100% - 32px);
   max-width: 420px;
   z-index: 250;
@@ -568,7 +572,7 @@
 }
 .ai-glass-bubble.visible {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translate(0, 0);
   pointer-events: auto;
 }
 
@@ -772,6 +776,19 @@
   }
   .line-numbers-gutter {
     min-width: 32px; /* Reduce minimal width slightly */
+  }
+
+  /* Fix AI bubble to bottom on mobile */
+  .ai-glass-bubble {
+    top: auto !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translate(-50%, 20px) !important;
+    position: fixed !important;
+    width: 90% !important;
+  }
+  .ai-glass-bubble.visible {
+    transform: translate(-50%, 0) !important;
   }
 }
 

@@ -82,11 +82,38 @@ export function handleSelectionChange(text, range, isProgrammaticSelection = fal
     slider.classList.remove('hidden');
     setToneEditingRange(range);
 
-    // Position the bubble
+    // Position the bubble on desktop based on mouse cursor
     if (bubble && range) {
-      // The bubble is now pinned to the bottom globally via CSS
       if (text && text.trim().length > 0) {
-        bubble.classList.add('visible');
+        if (window.innerWidth > 768 && window.lastMouseX !== undefined) {
+          // Temporarily show to get dimensions
+          bubble.style.visibility = 'hidden';
+          bubble.classList.add('visible');
+          
+          // Position to the bottom right of cursor
+          let left = window.lastMouseX + 15;
+          let top = window.lastMouseY + 15;
+          
+          // Keep it within window bounds
+          const bubbleWidth = bubble.offsetWidth || 380;
+          const bubbleHeight = bubble.offsetHeight || 200;
+          
+          if (left + bubbleWidth > window.innerWidth) {
+            left = window.lastMouseX - bubbleWidth - 15; // flip left
+            if (left < 10) left = 10;
+          }
+          if (top + bubbleHeight > window.innerHeight) {
+            top = window.lastMouseY - bubbleHeight - 15; // flip top
+            if (top < 10) top = 10;
+          }
+          
+          bubble.style.left = `${left}px`;
+          bubble.style.top = `${top}px`;
+          bubble.style.visibility = 'visible';
+        } else {
+          // On mobile, just show it (CSS handles fixed positioning)
+          bubble.classList.add('visible');
+        }
       }
     }
   } else {

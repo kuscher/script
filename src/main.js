@@ -554,6 +554,10 @@ async function bootstrap() {
   const baseGrid = document.querySelector('.base-grid');
   if (mainWorkspace && hoverGrid && baseGrid) {
     mainWorkspace.addEventListener('mousemove', (e) => {
+      // Store globally for AI bubble positioning
+      window.lastMouseX = e.clientX;
+      window.lastMouseY = e.clientY;
+      
       const rect = mainWorkspace.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
