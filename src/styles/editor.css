@@ -624,4 +624,19 @@
   .line-numbers-gutter {
     min-width: 32px; /* Reduce minimal width slightly */
   }
+  
+  /* Fix AI bubble to bottom on mobile */
+  .ai-glass-bubble {
+    top: auto !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translate(-50%, 20px) !important;
+    position: fixed !important;
+    width: 90% !important;
+    max-width: 380px !important;
+    z-index: 250 !important;
+  }
+  .ai-glass-bubble.visible {
+    transform: translate(-50%, 0) !important;
+  }
 }

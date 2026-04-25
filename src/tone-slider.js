@@ -94,7 +94,6 @@ export function handleSelectionChange(text, range, isProgrammaticSelection = fal
         if (top < 10) top = coords.bottom + yOffset + window.scrollY;
 
         bubble.style.top = `${top}px`;
-        bubble.classList.remove('hidden');
         bubble.classList.add('visible');
       }
     }
@@ -178,7 +177,6 @@ function resetState() {
   if (btnToneUndo) btnToneUndo.style.display = 'none';
   if (bubble) {
     bubble.classList.remove('visible');
-    bubble.classList.add('hidden');
   }
   setToneEditingRange(null);
 }
@@ -186,6 +184,5 @@ function resetState() {
 export function hideAiBubble() {
   if (bubble) {
     bubble.classList.remove('visible');
-    bubble.classList.add('hidden');
   }
 }
