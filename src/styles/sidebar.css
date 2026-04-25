@@ -201,11 +201,115 @@
 .shadow-menu li:hover { background-color: var(--bg-tab-hover); }
 .shadow-menu li.divider { height: 1px; background-color: var(--border-hairline); margin: 6px 0; padding: 0; }
 
-/* Settings View UI */
-.settings-container { padding: 16px; font-size: 13px; }
-.setting-block { margin-bottom: 24px; }
-.setting-block label { display: block; font-weight: 500; margin-bottom: 8px; color: var(--text-secondary); }
-.setting-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+/* Settings View UI - AI Modern Fancy */
+.settings-container { padding: 16px 20px; font-size: 14px; }
+.setting-block { margin-bottom: 32px; }
+.setting-block label { 
+  display: block; 
+  font-family: var(--font-ui);
+  font-weight: 700; 
+  margin-bottom: 16px; 
+  color: #A626A4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 11px;
+}
+.setting-row { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  margin-bottom: 16px; 
+  color: var(--text-primary);
+}
+
+/* Custom Select Dropdown */
+.setting-row select {
+  background-color: var(--bg-tab-active);
+  color: var(--text-primary);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  padding: 8px 32px 8px 12px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23A626A4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M6 9l6 6 6-6'></path></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+}
+.setting-row select:hover {
+  border-color: #A626A4;
+  box-shadow: 0 0 0 1px rgba(166, 38, 164, 0.2);
+}
+
+/* Custom Range Slider */
+.setting-row input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--bg-tab-active);
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+  outline: none;
+  margin-top: 12px;
+}
+.setting-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #A626A4;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2), 0 0 8px rgba(166, 38, 164, 0.4);
+}
+.setting-row input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Custom Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--text-placeholder);
+  transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 24px;
+}
+.toggle-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.toggle-switch input:checked + .slider {
+  background: linear-gradient(135deg, #A626A4, #38BDF8);
+}
+.toggle-switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
 
 .settings-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; display: block; }
 
