@@ -188,20 +188,39 @@
 
           <!-- Contextual AI Selection Bubble -->
           <div id="ai-selection-bubble" class="ai-glass-bubble">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <button id="btn-persona-toggle" class="tone-pill tone-pill-placeholder clickable-pill">
-                <i data-lucide="sparkles" class="tone-ai-icon"></i> WHAT DOES MOM THINK?
-              </button>
-              <button class="icon-btn" id="btn-close-ai-bubble" title="Dismiss" style="width: 24px; height: 24px; border-radius: 6px; margin-left: 8px;"><i data-lucide="x" style="width:14px; height:14px;"></i></button>
+            <div class="ai-bubble-header">
+              <div class="ai-bubble-title">
+                <i data-lucide="sparkles" class="ai-sparkle-icon"></i> 
+                <span>AI Magic</span>
+              </div>
+              <div class="ai-bubble-actions">
+                <button class="icon-btn" id="btn-tone-undo" title="Undo Tone AI" style="display:none; width: 28px; height: 28px; border-radius: 6px;"><i data-lucide="undo-2"></i></button>
+                <button class="icon-btn" id="btn-close-ai-bubble" title="Dismiss" style="width: 28px; height: 28px; border-radius: 6px;"><i data-lucide="x"></i></button>
+              </div>
             </div>
-            <div id="tone-slider-container" class="tone-slider-container">
-              <button class="icon-btn" id="btn-tone-undo" title="Undo Tone AI" style="display:none; width: 24px; height: 24px; border-radius: 6px;"><i data-lucide="undo-2" style="width:14px; height:14px;"></i></button>
-              <span id="tone-placeholder" class="tone-pill tone-pill-placeholder">
-                <i data-lucide="sparkles" class="tone-ai-icon"></i> TONE AI
-              </span>
-              <span id="tone-label-blunt" class="tone-pill tone-pill-blunt hidden">BLUNT</span>
-              <input type="range" id="tone-slider" min="0" max="100" value="50" class="tone-slider hidden">
-              <span id="tone-label-diplomatic" class="tone-pill tone-pill-diplomatic hidden">DIPLOMATIC</span>
+
+            <div class="ai-bubble-content">
+              <!-- Action 1: Persona Feedback -->
+              <button id="btn-persona-toggle" class="ai-magic-btn">
+                <i data-lucide="message-circle" class="ai-magic-icon"></i> Ask Persona: Mom
+              </button>
+
+              <!-- Action 2: Tone Slider -->
+              <div id="tone-slider-container" class="tone-slider-panel">
+                <div class="tone-slider-header">
+                  <span class="tone-panel-title">Adjust Tone</span>
+                </div>
+                <div class="tone-slider-track-wrapper">
+                  <span id="tone-placeholder" class="tone-placeholder-overlay">
+                    <i data-lucide="sliders-horizontal" style="width: 14px; height: 14px;"></i> Slide to rewrite
+                  </span>
+                  <div class="tone-slider-interactive-area">
+                    <span id="tone-label-blunt" class="tone-slider-label hidden">Blunt</span>
+                    <input type="range" id="tone-slider" min="0" max="100" value="50" class="tone-slider hidden">
+                    <span id="tone-label-diplomatic" class="tone-slider-label hidden">Diplomatic</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </main>

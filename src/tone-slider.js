@@ -84,16 +84,8 @@ export function handleSelectionChange(text, range, isProgrammaticSelection = fal
 
     // Position the bubble
     if (bubble && range) {
-      const coords = getSelectionCoords(range.from, range.to);
-      if (coords) {
-        // Position farther above the selection
-        const yOffset = 30;
-        let top = coords.top - bubble.offsetHeight - yOffset + window.scrollY;
-        
-        // Prevent floating off top screen, place farther below text instead
-        if (top < 10) top = coords.bottom + yOffset + window.scrollY;
-
-        bubble.style.top = `${top}px`;
+      // The bubble is now pinned to the bottom globally via CSS
+      if (text && text.trim().length > 0) {
         bubble.classList.add('visible');
       }
     }
@@ -141,14 +133,7 @@ async function triggerRewrite(toneValue) {
          setToneEditingRange(newRange); // Re-sync the purple pulse highlight
          if (btnToneUndo) btnToneUndo.style.display = 'flex';
          
-         // Update the bubble position since text length changed
-         const coords = getSelectionCoords(newRange.from, newRange.to);
-         if (coords) {
-           const yOffset = 30;
-           let top = coords.top - bubble.offsetHeight - yOffset + window.scrollY;
-           if (top < 10) top = coords.bottom + yOffset + window.scrollY;
-           bubble.style.top = `${top}px`;
-         }
+         // The bubble is now pinned to the bottom globally via CSS
        }
     }
   } catch (err) {
