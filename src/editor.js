@@ -148,6 +148,15 @@ export function initEditor(containerId, initialContent, onChange) {
   
   editor = new Editor({
     element: container,
+    editorProps: {
+      clipboardTextSerializer: (slice) => {
+        const blocks = [];
+        slice.content.forEach((node) => {
+          blocks.push(node.textContent);
+        });
+        return blocks.join('\n');
+      }
+    },
     extensions: [
       Document,
       History,
