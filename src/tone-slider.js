@@ -62,15 +62,13 @@ export function handleSelectionChange(text, range) {
       const coords = getSelectionCoords(range.from, range.to);
       if (coords) {
         // Position slightly above the selection
-        const yOffset = 10;
+        const yOffset = 15;
         let top = coords.top - bubble.offsetHeight - yOffset + window.scrollY;
-        let left = coords.left + window.scrollX;
         
-        // Prevent floating off top screen
+        // Prevent floating off top screen, place below text instead
         if (top < 10) top = coords.bottom + yOffset + window.scrollY;
 
         bubble.style.top = `${top}px`;
-        bubble.style.left = `${left}px`;
         bubble.classList.remove('hidden');
         bubble.classList.add('visible');
       }
@@ -113,6 +111,16 @@ async function triggerRewrite(toneValue) {
        const newRange = replaceSelectionWithReSelect(state.currentRange, answer);
        if (newRange) {
          state.currentRange = newRange;
+         setToneEditingRange(newRange); // Re-sync the purple pulse highlight
+         
+         // Update the bubble position since text length changed
+         const coords = getSelectionCoords(newRange.from, newRange.to);
+         if (coords) {
+           const yOffset = 15;
+           let top = coords.top - bubble.offsetHeight - yOffset + window.scrollY;
+           if (top < 10) top = coords.bottom + yOffset + window.scrollY;
+           bubble.style.top = `${top}px`;
+         }
        }
     }
   } catch (err) {

@@ -25,30 +25,33 @@
   -webkit-backdrop-filter: blur(16px);
   background-color: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--border-hairline);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  border-radius: 12px;
+  box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.6), 0 4px 15px rgba(0,0,0,0.1);
+  border-radius: 16px;
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translate(-50%, -10px);
   transition: opacity 0.2s, transform 0.2s;
   pointer-events: none;
 }
 [data-theme="dark"] .glass-bubble {
   background-color: rgba(30, 41, 59, 0.85);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.1), 0 4px 15px rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.1);
 }
 .glass-bubble.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
   pointer-events: auto;
 }
 
 .find-bubble {
-  top: 60px;
-  right: 20px;
+  top: 16px;
+  left: 50%;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 12px 16px;
+  width: calc(100% - 32px);
+  max-width: 440px;
 }
 
 .find-wrapper {
