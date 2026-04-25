@@ -98,15 +98,15 @@
   position: relative;
   background-color: transparent; /* Changed from var(--bg-editor) to allow grid to show through */
   z-index: 10;
-  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 4V20M8 4H16M8 20H16' stroke='%23A626A4' stroke-width='2' stroke-linecap='round'/><circle cx='17' cy='6' r='2' fill='%2338BDF8'/></svg>") 12 12, text;
+  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 4V20M8 4H16M8 20H16' stroke='%23A626A4' stroke-width='2' stroke-linecap='round'/></svg>") 12 12, text;
 }
 
 /* Subtle Dotted Grid Backgrounds */
 .workspace {
-  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 4V20M8 4H16M8 20H16' stroke='%23A626A4' stroke-width='2' stroke-linecap='round'/><circle cx='17' cy='6' r='2' fill='%2338BDF8'/></svg>") 12 12, text;
+  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 4V20M8 4H16M8 20H16' stroke='%23A626A4' stroke-width='2' stroke-linecap='round'/></svg>") 12 12, text;
 }
 .ProseMirror {
-  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 4V20M8 4H16M8 20H16' stroke='%23A626A4' stroke-width='2' stroke-linecap='round'/><circle cx='17' cy='6' r='2' fill='%2338BDF8'/></svg>") 12 12, text;
+  cursor: url("data:image/svg+xml;utf8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 4V20M8 4H16M8 20H16' stroke='%23A626A4' stroke-width='2' stroke-linecap='round'/></svg>") 12 12, text;
 }
 .workspace-bg-grid {
   position: absolute;
@@ -126,11 +126,17 @@
 
 .workspace-bg-grid.hover-grid {
   background-size: 20px 20px; /* EXACT same size so dots align perfectly (no duplicates) */
-  background-image: radial-gradient(circle, #A626A4 2px, transparent 2px); /* Bigger, purple saturated dots */
+  background-image: radial-gradient(circle, #A626A4 1px, transparent 1px); /* Same size, purple dots */
   opacity: 0.8; /* more obvious on hover */
   /* Spotlight masking around mouse position */
   -webkit-mask-image: radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
   mask-image: radial-gradient(circle 75px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  animation: grid-color-pulse 4s infinite alternate ease-in-out;
+}
+
+@keyframes grid-color-pulse {
+  0% { filter: hue-rotate(-20deg); }
+  100% { filter: hue-rotate(30deg); }
 }
 
 .disk-warning-inline {
