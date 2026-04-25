@@ -213,7 +213,9 @@
 #markdown-preview {
   flex: 1;
   padding: 80px 40px 100px 48px;
-  overflow-y: auto;
+  overflow: visible;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   color: var(--text-primary);
   font-family: var(--font-sans);
   line-height: 1.6;
