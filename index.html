@@ -57,6 +57,12 @@
           <button class="icon-btn" id="btn-redo" title="Redo (Ctrl+Y)" disabled><i data-lucide="redo-2"></i></button>
         </div>
         <div class="header-right">
+          <!-- Persona Feedback Toggle -->
+          <div class="persona-btn-container">
+            <button id="btn-persona-toggle" class="tone-pill tone-pill-placeholder clickable-pill">
+              <i data-lucide="sparkles" class="tone-ai-icon"></i> WHAT DOES MOM THINK?
+            </button>
+          </div>
           <!-- Tone Slider Container -->
           <div id="tone-slider-container" class="tone-slider-container">
             <span id="tone-placeholder" class="tone-pill tone-pill-placeholder">
@@ -164,6 +170,25 @@
               <div class="line-numbers-gutter" id="line-numbers"></div>
               <div id="editor-root"></div>
               <div id="markdown-preview" class="hidden"></div>
+            </div>
+          </div>
+
+          <!-- Persona Feedback Overlay -->
+          <div id="persona-feedback-overlay" class="persona-overlay hidden">
+            <div class="persona-glow-wrapper">
+              <div class="persona-content">
+                <div class="persona-header">
+                  <div class="persona-pills">
+                    <button class="persona-pill active" data-persona="mom">Mom</button>
+                    <button class="persona-pill" data-persona="boss">Boss</button>
+                    <button class="persona-pill" data-persona="hipster">Hipster</button>
+                  </div>
+                  <button id="btn-persona-close" class="icon-btn" title="Close"><i data-lucide="x"></i></button>
+                </div>
+                <div id="persona-feedback-text" class="persona-feedback-text">
+                  <!-- AI Feedback renders here -->
+                </div>
+              </div>
             </div>
           </div>
         </main>

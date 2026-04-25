@@ -9,6 +9,7 @@ import { initStatusBar } from './status-bar.js';
 import { initShortcuts } from './shortcuts.js';
 import { initFindReplace } from './find-replace.js';
 import { initToneSlider, handleSelectionChange } from './tone-slider.js';
+import { initPersonaFeedback } from './persona.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -457,6 +458,7 @@ async function bootstrap() {
   }, handleSelectionChange);
 
   initToneSlider();
+  initPersonaFeedback();
 
   initShortcuts(document.getElementById('shortcuts-overlay'), document.getElementById('shortcuts-container'), actions);
 
