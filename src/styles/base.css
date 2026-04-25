@@ -1,22 +1,23 @@
 :root {
-  /* Material Subtle Light Blue Grey Theme */
+  /* Material Subtle Light Theme */
   --bg-editor: #FFFFFF; 
-  --bg-sidebar: #F1F5F9; 
-  --bg-header: #E2E8F0; 
-  --bg-statusbar: #F1F5F9;
-  --bg-tab-active: #E2E8F0; 
-  --bg-tab-hover: #F8FAFC;
+  --bg-sidebar: #F9FAFB; 
+  --bg-header: #FFFFFF; 
+  --bg-statusbar: #F9FAFB;
+  --bg-tab-active: #FFFFFF; 
+  --bg-tab-hover: #F3F4F6;
   --bg-find: #FFFFFF;
   --bg-input: #FFFFFF;
   --bg-overlay: rgba(0,0,0,0.5);
   
-  --text-primary: #0F172A; 
-  --text-secondary: #475569; 
-  --text-placeholder: #94A3B8;
+  --text-primary: #111827; 
+  --text-secondary: #4B5563; 
+  --text-placeholder: #9CA3AF;
   
-  --border-hairline: #CBD5E1; 
-  --accent: #0284C7; /* Matching Icon Sky Blue */
-  --accent-subtle: rgba(2, 132, 199, 0.12);
+  --border-hairline: #E5E7EB; 
+  --accent: #0284C7; /* Matching Icon Sky Blue - wait, user said no blue hues. But accent is accent. I'll change accent to the purple if they want, but they said "no blue hues but whites and light grays in the left and top bar". I'll leave accent as is or make it purple to match icon? They said "update the script icon to have a subtle purple to pink... instead of the blue". I should probably update --accent to purple. Let's make accent #A626A4. */
+  --accent: #A626A4; 
+  --accent-subtle: rgba(166, 38, 164, 0.12);
   --danger: #EF4444;
   
   --icon-default: #475569;
@@ -38,24 +39,24 @@
 }
 
 [data-theme="dark"] {
-  /* Material Subtle Dark Blue Grey Theme */
-  --bg-editor: #0F172A; 
-  --bg-sidebar: #1E293B;
-  --bg-header: #334155; 
-  --bg-statusbar: #1E293B;
-  --bg-tab-active: #334155; 
-  --bg-tab-hover: #475569;
-  --bg-find: #1E293B;
-  --bg-input: #0F172A;
+  /* Material Subtle Dark Theme */
+  --bg-editor: #111111; 
+  --bg-sidebar: #171717;
+  --bg-header: #1F1F1F; 
+  --bg-statusbar: #171717;
+  --bg-tab-active: #222222; 
+  --bg-tab-hover: #2A2A2A;
+  --bg-find: #1F1F1F;
+  --bg-input: #111111;
   --bg-overlay: rgba(0,0,0,0.7);
   
-  --text-primary: #F8FAFC; 
-  --text-secondary: #CBD5E1; 
-  --text-placeholder: #94A3B8;
+  --text-primary: #F9FAFB; 
+  --text-secondary: #D1D5DB; 
+  --text-placeholder: #9CA3AF;
   
-  --border-hairline: #334155; 
-  --accent: #38BDF8; 
-  --accent-subtle: rgba(56, 189, 248, 0.15);
+  --border-hairline: #333333; 
+  --accent: #F07178; 
+  --accent-subtle: rgba(240, 113, 120, 0.15);
   --danger: #F87171;
   
   --icon-default: #CBD5E1;
