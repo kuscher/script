@@ -3,21 +3,18 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-editor);
-  overflow: hidden;
-  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.12);
   z-index: 45;
 }
 [data-theme="dark"] .workspace {
-  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.6);
 }
 
 /* Replacing absolute hamburger offset with standard header layout */
 .app-header {
   height: 64px; /* Material Expressive: slightly taller */
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  box-shadow: 0 6px 15px #00000008;
   position: absolute;
   top: 0;
   left: 0;
@@ -32,7 +29,7 @@
   -webkit-app-region: drag; /* Native OS Window Dragging */
 }
 [data-theme="dark"] .app-header {
-  background-color: rgba(31, 31, 31, 0.7);
+  background-color: rgba(31, 31, 31, 0.8);
 }
 
 /* Prevent window dragging on interactive nested items */
@@ -215,7 +212,7 @@
 
 #markdown-preview {
   flex: 1;
-  padding: 80px 40px 100px 16px;
+  padding: 80px 40px 100px 48px;
   overflow-y: auto;
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -805,14 +802,15 @@
     height: 40px;
   }
   
-  /* Minimize padding for editor on phone */
+  /* Minimize padding for editor on phone, but clear double-height header */
   #editor-root {
-    padding: 16px 12px 100px 4px;
+    padding: 110px 12px 100px 4px;
   }
   #markdown-preview {
-    padding: 16px 16px 100px 16px;
+    padding: 110px 16px 100px 24px;
   }
   .line-numbers-gutter {
+    padding-top: 110px;
     min-width: 32px; /* Reduce minimal width slightly */
   }
 
