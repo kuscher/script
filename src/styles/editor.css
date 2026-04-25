@@ -301,7 +301,9 @@
   width: calc(100% - 32px);
   max-width: 600px;
   height: 48px;
-  background-color: var(--accent-subtle);
+  background-color: rgba(166, 38, 164, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -887,10 +889,10 @@
 }
 
 .ai-pill-btn {
-  background-color: rgba(240, 113, 120, 0.12);
+  background-color: rgba(240, 113, 120, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(240, 113, 120, 0.3);
+  border: 1px solid rgba(240, 113, 120, 0.5);
   box-shadow: 0 4px 10px rgba(166, 38, 164, 0.08); /* Softer shadow */
   border-radius: 20px;
   padding: 6px 14px;
@@ -906,11 +908,11 @@
   pointer-events: auto;
 }
 .ai-pill-btn:hover {
-  background-color: rgba(240, 113, 120, 0.2);
+  background-color: rgba(240, 113, 120, 0.5);
   transform: translateY(-1px);
 }
 [data-theme="dark"] .ai-pill-btn {
-  background-color: rgba(240, 113, 120, 0.15);
-  border-color: rgba(240, 113, 120, 0.4);
+  background-color: rgba(240, 113, 120, 0.3);
+  border-color: rgba(240, 113, 120, 0.5);
 }
 
