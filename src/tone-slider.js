@@ -1,6 +1,6 @@
 import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords } from './editor.js';
 
-let bubble, container, slider, placeholder, labelBlunt, labelDiplomatic;
+let bubble, container, slider, placeholder, labelBlunt, labelDiplomatic, btnToneUndo;
 let state = {
   originalText: '',
   currentRange: null,
@@ -16,8 +16,21 @@ export function initToneSlider() {
   placeholder = document.getElementById('tone-placeholder');
   labelBlunt = document.getElementById('tone-label-blunt');
   labelDiplomatic = document.getElementById('tone-label-diplomatic');
+  btnToneUndo = document.getElementById('btn-tone-undo');
 
   if (!container || !slider || !bubble) return;
+
+  btnToneUndo?.addEventListener('click', () => {
+    if (state.originalText && state.currentRange) {
+      const restored = replaceSelectionWithReSelect(state.currentRange, state.originalText);
+      if (restored) {
+        state.currentRange = restored;
+        setToneEditingRange(restored);
+        slider.value = 50;
+        if (btnToneUndo) btnToneUndo.style.display = 'none';
+      }
+    }
+  });
 
   slider.addEventListener('input', (e) => {
     state.isDragging = true;
@@ -61,11 +74,11 @@ export function handleSelectionChange(text, range) {
     if (bubble && range) {
       const coords = getSelectionCoords(range.from, range.to);
       if (coords) {
-        // Position slightly above the selection
-        const yOffset = 15;
+        // Position farther above the selection
+        const yOffset = 30;
         let top = coords.top - bubble.offsetHeight - yOffset + window.scrollY;
         
-        // Prevent floating off top screen, place below text instead
+        // Prevent floating off top screen, place farther below text instead
         if (top < 10) top = coords.bottom + yOffset + window.scrollY;
 
         bubble.style.top = `${top}px`;
@@ -112,11 +125,12 @@ async function triggerRewrite(toneValue) {
        if (newRange) {
          state.currentRange = newRange;
          setToneEditingRange(newRange); // Re-sync the purple pulse highlight
+         if (btnToneUndo) btnToneUndo.style.display = 'flex';
          
          // Update the bubble position since text length changed
          const coords = getSelectionCoords(newRange.from, newRange.to);
          if (coords) {
-           const yOffset = 15;
+           const yOffset = 30;
            let top = coords.top - bubble.offsetHeight - yOffset + window.scrollY;
            if (top < 10) top = coords.bottom + yOffset + window.scrollY;
            bubble.style.top = `${top}px`;
@@ -146,6 +160,7 @@ function resetState() {
   labelBlunt?.classList.add('hidden');
   labelDiplomatic?.classList.add('hidden');
   slider?.classList.add('hidden');
+  if (btnToneUndo) btnToneUndo.style.display = 'none';
   if (bubble) {
     bubble.classList.remove('visible');
     bubble.classList.add('hidden');

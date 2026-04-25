@@ -13,6 +13,7 @@
   border-radius: 24px;
   overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s;
+}
 .find-wrapper:focus-within {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px var(--accent-subtle);
