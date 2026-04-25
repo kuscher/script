@@ -132,8 +132,11 @@ async function triggerRewrite(toneValue) {
     }
 
     if (answer && state.currentRange && state.activeRequest === controller) {
+       // Make sure to add one line break at the end
+       const finalAnswer = answer.endsWith('\n') ? answer : answer + '\n';
+       
        // Replace and update range
-       const newRange = replaceSelectionWithReSelect(state.currentRange, answer);
+       const newRange = replaceSelectionWithReSelect(state.currentRange, finalAnswer);
        if (newRange) {
          state.currentRange = newRange;
          setToneEditingRange(newRange); // Re-sync the purple pulse highlight

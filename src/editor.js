@@ -346,15 +346,24 @@ export function replaceSelectionWithReSelect(range, newText) {
   if (!editor || !range) return null;
   const { from, to } = range;
   const tr = editor.state.tr;
-  tr.replaceWith(from, to, editor.state.schema.text(newText));
   
-  const newTo = from + newText.length;
+  // insertText natively handles \n by splitting nodes, unlike schema.text()
+  tr.insertText(newText, from, to);
+  
   editor.view.dispatch(tr);
   
-  // Re-select using commands
-  editor.commands.setTextSelection({ from, to: newTo });
+  // Recalculate new to position after insertion
+  // Note: insertText may add more than newText.length positions if it creates paragraph nodes.
+  // The transaction mapping tells us exactly where 'to' moved to!
+  const newTo = tr.mapping.map(from) + newText.length; // Actually mapping to is safer.
   
-  return { from, to: newTo };
+  // Better yet, since we replaced from..to, the new text starts at `from` and ends at `tr.mapping.map(to)`.
+  const exactNewTo = tr.mapping.map(to);
+  
+  // Re-select using commands
+  editor.commands.setTextSelection({ from, to: exactNewTo });
+  
+  return { from, to: exactNewTo };
 }
 
 export function setToneEditingRange(range) {

@@ -22,8 +22,8 @@
 .glass-bubble {
   position: absolute;
   z-index: 150;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--border-hairline);
   box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.6), 0 4px 15px rgba(0,0,0,0.1);
