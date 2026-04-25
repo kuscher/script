@@ -140,8 +140,7 @@ const SyntaxHighlight = Extension.create({
 let editor;
 let updateCallback = null;
 
-export function initEditor(containerId, initialContent, onChange) {
-  updateCallback = onChange;
+export function initEditor(containerId, initialContent, onChange, onSelectionChange) {
   updateCallback = onChange;
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -177,9 +176,15 @@ export function initEditor(containerId, initialContent, onChange) {
       }
     },
     onSelectionUpdate: ({ editor }) => {
-      // Could notify cursor position changes
-      // let pos = editor.state.selection.$head;
-      // notifyCursor(pos.line, pos.col); // pseudo code
+      if (onSelectionChange) {
+        const { from, to, empty } = editor.state.selection;
+        if (empty) {
+          onSelectionChange('');
+        } else {
+          const text = editor.state.doc.textBetween(from, to, '\n');
+          onSelectionChange(text, { from, to });
+        }
+      }
     }
   });
   
@@ -259,6 +264,21 @@ export function replaceAll(replaceText) {
     tr.replaceWith(match.from, match.to, editor.state.schema.text(replaceText));
   }
   editor.view.dispatch(tr);
+}
+
+export function replaceSelectionWithReSelect(range, newText) {
+  if (!editor || !range) return null;
+  const { from, to } = range;
+  const tr = editor.state.tr;
+  tr.replaceWith(from, to, editor.state.schema.text(newText));
+  
+  const newTo = from + newText.length;
+  editor.view.dispatch(tr);
+  
+  // Re-select using commands
+  editor.commands.setTextSelection({ from, to: newTo });
+  
+  return { from, to: newTo };
 }
 
 export function setSyntaxLanguage(filename) {

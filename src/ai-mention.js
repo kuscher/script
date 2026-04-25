@@ -5,13 +5,11 @@ import { icons, createIcons } from 'lucide';
 
 const aiMentionKey = new PluginKey('ai-mention');
 
-function runGeminiFetch(query, apiKey) {
-  return fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`, {
+function runGeminiFetch(query) {
+  return fetch('/api/gemini', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: "System prompt: Answer perfectly concisely in 15 words or less. Reply in absolute facts with zero conversational preamble. Do not repeat the subject of the context. Provide only the direct answer.\nQuery: " + query }] }]
-    })
+    body: JSON.stringify({ query })
   }).then(r => r.json());
 }
 
@@ -164,20 +162,6 @@ export const AiMention = Extension.create({
                 event.preventDefault();
                 if (state.isLoading) return true; // block multiple sends
                 
-                const settingsData = localStorage.getItem('script_settings');
-                let apiKey = '';
-                if (settingsData) {
-                  try { apiKey = JSON.parse(settingsData).aiApiKey; } catch(e) {}
-                }
-                
-                if (!apiKey) {
-                   view.dispatch(view.state.tr.setMeta(aiMentionKey, { error: 'API key missing in Settings' }));
-                   setTimeout(() => {
-                      view.dispatch(view.state.tr.setMeta(aiMentionKey, { active: false, range: null, contextRange: null }));
-                   }, 2000);
-                   return true;
-                }
-
                 const pureQuery = state.query.substring(1).trim(); 
                 
                 if (pureQuery.length === 0 && (!state.contextWords || state.contextWords.length === 0)) return true;
@@ -186,7 +170,7 @@ export const AiMention = Extension.create({
                 
                 const finalPromptQuery = pureQuery ? `${state.contextWords} ${pureQuery}` : state.contextWords;
                 
-                runGeminiFetch(finalPromptQuery, apiKey)
+                runGeminiFetch(finalPromptQuery)
                   .then(data => {
                      let answer = "Error parsing AI response";
                      if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {

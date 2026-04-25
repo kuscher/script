@@ -8,6 +8,7 @@ import { openFilePicker, saveFilePicker, saveFileToHandle, verifyPermission, rea
 import { initStatusBar } from './status-bar.js';
 import { initShortcuts } from './shortcuts.js';
 import { initFindReplace } from './find-replace.js';
+import { initToneSlider, handleSelectionChange } from './tone-slider.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -450,7 +451,9 @@ async function bootstrap() {
   initEditor('editor-root', '', (text) => {
      updateActiveTabContent(text);
      statusBarCtrl.updateStats(text);
-  });
+  }, handleSelectionChange);
+
+  initToneSlider();
 
   initShortcuts(document.getElementById('shortcuts-overlay'), document.getElementById('shortcuts-container'), actions);
 

@@ -298,6 +298,52 @@
 .ai-popover i { width: 14px; height: 14px; color: #A626A4; }
 [data-theme="dark"] .ai-popover i { color: #F07178; }
 
+/* Tone Slider Styling */
+.tone-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-tab-hover);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-hairline);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  transition: opacity 0.2s, transform 0.2s;
+  color: var(--text-primary);
+}
+.tone-slider-container.hidden {
+  display: none;
+}
+.tone-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.tone-slider {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border-hairline);
+  outline: none;
+}
+.tone-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+.tone-btn-accept {
+  color: var(--success, #10B981);
+}
+.tone-btn-reject {
+  color: var(--danger, #EF4444);
+}
+
 /* Mobile Responsive Overrides */
 @media (max-width: 768px) {
   .app-header {

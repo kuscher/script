@@ -8,8 +8,7 @@ let defaultSettings = {
   wordWrap: true,
   autoIndent: true,
   tabSize: 4,
-  aiMentionEnabled: false,
-  aiApiKey: ''
+  aiMentionEnabled: false
 };
 
 let settings = { ...defaultSettings };
@@ -67,12 +66,6 @@ export function openSettingsPanel(container, onBack) {
           <span class="slider"></span>
         </label>
       </div>
-      <div class="setting-row" style="flex-direction: column; align-items: flex-start; margin-top: 16px;">
-        <label for="set-ai-key" style="margin-bottom:8px; font-size:13px; color:var(--text-secondary);">Gemini API Key</label>
-        <input type="password" id="set-ai-key" value="${settings.aiApiKey}" placeholder="AIza..." style="width: 100%; padding: 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-hairline); background: var(--bg-input); color: var(--text-primary);">
-        <a href="https://aistudio.google.com/apikey" target="_blank" style="margin-top: 8px; font-size: 11px; color: var(--accent); text-decoration: none;">Get a free key from Google AI Studio &rarr;</a>
-        <p style="margin-top: 4px; font-size: 10px; color: var(--text-placeholder); line-height: 1.4;">Your key is stored only on this device. Script never sees or transmits it.</p>
-      </div>
     </div>
   `;
   
@@ -91,10 +84,6 @@ export function openSettingsPanel(container, onBack) {
   });
   container.querySelector('#set-ai-enable').addEventListener('change', e => {
     settings.aiMentionEnabled = e.target.checked;
-    saveSettings();
-  });
-  container.querySelector('#set-ai-key').addEventListener('change', e => {
-    settings.aiApiKey = e.target.value;
     saveSettings();
   });
 }
