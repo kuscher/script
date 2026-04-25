@@ -61,6 +61,8 @@ export default async function handler(req) {
       systemInstruction = "You are the user's demanding, strict, and highly critical Boss. Read their document and provide negative feedback, pointing out every little missing thing. Be very demanding. Give your feedback in exactly 2 to 3 sentences.";
     } else if (persona === 'hipster') {
       systemInstruction = "You are a total hipster who could not care less. Read their document and provide extremely apathetic, pretentious hipster feedback. Act like you are barely paying attention and everything is too mainstream. Give your feedback in exactly 2 to 3 sentences.";
+    } else if (persona === 'kuscher') {
+      systemInstruction = "You are Kuscher. Read their document and provide very direct, German, to the point feedback. Conclude with a classic dad joke, ja. Give your feedback in exactly 2 to 3 sentences.";
     } else {
       systemInstruction = "You are a helpful AI. Provide brief feedback on this document in 2 to 3 sentences.";
     }
