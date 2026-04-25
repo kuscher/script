@@ -182,3 +182,10 @@ function resetState() {
   }
   setToneEditingRange(null);
 }
+
+export function hideAiBubble() {
+  if (bubble) {
+    bubble.classList.remove('visible');
+    bubble.classList.add('hidden');
+  }
+}

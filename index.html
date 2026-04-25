@@ -40,26 +40,29 @@
 
       <!-- Persistent Top Header -->
       <header class="app-header">
-        <div class="header-left">
+        <!-- Top / Left Row: Branding & Title -->
+        <div class="header-title-bar">
           <button class="hamburger-btn" id="btn-hamburger" aria-label="Toggle Navigation">
             <i data-lucide="menu"></i>
           </button>
           <div class="header-title-container">
             <i data-lucide="file-text" id="header-file-icon" style="margin-right:8px; width:20px; color:var(--text-secondary);"></i>
             <span id="header-title" contenteditable="true" spellcheck="false" title="Click to rename">Untitled.txt</span>
-            <!-- Disk Saving Warning Inline -->
-            <div id="disk-warning" class="disk-warning-inline hidden" title="Only saved in Script App. It has not been saved to your local disk yet. Click to save.">
-              <button class="icon-btn danger-icon-btn" id="btn-disk-warn-save" style="color:var(--danger);"><i data-lucide="save"></i></button>
-            </div>
+          </div>
+        </div>
+
+        <!-- Bottom / Right Row: Actions -->
+        <div class="header-actions-bar">
+          <div id="disk-warning" class="disk-warning-inline hidden" title="Only saved locally. Click to save to disk.">
+            <button class="icon-btn danger-icon-btn" id="btn-disk-warn-save" style="color:var(--danger);"><i data-lucide="save"></i></button>
           </div>
           <button class="icon-btn" id="btn-undo" title="Undo (Ctrl+Z)" disabled><i data-lucide="undo-2"></i></button>
           <button class="icon-btn" id="btn-redo" title="Redo (Ctrl+Y)" disabled><i data-lucide="redo-2"></i></button>
-        </div>
-        <div class="header-right">
-          <!-- Toggles -->
+          
+          <div class="header-divider"></div>
+          
           <button class="icon-btn" id="btn-toggle-word-wrap" title="Toggle Word Wrap"><i data-lucide="wrap-text"></i></button>
           <button class="icon-btn" id="btn-toggle-preview" title="Toggle Markdown Preview" style="display: none;"><i data-lucide="eye"></i></button>
-          <!-- Find / Replace Toggle -->
           <button class="icon-btn" id="btn-find-toggle" title="Search"><i data-lucide="search"></i></button>
         </div>
       </header>

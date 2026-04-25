@@ -1,4 +1,5 @@
 import { getEditorContent, getEditorSelectionText } from './editor.js';
+import { hideAiBubble } from './tone-slider.js';
 
 let toggleBtn, overlay, closeBtn, personaPills, feedbackText;
 let currentPersona = 'mom';
@@ -28,6 +29,7 @@ export function initPersonaFeedback() {
 }
 
 function toggleOverlay() {
+  hideAiBubble();
   isVisible = !isVisible;
   if (isVisible) {
     overlay.classList.remove('hidden');
