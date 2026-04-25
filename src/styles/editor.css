@@ -292,6 +292,12 @@
 }
 
 #recovery-banner {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 600px;
   height: 48px;
   background-color: var(--accent-subtle);
   display: flex;
@@ -301,9 +307,9 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text-primary);
-  z-index: 60;
+  z-index: 100;
   border-radius: var(--radius-sm);
-  margin: 8px 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 /* AI Inline Mention Styling */
@@ -812,6 +818,10 @@
   .line-numbers-gutter {
     padding-top: 110px;
     min-width: 32px; /* Reduce minimal width slightly */
+  }
+
+  #recovery-banner {
+    top: 110px; /* Clear double-height mobile header */
   }
 
   /* Fix AI bubble to bottom on mobile */
