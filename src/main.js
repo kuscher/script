@@ -547,6 +547,19 @@ async function bootstrap() {
       }
     });
   }
+
+  // Workspace background grid spotlight effect
+  const mainWorkspace = document.getElementById('main-workspace');
+  const hoverGrid = document.getElementById('hover-grid');
+  if (mainWorkspace && hoverGrid) {
+    mainWorkspace.addEventListener('mousemove', (e) => {
+      const rect = mainWorkspace.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      hoverGrid.style.setProperty('--mouse-x', `${x}px`);
+      hoverGrid.style.setProperty('--mouse-y', `${y}px`);
+    });
+  }
 }
 
 // Start

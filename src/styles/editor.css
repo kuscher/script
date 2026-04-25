@@ -96,7 +96,37 @@
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
-  background-color: var(--bg-editor);
+  background-color: transparent; /* Changed from var(--bg-editor) to allow grid to show through */
+  z-index: 10;
+}
+
+/* Subtle Dotted Grid Backgrounds */
+.workspace-bg-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.workspace-bg-grid.base-grid {
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle, var(--text-placeholder) 1px, transparent 1px);
+  opacity: 0.15; /* very subtle */
+}
+
+.workspace-bg-grid.hover-grid {
+  background-size: 24px 24px; /* slightly zoomed/scaled */
+  background-image: radial-gradient(circle, var(--text-placeholder) 1px, transparent 1px);
+  opacity: 0.4; /* higher saturation around mouse */
+  /* Spotlight masking around mouse position */
+  -webkit-mask-image: radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  mask-image: radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  animation: grid-pulse 4s infinite ease-in-out;
+}
+
+@keyframes grid-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
 .disk-warning-inline {
