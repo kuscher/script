@@ -110,23 +110,20 @@
 
 .workspace-bg-grid.base-grid {
   background-size: 20px 20px;
-  background-image: radial-gradient(circle, var(--text-secondary) 1.5px, transparent 1.5px);
-  opacity: 0.2; /* slightly more visible base */
+  background-image: radial-gradient(circle, var(--text-placeholder) 1px, transparent 1px);
+  opacity: 0.15; /* perfect subtleness restored */
+  /* Fade out base grid where hover grid appears to avoid duplicate overlapping */
+  -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 100%);
+  mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 100%);
 }
 
 .workspace-bg-grid.hover-grid {
-  background-size: 28px 28px; /* noticeably zoomed/scaled */
-  background-image: radial-gradient(circle, var(--text-secondary) 2px, transparent 2px);
-  opacity: 0.8; /* much higher saturation around mouse */
+  background-size: 20px 20px; /* EXACT same size so dots align perfectly (no duplicates) */
+  background-image: radial-gradient(circle, var(--text-secondary) 2px, transparent 2px); /* Bigger, more saturated dots */
+  opacity: 0.6; /* more obvious on hover */
   /* Spotlight masking around mouse position */
-  -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
-  mask-image: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
-  animation: grid-pulse 3s infinite ease-in-out;
-}
-
-@keyframes grid-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+  -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+  mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
 }
 
 .disk-warning-inline {
