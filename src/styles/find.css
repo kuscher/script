@@ -58,7 +58,7 @@
 .find-wrapper {
   display: flex;
   flex-direction: column;
-  background: var(--bg-input);
+  background: transparent;
   border: 1px solid var(--border-hairline);
   border-radius: 8px;
   overflow: hidden;

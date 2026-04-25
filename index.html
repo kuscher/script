@@ -185,9 +185,12 @@
 
           <!-- Contextual AI Selection Bubble -->
           <div id="ai-selection-bubble" class="ai-glass-bubble hidden">
-            <button id="btn-persona-toggle" class="tone-pill tone-pill-placeholder clickable-pill">
-              <i data-lucide="sparkles" class="tone-ai-icon"></i> WHAT DOES MOM THINK?
-            </button>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button id="btn-persona-toggle" class="tone-pill tone-pill-placeholder clickable-pill">
+                <i data-lucide="sparkles" class="tone-ai-icon"></i> WHAT DOES MOM THINK?
+              </button>
+              <button class="icon-btn" id="btn-close-ai-bubble" title="Dismiss" style="width: 24px; height: 24px; border-radius: 6px; margin-left: 8px;"><i data-lucide="x" style="width:14px; height:14px;"></i></button>
+            </div>
             <div id="tone-slider-container" class="tone-slider-container">
               <button class="icon-btn" id="btn-tone-undo" title="Undo Tone AI" style="display:none; width: 24px; height: 24px; border-radius: 6px;"><i data-lucide="undo-2" style="width:14px; height:14px;"></i></button>
               <span id="tone-placeholder" class="tone-pill tone-pill-placeholder">

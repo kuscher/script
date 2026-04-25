@@ -1,4 +1,4 @@
-import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords } from './editor.js';
+import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords, clearSelection } from './editor.js';
 
 let bubble, container, slider, placeholder, labelBlunt, labelDiplomatic, btnToneUndo;
 let state = {
@@ -17,8 +17,14 @@ export function initToneSlider() {
   labelBlunt = document.getElementById('tone-label-blunt');
   labelDiplomatic = document.getElementById('tone-label-diplomatic');
   btnToneUndo = document.getElementById('btn-tone-undo');
+  const btnCloseAiBubble = document.getElementById('btn-close-ai-bubble');
 
   if (!container || !slider || !bubble) return;
+
+  btnCloseAiBubble?.addEventListener('click', () => {
+    clearSelection();
+    resetState();
+  });
 
   btnToneUndo?.addEventListener('click', () => {
     if (state.originalText && state.currentRange) {

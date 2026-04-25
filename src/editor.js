@@ -266,6 +266,12 @@ export function getSelectionCoords(from, to) {
   }
 }
 
+export function clearSelection() {
+  if (editor) {
+    editor.commands.setTextSelection(editor.state.selection.to);
+  }
+}
+
 export function undo() {
   if (editor) editor.chain().undo().run();
 }
