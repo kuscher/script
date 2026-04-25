@@ -228,6 +228,19 @@ async function bootstrap() {
     });
   }
 
+  // Email Document Logic
+  const btnEmailDoc = document.getElementById('btn-email-doc');
+  if (btnEmailDoc) {
+    btnEmailDoc.addEventListener('click', () => {
+      const activeTab = getActiveTab();
+      if (!activeTab) return;
+      
+      const subject = encodeURIComponent(activeTab.filename || 'Untitled Document');
+      const body = encodeURIComponent(activeTab.content || '');
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    });
+  }
+
   // PWA Dynamic Install Prompt Logic
   let deferredPrompt;
   const btnInstallPwa = document.getElementById('btn-install-pwa');
