@@ -14,6 +14,7 @@ const lowlight = createLowlight(common);
 
 export let searchMatches = [];
 export let activeSearchIndex = -1;
+export let isProgrammaticSelection = false;
 
 let currentSearchTerm = '';
 const searchPlugin = new Plugin({
@@ -214,10 +215,10 @@ export function initEditor(containerId, initialContent, onChange, onSelectionCha
       if (onSelectionChange) {
         const { from, to, empty } = editor.state.selection;
         if (empty) {
-          onSelectionChange('');
+          onSelectionChange('', null, isProgrammaticSelection);
         } else {
           const text = editor.state.doc.textBetween(from, to, '\n');
-          onSelectionChange(text, { from, to });
+          onSelectionChange(text, { from, to }, isProgrammaticSelection);
         }
       }
     },
@@ -298,7 +299,9 @@ export function updateSearchMatchActive(index) {
   
   const activeMatch = searchMatches[activeSearchIndex];
   if (activeMatch) {
+     isProgrammaticSelection = true;
      editor.chain().setTextSelection({ from: activeMatch.from, to: activeMatch.to }).run();
+     isProgrammaticSelection = false;
      setTimeout(() => {
         const activeHighlight = document.querySelector('.search-match-active');
         if (activeHighlight) {

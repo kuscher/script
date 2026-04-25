@@ -5,24 +5,26 @@ export function initFindReplace(containerId) {
   // We are embedding directly into the header so we don't need a close button on the form itself.
   container.innerHTML = `
     <div class="find-wrapper">
-      <div class="find-input-group">
-        <i data-lucide="search" style="width:16px; height:16px; color:var(--text-placeholder); margin-right:4px;"></i>
+      <div class="find-row">
+        <i data-lucide="search" class="find-icon"></i>
         <input type="text" id="find-input" placeholder="Find...">
-        <span id="find-count" style="font-size: 11px; color: var(--text-secondary); min-width: 30px; text-align:center; user-select:none;"></span>
-        <div class="find-nav-buttons">
-          <button class="icon-btn" id="btn-find-prev" title="Previous (Shift+Enter)"><i data-lucide="arrow-up" style="width:16px; height:16px;"></i></button>
-          <button class="icon-btn" id="btn-find-next" title="Next (Enter)"><i data-lucide="arrow-down" style="width:16px; height:16px;"></i></button>
+        <span id="find-count" class="find-count"></span>
+        <div class="find-actions-inline">
+          <button class="icon-btn-small" id="btn-find-prev" title="Previous (Shift+Enter)"><i data-lucide="arrow-up"></i></button>
+          <button class="icon-btn-small" id="btn-find-next" title="Next (Enter)"><i data-lucide="arrow-down"></i></button>
+          <div class="find-divider"></div>
+          <button class="icon-btn-small" id="btn-toggle-replace" title="Toggle Replace"><i data-lucide="replace" id="replace-icon"></i></button>
         </div>
-        <div class="find-divider"></div>
-        <button class="icon-btn" id="btn-toggle-replace" title="Toggle Replace"><i data-lucide="replace" id="replace-icon" style="width:16px; height:16px;"></i></button>
       </div>
 
-      <div class="find-input-group hidden" id="replace-group">
+      <div class="find-row hidden" id="replace-group">
+        <i data-lucide="corner-down-right" class="find-icon" style="color: var(--text-placeholder);"></i>
         <input type="text" id="replace-input" placeholder="Replace with...">
-        <button class="text-btn" id="btn-replace" title="Replace Current">Replace</button>
-        <button class="text-btn" id="btn-replace-all" title="Replace All">All</button>
+        <div class="find-actions-inline">
+          <button class="text-btn" id="btn-replace" title="Replace Current">Replace</button>
+          <button class="text-btn" id="btn-replace-all" title="Replace All">All</button>
+        </div>
       </div>
-    </div>
     </div>
   `;
 

@@ -58,34 +58,73 @@
 .find-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.find-input-group {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.find-input-group input[type="text"] {
   background: var(--bg-input);
   border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.find-row {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+}
+.find-row:not(:last-child) {
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.find-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-placeholder);
+  margin-right: 8px;
+}
+
+.find-row input[type="text"] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
   color: var(--text-primary);
   font-family: var(--font-ui);
   font-size: 13px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  outline: none;
-  width: 140px;
-  transition: border-color 0.2s;
-}
-.find-input-group input[type="text"]:focus {
-  border-color: var(--accent);
+  min-width: 100px;
 }
 
-.find-nav-buttons {
+.find-count {
+  font-size: 11px;
+  color: var(--text-placeholder);
+  margin-right: 8px;
+  user-select: none;
+}
+
+.find-actions-inline {
   display: flex;
   align-items: center;
+  gap: 2px;
+}
+
+.icon-btn-small {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  transition: 0.2s;
+}
+.icon-btn-small:hover {
+  background: var(--bg-tab-hover);
+  color: var(--icon-hover);
+}
+.icon-btn-small svg {
+  width: 14px;
+  height: 14px;
+}
+.icon-btn-small.active {
+  background: var(--accent-subtle);
+  color: var(--accent);
 }
 
 .find-divider {
@@ -93,26 +132,6 @@
   height: 16px;
   background-color: var(--border-hairline);
   margin: 0 4px;
-}
-
-.find-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  justify-content: flex-end;
-  border-top: 1px solid var(--border-hairline);
-  padding-top: 8px;
-}
-
-#btn-toggle-replace {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  color: var(--text-secondary);
-}
-#btn-toggle-replace.active {
-  background-color: var(--accent-subtle);
-  color: var(--accent);
 }
 
 .text-btn {
@@ -130,16 +149,6 @@
 .text-btn:hover {
   background-color: var(--bg-tab-hover);
   color: var(--text-primary);
-}
-
-.find-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 500;
-  margin-left: 8px;
 }
 
 .toggle-btn {

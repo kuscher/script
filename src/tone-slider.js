@@ -50,7 +50,7 @@ export function initToneSlider() {
   });
 }
 
-export function handleSelectionChange(text, range) {
+export function handleSelectionChange(text, range, isProgrammaticSelection = false) {
   // If we are actively interacting with the slider, ignore editor selection changes 
   // (because our own text replacements will trigger this)
   if (state.isDragging || state.activeRequest) {
@@ -58,6 +58,12 @@ export function handleSelectionChange(text, range) {
          state.currentRange = range; // Keep track of the new range after replacement
      }
      return;
+  }
+
+  // If this selection was triggered programmatically (e.g. Find & Replace)
+  if (isProgrammaticSelection) {
+    resetState();
+    return;
   }
 
   if (text && text.trim().length > 0) {
