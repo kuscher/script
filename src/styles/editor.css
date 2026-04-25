@@ -576,7 +576,7 @@
   left: 0;
   transform: translate(0, 10px);
   width: calc(100% - 32px);
-  max-width: 420px;
+  max-width: 320px;
   z-index: 250;
   display: flex;
   flex-direction: column;
@@ -587,7 +587,7 @@
   border: 1px solid rgba(240, 113, 120, 0.3);
   box-shadow: 0 0 15px 2px rgba(166, 38, 164, 0.15), 0 0 10px 1px rgba(240, 113, 120, 0.2);
   border-radius: 16px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   opacity: 0;
   transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   pointer-events: none;
@@ -845,9 +845,9 @@
   max-width: 150px;
   -webkit-appearance: none;
   appearance: none;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--border-hairline);
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(166, 38, 164, 0.2);
   outline: none;
 }
 .tone-slider.hidden {
@@ -856,12 +856,61 @@
 .tone-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: var(--accent);
+  background: #A626A4;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 .tone-slider.is-empty::-webkit-slider-thumb {
   background: var(--text-placeholder);
 }
+
+/* AI Action Pills (Copy, Cut, Smart Copy) */
+.ai-action-pills {
+  position: absolute;
+  bottom: -44px;
+  left: 0;
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .ai-action-pills {
+    bottom: auto;
+    top: -44px;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+.ai-pill-btn {
+  background-color: rgba(240, 113, 120, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(240, 113, 120, 0.3);
+  box-shadow: 0 4px 10px rgba(166, 38, 164, 0.08); /* Softer shadow */
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  pointer-events: auto;
+}
+.ai-pill-btn:hover {
+  background-color: rgba(240, 113, 120, 0.2);
+  transform: translateY(-1px);
+}
+[data-theme="dark"] .ai-pill-btn {
+  background-color: rgba(240, 113, 120, 0.15);
+  border-color: rgba(240, 113, 120, 0.4);
+}
+

@@ -1,4 +1,5 @@
-import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords, clearSelection } from './editor.js';
+import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords, clearSelection, copySelection, cutSelection, expandSelectionToSentence } from './editor.js';
+import { createIcons, icons } from 'lucide';
 
 let bubble, container, slider, placeholder, labelBlunt, labelDiplomatic, btnToneUndo;
 let state = {
@@ -20,6 +21,58 @@ export function initToneSlider() {
   const btnCloseAiBubble = document.getElementById('btn-close-ai-bubble');
 
   if (!container || !slider || !bubble) return;
+
+  const btnCopy = document.getElementById('btn-ai-copy');
+  const btnCut = document.getElementById('btn-ai-cut');
+  const btnSmart = document.getElementById('btn-ai-smart');
+
+  if (btnCopy) {
+    btnCopy.addEventListener('click', () => {
+      copySelection();
+      btnCopy.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px; color: #22C55E;"></i> Copied!';
+      createIcons({ icons, nameAttr: 'data-lucide' });
+      setTimeout(() => {
+        bubble.classList.remove('visible');
+        clearSelection();
+        btnCopy.innerHTML = '<i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy';
+        createIcons({ icons, nameAttr: 'data-lucide' });
+      }, 800);
+    });
+  }
+
+  if (btnCut) {
+    btnCut.addEventListener('click', () => {
+      cutSelection();
+      bubble.classList.remove('visible');
+    });
+  }
+
+  if (btnSmart) {
+    btnSmart.addEventListener('click', () => {
+      if (expandSelectionToSentence()) {
+        copySelection();
+        btnSmart.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px; color: #22C55E;"></i> Smart Copied!';
+        createIcons({ icons, nameAttr: 'data-lucide' });
+        setTimeout(() => {
+          bubble.classList.remove('visible');
+          clearSelection();
+          btnSmart.innerHTML = '<i data-lucide="sparkles" style="width: 14px; height: 14px; color: #A626A4;"></i> Smart Copy';
+          createIcons({ icons, nameAttr: 'data-lucide' });
+        }, 1200);
+      } else {
+        // Fallback to normal copy if expansion wasn't needed
+        copySelection();
+        btnSmart.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px; color: #22C55E;"></i> Copied!';
+        createIcons({ icons, nameAttr: 'data-lucide' });
+        setTimeout(() => {
+          bubble.classList.remove('visible');
+          clearSelection();
+          btnSmart.innerHTML = '<i data-lucide="sparkles" style="width: 14px; height: 14px; color: #A626A4;"></i> Smart Copy';
+          createIcons({ icons, nameAttr: 'data-lucide' });
+        }, 1200);
+      }
+    });
+  }
 
   // Drag logic for AI Bubble
   const dragHandle = document.getElementById('ai-drag-handle');

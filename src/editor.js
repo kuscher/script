@@ -255,6 +255,69 @@ export function getEditorSelectionText() {
   return editor.state.doc.textBetween(from, to, '\n');
 }
 
+export function copySelection() {
+  const text = getEditorSelectionText();
+  if (text) navigator.clipboard.writeText(text);
+  return text;
+}
+
+export function cutSelection() {
+  const text = getEditorSelectionText();
+  if (text) {
+    navigator.clipboard.writeText(text);
+    editor.commands.deleteSelection();
+  }
+  return text;
+}
+
+export function expandSelectionToSentence() {
+  if (!editor) return false;
+  const { doc, selection } = editor.state;
+  if (selection.empty) return false;
+  
+  let { from, to } = selection;
+  const selectedText = doc.textBetween(from, to, '\n');
+  
+  const isSingleWord = !/\s/.test(selectedText.trim());
+  
+  if (isSingleWord) {
+    while (from > 0) {
+      const char = doc.textBetween(from - 1, from, '\n');
+      if (!char || /[\s\.,!\?;"'()\[\]\n]/.test(char)) break;
+      from--;
+    }
+    while (to < doc.content.size) {
+      const char = doc.textBetween(to, to + 1, '\n');
+      if (!char || /[\s\.,!\?;"'()\[\]\n]/.test(char)) break;
+      to++;
+    }
+  } else {
+    while (from > 0) {
+      const prevChar = doc.textBetween(from - 1, from, '\n');
+      if (!prevChar || /[\n]/.test(prevChar)) break;
+      const prevPrev = from > 1 ? doc.textBetween(from - 2, from - 1, '\n') : '';
+      if (/[\.!\?]/.test(prevPrev) && /\s/.test(prevChar)) break;
+      from--;
+    }
+    while (to < doc.content.size) {
+      const char = doc.textBetween(to, to + 1, '\n');
+      if (!char || /[\n]/.test(char)) break;
+      to++;
+      if (/[\.!\?]/.test(char)) {
+         const next = to < doc.content.size ? doc.textBetween(to, to + 1, '\n') : '\n';
+         if (/[\s\n]/.test(next)) break;
+      }
+    }
+  }
+  
+  // Only update if it actually expanded
+  if (from !== selection.from || to !== selection.to) {
+    editor.commands.setTextSelection({ from, to });
+    return true;
+  }
+  return false;
+}
+
 export function getSelectionCoords(from, to) {
   if (!editor) return null;
   try {
