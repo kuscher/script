@@ -35,7 +35,7 @@ export default async function handler(req) {
     
     rateLimit.set(ip, userLimit);
     
-    if (userLimit.count > 5) { // 5 requests per minute limit
+    if (userLimit.count > 20) { // 20 requests per minute limit
       return new Response(JSON.stringify({ error: 'Too many requests, please try again later.' }), {
         status: 429,
         headers: { 'Content-Type': 'application/json' },

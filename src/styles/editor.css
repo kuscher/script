@@ -303,11 +303,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: var(--bg-tab-hover);
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-hairline);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   font-family: var(--font-ui);
   font-size: 12px;
   transition: opacity 0.2s, transform 0.2s;
@@ -342,6 +337,24 @@
 }
 .tone-btn-reject {
   color: var(--danger, #EF4444);
+}
+
+@keyframes tone-pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+.tone-editing-pulse {
+  animation: tone-pulse 1.5s infinite;
+  background-color: rgba(166, 38, 164, 0.15);
+  color: #A626A4;
+  border-bottom: 2px dashed #A626A4;
+  border-radius: 2px;
+}
+[data-theme="dark"] .tone-editing-pulse {
+  background-color: rgba(240, 113, 120, 0.15);
+  color: #F07178;
+  border-bottom-color: #F07178;
 }
 
 /* Mobile Responsive Overrides */

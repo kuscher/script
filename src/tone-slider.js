@@ -1,4 +1,4 @@
-import { replaceSelectionWithReSelect } from './editor.js';
+import { replaceSelectionWithReSelect, setToneEditingRange } from './editor.js';
 
 let container, slider, btnAccept, btnReject;
 let state = {
@@ -19,6 +19,7 @@ export function initToneSlider() {
 
   slider.addEventListener('input', (e) => {
     state.isDragging = true;
+    setToneEditingRange(state.currentRange);
     const toneValue = parseInt(e.target.value, 10);
     
     // Debounce the API call
@@ -30,6 +31,7 @@ export function initToneSlider() {
 
   slider.addEventListener('change', () => {
     state.isDragging = false;
+    if (!state.activeRequest) setToneEditingRange(null);
   });
 
   btnAccept.addEventListener('click', () => {
@@ -74,6 +76,7 @@ async function triggerRewrite(toneValue) {
 
   const controller = new AbortController();
   state.activeRequest = controller;
+  setToneEditingRange(state.currentRange);
 
   try {
     const res = await fetch('/api/tone', {
@@ -105,6 +108,9 @@ async function triggerRewrite(toneValue) {
   } finally {
     if (state.activeRequest === controller) {
       state.activeRequest = null;
+      if (!state.isDragging) {
+        setToneEditingRange(null);
+      }
     }
   }
 }
@@ -120,4 +126,5 @@ function resetState() {
   if (container) {
     container.classList.add('hidden');
   }
+  setToneEditingRange(null);
 }

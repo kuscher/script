@@ -83,6 +83,40 @@ const SearchHighlight = Extension.create({
   addProseMirrorPlugins() { return [searchPlugin]; }
 });
 
+let currentToneRange = null;
+const tonePlugin = new Plugin({
+  key: new PluginKey('tone-pulse'),
+  state: {
+    init() { return DecorationSet.empty; },
+    apply(tr, oldState) {
+      const action = tr.getMeta('tone-update');
+      if (action !== undefined) {
+        currentToneRange = action.range;
+      } else if (tr.docChanged && currentToneRange) {
+        currentToneRange = {
+          from: tr.mapping.map(currentToneRange.from),
+          to: tr.mapping.map(currentToneRange.to)
+        };
+      }
+      
+      if (!currentToneRange || currentToneRange.from === currentToneRange.to) {
+         return DecorationSet.empty;
+      }
+      return DecorationSet.create(tr.doc, [
+        Decoration.inline(currentToneRange.from, currentToneRange.to, { class: 'tone-editing-pulse' })
+      ]);
+    }
+  },
+  props: {
+    decorations(state) { return this.getState(state); }
+  }
+});
+
+const ToneHighlight = Extension.create({
+  name: 'toneHighlight',
+  addProseMirrorPlugins() { return [tonePlugin]; }
+});
+
 let currentSyntaxLanguage = '';
 const syntaxPlugin = new Plugin({
   key: new PluginKey('syntax'),
@@ -163,6 +197,7 @@ export function initEditor(containerId, initialContent, onChange, onSelectionCha
       Text,
       SearchHighlight,
       SyntaxHighlight,
+      ToneHighlight,
       AiMention,
       Placeholder.configure({ placeholder: 'Start typing...' })
     ],
@@ -279,6 +314,12 @@ export function replaceSelectionWithReSelect(range, newText) {
   editor.commands.setTextSelection({ from, to: newTo });
   
   return { from, to: newTo };
+}
+
+export function setToneEditingRange(range) {
+  if (editor) {
+    editor.view.dispatch(editor.state.tr.setMeta('tone-update', { range }));
+  }
 }
 
 export function setSyntaxLanguage(filename) {

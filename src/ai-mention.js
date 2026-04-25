@@ -106,16 +106,8 @@ export const AiMention = Extension.create({
             const state = aiMentionKey.getState(view.state);
             
             // Trigger Activation
+            // Trigger Activation
             if (event.key === '@' && !state.active) {
-              const settingsData = localStorage.getItem('script_settings');
-              let enabled = false;
-              
-              if (settingsData) {
-                try { enabled = JSON.parse(settingsData).aiMentionEnabled; } catch(e) {}
-              }
-              
-              if (!enabled) return false;
-              
               const { $from } = view.state.selection;
               const charBefore = $from.parent.textBetween(Math.max(0, $from.parentOffset - 1), $from.parentOffset);
               
@@ -176,7 +168,7 @@ export const AiMention = Extension.create({
                      if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                         answer = data.candidates[0].content.parts[0].text.trim();
                      } else if (data.error) {
-                        answer = data.error.message || 'API Error';
+                        answer = typeof data.error === 'string' ? data.error : (data.error.message || 'API Error');
                      }
                      
                      const finalState = aiMentionKey.getState(view.state);
