@@ -308,12 +308,18 @@ async function bootstrap() {
 
   // Word Wrap Toggle Logic
   const btnToggleWordWrap = document.getElementById('btn-toggle-word-wrap');
-  let isWordWrap = false;
+  let isWordWrap = true;
+  
+  const editorContainer = document.getElementById('editor-container');
+  if (editorContainer && isWordWrap) {
+    editorContainer.classList.add('word-wrapped');
+  }
   
   if (btnToggleWordWrap) {
+    if (isWordWrap) btnToggleWordWrap.classList.add('active');
+    
     btnToggleWordWrap.addEventListener('click', () => {
       isWordWrap = !isWordWrap;
-      const editorContainer = document.getElementById('editor-container');
       if (isWordWrap) {
         editorContainer.classList.add('word-wrapped');
         btnToggleWordWrap.classList.add('active');
