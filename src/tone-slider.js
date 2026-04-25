@@ -21,6 +21,49 @@ export function initToneSlider() {
 
   if (!container || !slider || !bubble) return;
 
+  // Drag logic for AI Bubble
+  const dragHandle = document.getElementById('ai-drag-handle');
+  if (dragHandle) {
+    let isDraggingBubble = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    dragHandle.addEventListener('mousedown', (e) => {
+      if (window.innerWidth <= 768) return; // Don't drag on mobile
+      isDraggingBubble = true;
+      const rect = bubble.getBoundingClientRect();
+      dragOffsetX = e.clientX - rect.left;
+      dragOffsetY = e.clientY - rect.top;
+      
+      // Prevent text selection while dragging
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDraggingBubble) return;
+      e.preventDefault();
+      
+      let newLeft = e.clientX - dragOffsetX;
+      let newTop = e.clientY - dragOffsetY;
+      
+      // Keep within bounds
+      const bubbleWidth = bubble.offsetWidth || 380;
+      const bubbleHeight = bubble.offsetHeight || 200;
+      
+      if (newLeft < 0) newLeft = 0;
+      if (newTop < 0) newTop = 0;
+      if (newLeft + bubbleWidth > window.innerWidth) newLeft = window.innerWidth - bubbleWidth;
+      if (newTop + bubbleHeight > window.innerHeight) newTop = window.innerHeight - bubbleHeight;
+      
+      bubble.style.left = `${newLeft}px`;
+      bubble.style.top = `${newTop}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDraggingBubble = false;
+    });
+  }
+
   btnCloseAiBubble?.addEventListener('click', () => {
     clearSelection();
     resetState();

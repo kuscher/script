@@ -21,22 +21,7 @@
   <body>
     <div id="app" class="app-container">
       
-      <!-- First Run Dialog -->
-      <dialog id="first-run-dialog" class="first-run-dialog">
-        <div class="dialog-content">
-          <i data-lucide="sparkles" class="hero-icon"></i>
-          <h2>Welcome to Script</h2>
-          <p>Script is a fast, friendly, local-first plain text editor beautifully designed for the modern web.</p>
-          <p>To unlock the **inline AI Mention engine**, please securely provide an active <strong>Gemini API Key</strong> below. This key is strictly written to your computer's local memory footprint natively—never sent to cloud sync points.</p>
-          <div class="input-block">
-             <input type="password" id="first-run-api-key" placeholder="Enter Gemini API key..." autocomplete="off">
-          </div>
-          <div class="dialog-actions">
-            <button class="btn-primary" id="btn-first-run-submit">Start Writing</button>
-            <button class="btn-text" id="btn-first-run-skip">Skip for now</button>
-          </div>
-        </div>
-      </dialog>
+
 
       <!-- Persistent Top Header -->
       <header class="app-header">
@@ -143,8 +128,10 @@
         <main id="main-workspace" class="workspace" role="main">
           
           <!-- Subtle Dotted Grid Backgrounds -->
-          <div class="workspace-bg-grid base-grid"></div>
-          <div class="workspace-bg-grid hover-grid" id="hover-grid"></div>
+          <div class="grid-mask-container" style="position: absolute; inset: 0; pointer-events: none; -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 30px, black 80px, black 100%); mask-image: linear-gradient(to right, transparent 0%, transparent 30px, black 80px, black 100%); z-index: 1;">
+            <div class="workspace-bg-grid base-grid"></div>
+            <div class="workspace-bg-grid hover-grid" id="hover-grid"></div>
+          </div>
 
           <!-- Crash Recovery Banner -->
           <div id="recovery-banner" class="hidden">
@@ -195,6 +182,9 @@
           <div id="ai-selection-bubble" class="ai-glass-bubble">
             <div class="ai-bubble-header">
               <div class="ai-bubble-title">
+                <div class="ai-drag-handle" id="ai-drag-handle" title="Drag to move">
+                  <i data-lucide="grip-horizontal"></i>
+                </div>
                 <i data-lucide="sparkles" class="ai-sparkle-icon"></i> 
                 <span>AI Magic</span>
               </div>

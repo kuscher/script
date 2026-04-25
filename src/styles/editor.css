@@ -602,6 +602,23 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.ai-drag-handle {
+  cursor: grab;
+  color: var(--text-placeholder);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  padding: 4px;
+  margin-right: -4px; /* Pull it slightly left */
+}
+.ai-drag-handle:hover {
+  opacity: 1;
+}
+.ai-drag-handle:active {
+  cursor: grabbing;
+}
 .ai-sparkle-icon {
   width: 16px;
   height: 16px;

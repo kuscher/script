@@ -188,25 +188,6 @@ async function bootstrap() {
   // Init Data logic
   initSidebar(dom, actions);
   
-  // First Run
-  const firstRunSaved = localStorage.getItem('script_first_run');
-  const firstRunDialog = document.getElementById('first-run-dialog');
-  if (!firstRunSaved && firstRunDialog) {
-    firstRunDialog.showModal();
-    document.getElementById('btn-first-run-submit').addEventListener('click', () => {
-      const apiKey = document.getElementById('first-run-api-key').value.trim();
-      localStorage.setItem('script_first_run', 'true');
-      if (apiKey) {
-        localStorage.setItem('script_settings', JSON.stringify({ aiMentionEnabled: true, aiApiKey: apiKey }));
-      }
-      firstRunDialog.close();
-    });
-    document.getElementById('btn-first-run-skip').addEventListener('click', () => {
-      localStorage.setItem('script_first_run', 'true');
-      firstRunDialog.close();
-    });
-  }
-
   // Sidebar Resizer Logic
   const resizer = document.getElementById('sidebar-resizer');
   const sidebar = document.getElementById('sidebar');
