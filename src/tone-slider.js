@@ -1,6 +1,6 @@
 import { replaceSelectionWithReSelect, setToneEditingRange } from './editor.js';
 
-let container, slider, btnAccept, btnReject;
+let container, slider;
 let state = {
   originalText: '',
   currentRange: null,
@@ -12,10 +12,8 @@ let state = {
 export function initToneSlider() {
   container = document.getElementById('tone-slider-container');
   slider = document.getElementById('tone-slider');
-  btnAccept = document.getElementById('btn-tone-accept');
-  btnReject = document.getElementById('btn-tone-reject');
 
-  if (!container || !slider || !btnAccept || !btnReject) return;
+  if (!container || !slider) return;
 
   slider.addEventListener('input', (e) => {
     state.isDragging = true;
@@ -32,17 +30,6 @@ export function initToneSlider() {
   slider.addEventListener('change', () => {
     state.isDragging = false;
     if (!state.activeRequest) setToneEditingRange(null);
-  });
-
-  btnAccept.addEventListener('click', () => {
-    resetState();
-  });
-
-  btnReject.addEventListener('click', () => {
-    if (state.originalText && state.currentRange) {
-      replaceSelectionWithReSelect(state.currentRange, state.originalText);
-    }
-    resetState();
   });
 }
 
