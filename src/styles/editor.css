@@ -304,9 +304,44 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 11px;
   transition: opacity 0.2s, transform 0.2s;
   color: var(--text-primary);
+  height: 28px;
+}
+
+.tone-pill {
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tone-pill-placeholder {
+  background-color: var(--bg-tab-hover);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-hairline);
+}
+
+.tone-pill-blunt {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+}
+[data-theme="dark"] .tone-pill-blunt {
+  background-color: rgba(248, 113, 113, 0.2);
+  color: #FCA5A5;
+}
+
+.tone-pill-diplomatic {
+  background-color: rgba(34, 197, 94, 0.15);
+  color: #22C55E;
+}
+[data-theme="dark"] .tone-pill-diplomatic {
+  background-color: rgba(74, 222, 128, 0.2);
+  color: #86EFAC;
 }
 .tone-slider-container.hidden {
   display: none;
@@ -332,11 +367,8 @@
   background: var(--accent);
   cursor: pointer;
 }
-.tone-btn-accept {
-  color: var(--success, #10B981);
-}
-.tone-btn-reject {
-  color: var(--danger, #EF4444);
+.tone-slider.is-empty::-webkit-slider-thumb {
+  background: var(--text-placeholder);
 }
 
 @keyframes tone-pulse {

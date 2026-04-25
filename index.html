@@ -53,13 +53,16 @@
               <button id="btn-disk-warn-save">Save to Disk</button>
             </div>
           </div>
+          <button class="icon-btn" id="btn-undo" title="Undo (Ctrl+Z)" disabled><i data-lucide="undo-2"></i></button>
+          <button class="icon-btn" id="btn-redo" title="Redo (Ctrl+Y)" disabled><i data-lucide="redo-2"></i></button>
         </div>
         <div class="header-right">
           <!-- Tone Slider Container -->
-          <div id="tone-slider-container" class="tone-slider-container hidden">
-            <span class="tone-label">Blunt</span>
-            <input type="range" id="tone-slider" min="0" max="100" value="50" class="tone-slider">
-            <span class="tone-label">Diplomatic</span>
+          <div id="tone-slider-container" class="tone-slider-container">
+            <span id="tone-placeholder" class="tone-pill tone-pill-placeholder">Select for Tone AI</span>
+            <span id="tone-label-blunt" class="tone-pill tone-pill-blunt hidden">BLUNT</span>
+            <input type="range" id="tone-slider" min="0" max="100" value="50" class="tone-slider hidden">
+            <span id="tone-label-diplomatic" class="tone-pill tone-pill-diplomatic hidden">DIPLOMATIC</span>
           </div>
           <!-- Find / Replace Bar Persistent Container -->
           <div id="find-bar" class="find-container">

@@ -220,6 +220,12 @@ export function initEditor(containerId, initialContent, onChange, onSelectionCha
           onSelectionChange(text, { from, to });
         }
       }
+    },
+    onTransaction: ({ editor }) => {
+      const btnUndo = document.getElementById('btn-undo');
+      const btnRedo = document.getElementById('btn-redo');
+      if (btnUndo) btnUndo.disabled = !editor.can().undo();
+      if (btnRedo) btnRedo.disabled = !editor.can().redo();
     }
   });
   
@@ -239,6 +245,14 @@ export function setEditorContent(text) {
 export function getEditorContent() {
   if (!editor) return '';
   return extractContentFromTiptap(editor.getJSON());
+}
+
+export function undo() {
+  if (editor) editor.chain().undo().run();
+}
+
+export function redo() {
+  if (editor) editor.chain().redo().run();
 }
 
 export function focusEditor() {

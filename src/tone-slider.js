@@ -1,6 +1,6 @@
 import { replaceSelectionWithReSelect, setToneEditingRange } from './editor.js';
 
-let container, slider;
+let container, slider, placeholder, labelBlunt, labelDiplomatic;
 let state = {
   originalText: '',
   currentRange: null,
@@ -12,6 +12,9 @@ let state = {
 export function initToneSlider() {
   container = document.getElementById('tone-slider-container');
   slider = document.getElementById('tone-slider');
+  placeholder = document.getElementById('tone-placeholder');
+  labelBlunt = document.getElementById('tone-label-blunt');
+  labelDiplomatic = document.getElementById('tone-label-diplomatic');
 
   if (!container || !slider) return;
 
@@ -47,7 +50,11 @@ export function handleSelectionChange(text, range) {
     state.originalText = text;
     state.currentRange = range;
     slider.value = 50; // Reset slider
-    container.classList.remove('hidden');
+    placeholder?.classList.add('hidden');
+    labelBlunt?.classList.remove('hidden');
+    labelDiplomatic?.classList.remove('hidden');
+    slider.classList.remove('hidden');
+    setToneEditingRange(range);
   } else {
     resetState();
   }
@@ -95,9 +102,6 @@ async function triggerRewrite(toneValue) {
   } finally {
     if (state.activeRequest === controller) {
       state.activeRequest = null;
-      if (!state.isDragging) {
-        setToneEditingRange(null);
-      }
     }
   }
 }
@@ -110,8 +114,9 @@ function resetState() {
     debounceTimer: null,
     activeRequest: null
   };
-  if (container) {
-    container.classList.add('hidden');
-  }
+  placeholder?.classList.remove('hidden');
+  labelBlunt?.classList.add('hidden');
+  labelDiplomatic?.classList.add('hidden');
+  slider?.classList.add('hidden');
   setToneEditingRange(null);
 }

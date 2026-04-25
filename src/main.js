@@ -1,7 +1,7 @@
 import { initTabs, getTabs, getActiveTab, setActiveTab, closeTab, createNewTab, updateActiveTabContent, markActiveTabSaved, renameActiveTab } from './tabs.js';
 import { initSidebar, renderTabs } from './sidebar.js';
 import { initMenu } from './menu.js';
-import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex } from './editor.js';
+import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex, undo, redo } from './editor.js';
 import { loadSettings, openSettingsPanel } from './settings.js';
 import { openFilePicker, saveFilePicker, saveFileToHandle, verifyPermission, readAsText } from './file-system.js';
 
@@ -260,7 +260,7 @@ async function bootstrap() {
   }
 
   window.addEventListener('appinstalled', () => {
-    if (btnInstallPwa) btnInstallPwa.classList.add('hidden');
+    if (btnInstallPwa) btnInstallPwa.classList.hidden = true;
     deferredPrompt = null;
   });
 
@@ -419,6 +419,9 @@ async function bootstrap() {
       btnToggleReplace.addEventListener('mousedown', e => e.preventDefault());
     }
     
+    document.getElementById('btn-undo')?.addEventListener('click', () => { undo(); focusEditor(); });
+    document.getElementById('btn-redo')?.addEventListener('click', () => { redo(); focusEditor(); });
+
     const btnReplace = document.getElementById('btn-replace');
     const replaceInput = document.getElementById('replace-input');
     if (btnReplace && replaceInput) {
