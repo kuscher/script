@@ -21,12 +21,52 @@
   },
   "settings": {
     "appearance": "Apparence",
-    "language": "Langue"
+    "language": "Langue",
+    "theme": "Thème",
+    "themeSystem": "Système",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "fontFamily": "Police",
+    "fontMono": "Monospace",
+    "fontSans": "Sans-Serif",
+    "fontSerif": "Serif",
+    "fontSize": "Taille de la police:",
+    "aiFeatures": "Fonctionnalités IA",
+    "enableQueries": "Activer les requêtes @",
+    "activeEngine": "Moteur IA Actif",
+    "engineCloud": "IA Cloud Gratuite (Vercel)",
+    "engineByot": "Apportez votre propre Token",
+    "engineLocal": "Local sur l'appareil (window.ai)",
+    "engineDesc": "Sélectionnez le moteur qui traite votre texte. Local nécessite Chrome Gemini Nano.",
+    "geminiKey": "Clé API Google Gemini",
+    "verify": "Vérifier"
   },
   "firstRun": {
     "title": "Découvrez votre nouvel éditeur préféré.",
     "subtitle": "Rapide, beau et plein de magie.",
     "installApp": "Installer l’application Script",
     "dismiss": "Utiliser dans le navigateur."
+  },
+  "ui": {
+    "dropToOpen": "Déposer pour ouvrir",
+    "settingsTitle": "Paramètres",
+    "menuNew": "Nouveau",
+    "menuOpen": "Ouvrir",
+    "menuSave": "Enregistrer",
+    "menuSaveAs": "Enregistrer sous",
+    "menuPrint": "Imprimer",
+    "menuGoToLine": "Aller à la ligne",
+    "menuSettings": "Paramètres",
+    "menuShortcuts": "Raccourcis clavier",
+    "recoveryText": "Fichier(s) non sauvegardé(s) restauré(s) de votre dernière session.",
+    "aiMagic": "Magie IA",
+    "askPersona": "Demander au Persona : Maman",
+    "adjustTone": "Ajuster le ton",
+    "toneBlunt": "Direct",
+    "toneDiplomatic": "Diplomate",
+    "copy": "Copier",
+    "cut": "Couper",
+    "smartCopy": "Copie Intelligente",
+    "keyboardShortcutsTitle": "Raccourcis clavier"
   }
 }

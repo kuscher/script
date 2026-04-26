@@ -21,12 +21,52 @@
   },
   "settings": {
     "appearance": "Erscheinungsbild",
-    "language": "Sprache"
+    "language": "Sprache",
+    "theme": "Design",
+    "themeSystem": "System",
+    "themeLight": "Hell",
+    "themeDark": "Dunkel",
+    "fontFamily": "Schriftart",
+    "fontMono": "Monospace",
+    "fontSans": "Sans-Serif",
+    "fontSerif": "Serif",
+    "fontSize": "Schriftgröße:",
+    "aiFeatures": "KI-Funktionen",
+    "enableQueries": "@-Abfragen aktivieren",
+    "activeEngine": "Aktive KI-Engine",
+    "engineCloud": "Kostenlose Cloud-KI (Vercel)",
+    "engineByot": "Eigener Token (BYOT)",
+    "engineLocal": "Lokal auf dem Gerät (window.ai)",
+    "engineDesc": "Wählen Sie aus, welche Engine Ihren Text verarbeitet. Lokal erfordert Chrome Gemini Nano.",
+    "geminiKey": "Google Gemini API-Schlüssel",
+    "verify": "Überprüfen"
   },
   "firstRun": {
     "title": "Lerne deinen neuen Lieblingseditor kennen.",
     "subtitle": "Schnell, schön und voller Magie.",
     "installApp": "Script-App installieren",
     "dismiss": "Im Browser verwenden."
+  },
+  "ui": {
+    "dropToOpen": "Zum Öffnen ablegen",
+    "settingsTitle": "Einstellungen",
+    "menuNew": "Neu",
+    "menuOpen": "Öffnen",
+    "menuSave": "Speichern",
+    "menuSaveAs": "Speichern unter",
+    "menuPrint": "Drucken",
+    "menuGoToLine": "Gehe zu Zeile",
+    "menuSettings": "Einstellungen",
+    "menuShortcuts": "Tastaturkürzel",
+    "recoveryText": "Ungespeicherte Datei(en) aus der letzten Sitzung wiederhergestellt.",
+    "aiMagic": "KI-Magie",
+    "askPersona": "Persona fragen: Mama",
+    "adjustTone": "Ton anpassen",
+    "toneBlunt": "Direkt",
+    "toneDiplomatic": "Diplomatisch",
+    "copy": "Kopieren",
+    "cut": "Ausschneiden",
+    "smartCopy": "Intelligentes Kopieren",
+    "keyboardShortcutsTitle": "Tastaturkürzel"
   }
 }

@@ -119,7 +119,7 @@
       <div id="drop-overlay" class="hidden">
         <div class="drop-zone">
           <i data-lucide="file-down" style="width:48px;height:48px;"></i>
-          <p style="font-family: var(--font-ui); font-size: 18px; font-weight:500; padding:16px;">Drop to open</p>
+          <p style="font-family: var(--font-ui); font-size: 18px; font-weight:500; padding:16px;" data-i18n="ui.dropToOpen">Drop to open</p>
         </div>
       </div>
 
@@ -156,7 +156,7 @@
           <div id="sidebar-settings-view" class="sidebar-view hidden">
             <div class="sidebar-header">
               <button class="icon-btn" id="btn-settings-back"><i data-lucide="arrow-left"></i></button>
-              <span class="settings-title">Settings</span>
+              <span class="settings-title" data-i18n="ui.settingsTitle">Settings</span>
             </div>
             <!-- Rendered by settings.js -->
             <div id="settings-container" class="settings-container"></div>
@@ -165,16 +165,16 @@
           <!-- Overflow Menu Dropdown -->
           <div id="overflow-menu" class="hidden shadow-menu">
             <ul>
-              <li data-action="new"><i data-lucide="file-plus"></i> <span>New</span> <small>Ctrl+N</small></li>
-              <li data-action="open"><i data-lucide="folder-open"></i> <span>Open</span> <small>Ctrl+O</small></li>
-              <li data-action="save"><i data-lucide="save"></i> <span>Save</span> <small>Ctrl+S</small></li>
-              <li data-action="saveAs"><i data-lucide="save"></i> <span>Save As</span> <small>Ctrl+Shift+S</small></li>
-              <li data-action="print"><i data-lucide="printer"></i> <span>Print</span> <small>Ctrl+P</small></li>
+              <li data-action="new"><i data-lucide="file-plus"></i> <span data-i18n="ui.menuNew">New</span> <small>Alt+N</small></li>
+              <li data-action="open"><i data-lucide="folder-open"></i> <span data-i18n="ui.menuOpen">Open</span> <small>Ctrl+O</small></li>
+              <li data-action="save"><i data-lucide="save"></i> <span data-i18n="ui.menuSave">Save</span> <small>Ctrl+S</small></li>
+              <li data-action="saveAs"><i data-lucide="save"></i> <span data-i18n="ui.menuSaveAs">Save As</span> <small>Ctrl+Shift+S</small></li>
+              <li data-action="print"><i data-lucide="printer"></i> <span data-i18n="ui.menuPrint">Print</span> <small>Ctrl+P</small></li>
               <li class="divider"></li>
-              <li data-action="goTo"><i data-lucide="arrow-down-to-line"></i> <span>Go to Line</span> <small>Ctrl+G</small></li>
+              <li data-action="goTo"><i data-lucide="arrow-down-to-line"></i> <span data-i18n="ui.menuGoToLine">Go to Line</span> <small>Ctrl+G</small></li>
               <li class="divider"></li>
-              <li data-action="settings"><i data-lucide="settings"></i> <span>Settings</span></li>
-              <li data-action="shortcuts"><i data-lucide="keyboard"></i> <span>Keyboard Shortcuts</span> <small>Ctrl+/</small></li>
+              <li data-action="settings"><i data-lucide="settings"></i> <span data-i18n="ui.menuSettings">Settings</span></li>
+              <li data-action="shortcuts"><i data-lucide="keyboard"></i> <span data-i18n="ui.menuShortcuts">Keyboard Shortcuts</span> <small>Ctrl+/</small></li>
             </ul>
           </div>
         </aside>
@@ -196,7 +196,7 @@
 
           <!-- Crash Recovery Banner -->
           <div id="recovery-banner" class="hidden">
-            <span id="recovery-text">Restored unsaved file(s) from your last session.</span>
+            <span id="recovery-text" data-i18n="ui.recoveryText">Restored unsaved file(s) from your last session.</span>
             <button class="icon-btn" id="btn-close-recovery"><i data-lucide="x"></i></button>
           </div>
 
@@ -249,7 +249,7 @@
                     <i data-lucide="grip-horizontal"></i>
                   </div>
                   <i data-lucide="sparkles" class="ai-sparkle-icon"></i> 
-                  <span>AI Magic</span>
+                  <span data-i18n="ui.aiMagic">AI Magic</span>
                 </div>
                 <div class="ai-bubble-actions">
                   <button class="icon-btn" id="btn-tone-undo" title="Undo Tone AI" style="display:none; width: 28px; height: 28px; border-radius: 6px;"><i data-lucide="undo-2"></i></button>
@@ -260,22 +260,22 @@
               <div class="ai-bubble-content">
                 <!-- Action 1: Persona Feedback -->
                 <button id="btn-persona-toggle" class="ai-magic-btn">
-                  <i data-lucide="message-circle" class="ai-magic-icon"></i> Ask Persona: Mom
+                  <i data-lucide="message-circle" class="ai-magic-icon"></i> <span data-i18n="ui.askPersona">Ask Persona: Mom</span>
                 </button>
 
                 <!-- Action 2: Tone Slider -->
                 <div id="tone-slider-container" class="tone-slider-panel">
                   <div class="tone-slider-header">
-                    <span class="tone-panel-title">Adjust Tone</span>
+                    <span class="tone-panel-title" data-i18n="ui.adjustTone">Adjust Tone</span>
                   </div>
                   <div class="tone-slider-track-wrapper">
                     <span id="tone-placeholder" class="tone-placeholder-overlay">
                       <i data-lucide="sliders-horizontal" style="width: 14px; height: 14px;"></i> Slide to rewrite
                     </span>
                     <div class="tone-slider-interactive-area">
-                      <span id="tone-label-blunt" class="tone-slider-label hidden">Blunt</span>
+                      <span id="tone-label-blunt" class="tone-slider-label hidden" data-i18n="ui.toneBlunt">Blunt</span>
                       <input type="range" id="tone-slider" min="0" max="100" value="50" class="tone-slider hidden">
-                      <span id="tone-label-diplomatic" class="tone-slider-label hidden">Diplomatic</span>
+                      <span id="tone-label-diplomatic" class="tone-slider-label hidden" data-i18n="ui.toneDiplomatic">Diplomatic</span>
                     </div>
                   </div>
                 </div>
@@ -284,9 +284,9 @@
             
             <!-- AI Action Pills -->
             <div class="ai-action-pills">
-              <button id="btn-ai-copy" class="ai-pill-btn"><i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copy</button>
-              <button id="btn-ai-cut" class="ai-pill-btn"><i data-lucide="scissors" style="width: 14px; height: 14px;"></i> Cut</button>
-              <button id="btn-ai-smart" class="ai-pill-btn"><i data-lucide="sparkles" style="width: 14px; height: 14px; color: #A626A4;"></i> Smart Copy</button>
+              <button id="btn-ai-copy" class="ai-pill-btn"><i data-lucide="copy" style="width: 14px; height: 14px;"></i> <span data-i18n="ui.copy">Copy</span></button>
+              <button id="btn-ai-cut" class="ai-pill-btn"><i data-lucide="scissors" style="width: 14px; height: 14px;"></i> <span data-i18n="ui.cut">Cut</span></button>
+              <button id="btn-ai-smart" class="ai-pill-btn"><i data-lucide="sparkles" style="width: 14px; height: 14px; color: #A626A4;"></i> <span data-i18n="ui.smartCopy">Smart Copy</span></button>
             </div>
           </div>
         </main>
@@ -321,7 +321,7 @@
       <div id="shortcuts-overlay" class="hidden modal-overlay">
         <div class="modal">
           <div class="modal-header">
-            <h2>Keyboard Shortcuts</h2>
+            <h2 data-i18n="ui.keyboardShortcutsTitle">Keyboard Shortcuts</h2>
             <button class="icon-btn" id="btn-close-shortcuts"><i data-lucide="x"></i></button>
           </div>
           <div class="modal-body" id="shortcuts-container">

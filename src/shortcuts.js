@@ -2,12 +2,12 @@ export const isMac = navigator.userAgent.includes('Mac OS X');
 
 export function initShortcuts(overlayEl, container, actions) {
   const map = [
-    { cat: 'File', key: 'Mod+N', label: 'New file', action: actions.onNewTab },
+    { cat: 'File', key: 'Alt+N', label: 'New file', action: actions.onNewTab },
     { cat: 'File', key: 'Mod+O', label: 'Open file', action: actions.onOpen },
     { cat: 'File', key: 'Mod+S', label: 'Save', action: actions.onSave },
     { cat: 'File', key: 'Mod+Shift+S', label: 'Save As', action: actions.onSaveAs },
     { cat: 'File', key: 'Mod+P', label: 'Print', action: actions.onPrint },
-    { cat: 'File', key: 'Mod+W', label: 'Close tab', action: actions.onCloseTab },
+    { cat: 'File', key: 'Alt+W', label: 'Close tab', action: actions.onCloseTab },
     { cat: 'View', key: 'Mod+B', label: 'Toggle sidebar', action: actions.onToggleSidebar },
     { cat: 'Search', key: 'Mod+F', label: 'Find', action: actions.onFind },
     { cat: 'Search', key: 'Mod+H', label: 'Find & Replace', action: actions.onReplace },
@@ -32,6 +32,7 @@ export function initShortcuts(overlayEl, container, actions) {
       if (isMac) {
         displayKey = displayKey.replace('Mod+', '⌘');
         displayKey = displayKey.replace('Shift+', '⇧');
+        displayKey = displayKey.replace('Alt+', '⌥');
       } else {
         displayKey = displayKey.replace('Mod+', 'Ctrl+');
       }
@@ -56,10 +57,12 @@ export function initShortcuts(overlayEl, container, actions) {
     }
 
     const mod = isMac ? e.metaKey : e.ctrlKey;
-    if (!mod && e.key !== 'Escape') return;
+    if (!mod && !e.altKey && e.key !== 'Escape') return;
 
-    let shortcutStr = 'Mod+';
-    if (e.shiftKey) shortcutStr += 'Shift+';
+    let shortcutStr = '';
+    if (mod) shortcutStr += 'MOD+';
+    if (e.altKey) shortcutStr += 'ALT+';
+    if (e.shiftKey) shortcutStr += 'SHIFT+';
     
     // Normalize key
     const key = e.key.toUpperCase();

@@ -21,12 +21,52 @@
   },
   "settings": {
     "appearance": "外観",
-    "language": "言語"
+    "language": "言語",
+    "theme": "テーマ",
+    "themeSystem": "システム",
+    "themeLight": "ライト",
+    "themeDark": "ダーク",
+    "fontFamily": "フォントファミリ",
+    "fontMono": "等幅フォント",
+    "fontSans": "ゴシック体",
+    "fontSerif": "明朝体",
+    "fontSize": "フォントサイズ:",
+    "aiFeatures": "AI 機能",
+    "enableQueries": "@クエリを有効にする",
+    "activeEngine": "アクティブな AI エンジン",
+    "engineCloud": "無料のクラウド AI (Vercel)",
+    "engineByot": "自分のトークンを使用 (BYOT)",
+    "engineLocal": "ローカルデバイス (window.ai)",
+    "engineDesc": "テキストを処理するエンジンを選択します。ローカルには Chrome Gemini Nano が必要です。",
+    "geminiKey": "Google Gemini API キー",
+    "verify": "確認"
   },
   "firstRun": {
     "title": "あなたのお気に入りの新しいエディター。",
     "subtitle": "高速、美しい、そして魔法のよう。",
     "installApp": "Script アプリをインストール",
     "dismiss": "ブラウザで使用する。"
+  },
+  "ui": {
+    "dropToOpen": "ドロップして開く",
+    "settingsTitle": "設定",
+    "menuNew": "新規",
+    "menuOpen": "開く",
+    "menuSave": "保存",
+    "menuSaveAs": "名前を付けて保存",
+    "menuPrint": "印刷",
+    "menuGoToLine": "行へ移動",
+    "menuSettings": "設定",
+    "menuShortcuts": "キーボードショートカット",
+    "recoveryText": "前回のセッションから保存されていないファイルを復元しました。",
+    "aiMagic": "AI マジック",
+    "askPersona": "ペルソナに聞く：お母さん",
+    "adjustTone": "トーンを調整",
+    "toneBlunt": "率直",
+    "toneDiplomatic": "外交的",
+    "copy": "コピー",
+    "cut": "切り取り",
+    "smartCopy": "スマートコピー",
+    "keyboardShortcutsTitle": "キーボードショートカット"
   }
 }

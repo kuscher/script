@@ -21,12 +21,52 @@
   },
   "settings": {
     "appearance": "外观",
-    "language": "语言"
+    "language": "语言",
+    "theme": "主题",
+    "themeSystem": "跟随系统",
+    "themeLight": "浅色",
+    "themeDark": "深色",
+    "fontFamily": "字体",
+    "fontMono": "等宽字体",
+    "fontSans": "无衬线字体",
+    "fontSerif": "衬线字体",
+    "fontSize": "字号:",
+    "aiFeatures": "AI 功能",
+    "enableQueries": "启用 @ 查询",
+    "activeEngine": "当前 AI 引擎",
+    "engineCloud": "免费云端 AI (Vercel)",
+    "engineByot": "使用自有 Token",
+    "engineLocal": "本地设备 (window.ai)",
+    "engineDesc": "选择处理文本的引擎。本地引擎需要 Chrome Gemini Nano。",
+    "geminiKey": "Google Gemini API 密钥",
+    "verify": "验证"
   },
   "firstRun": {
     "title": "遇见你最喜欢的新编辑器。",
     "subtitle": "快速、美观，充满魔力。",
     "installApp": "安装 Script 应用",
     "dismiss": "我不想安装。在浏览器中使用。"
+  },
+  "ui": {
+    "dropToOpen": "拖放以打开",
+    "settingsTitle": "设置",
+    "menuNew": "新建",
+    "menuOpen": "打开",
+    "menuSave": "保存",
+    "menuSaveAs": "另存为",
+    "menuPrint": "打印",
+    "menuGoToLine": "转到行",
+    "menuSettings": "设置",
+    "menuShortcuts": "键盘快捷键",
+    "recoveryText": "已恢复上次会话中未保存的文件。",
+    "aiMagic": "AI 魔法",
+    "askPersona": "询问角色：妈妈",
+    "adjustTone": "调整语气",
+    "toneBlunt": "直率",
+    "toneDiplomatic": "委婉",
+    "copy": "复制",
+    "cut": "剪切",
+    "smartCopy": "智能复制",
+    "keyboardShortcutsTitle": "键盘快捷键"
   }
 }

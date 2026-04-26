@@ -21,12 +21,52 @@
   },
   "settings": {
     "appearance": "Apariencia",
-    "language": "Idioma"
+    "language": "Idioma",
+    "theme": "Tema",
+    "themeSystem": "Sistema",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "fontFamily": "Fuente",
+    "fontMono": "Monoespaciada",
+    "fontSans": "Sans-Serif",
+    "fontSerif": "Serif",
+    "fontSize": "Tamaño de fuente:",
+    "aiFeatures": "Funciones IA",
+    "enableQueries": "Habilitar consultas @",
+    "activeEngine": "Motor IA Activo",
+    "engineCloud": "IA en la nube gratis (Vercel)",
+    "engineByot": "Usa tu propio Token",
+    "engineLocal": "Local en el dispositivo (window.ai)",
+    "engineDesc": "Selecciona qué motor procesa tu texto. Local requiere Chrome Gemini Nano.",
+    "geminiKey": "Clave API de Google Gemini",
+    "verify": "Verificar"
   },
   "firstRun": {
     "title": "Conoce tu nuevo editor favorito.",
     "subtitle": "Rápido, hermoso y lleno de magia.",
     "installApp": "Instalar aplicación Script",
     "dismiss": "Tengo problemas de compromiso. Usar en el navegador."
+  },
+  "ui": {
+    "dropToOpen": "Suelta para abrir",
+    "settingsTitle": "Configuración",
+    "menuNew": "Nuevo",
+    "menuOpen": "Abrir",
+    "menuSave": "Guardar",
+    "menuSaveAs": "Guardar como",
+    "menuPrint": "Imprimir",
+    "menuGoToLine": "Ir a la línea",
+    "menuSettings": "Configuración",
+    "menuShortcuts": "Atajos de teclado",
+    "recoveryText": "Se han restaurado archivos no guardados de tu última sesión.",
+    "aiMagic": "Magia IA",
+    "askPersona": "Preguntar a Persona: Mamá",
+    "adjustTone": "Ajustar Tono",
+    "toneBlunt": "Directo",
+    "toneDiplomatic": "Diplomático",
+    "copy": "Copiar",
+    "cut": "Cortar",
+    "smartCopy": "Copia Inteligente",
+    "keyboardShortcutsTitle": "Atajos de teclado"
   }
 }

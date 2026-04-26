@@ -58,51 +58,51 @@ export function openSettingsPanel(container, onBack) {
         </select>
       </div>
       <div class="setting-row">
-        <span>Theme</span>
+        <span data-i18n="settings.theme">Theme</span>
         <select id="set-theme">
-          <option value="system" ${settings.theme==='system'?'selected':''}>System</option>
-          <option value="light" ${settings.theme==='light'?'selected':''}>Light</option>
-          <option value="dark" ${settings.theme==='dark'?'selected':''}>Dark</option>
+          <option value="system" ${settings.theme==='system'?'selected':''} data-i18n="settings.themeSystem">System</option>
+          <option value="light" ${settings.theme==='light'?'selected':''} data-i18n="settings.themeLight">Light</option>
+          <option value="dark" ${settings.theme==='dark'?'selected':''} data-i18n="settings.themeDark">Dark</option>
         </select>
       </div>
       <div class="setting-row">
-        <span>Font Family</span>
+        <span data-i18n="settings.fontFamily">Font Family</span>
         <select id="set-font">
-          <option value="mono" ${settings.fontFamily==='mono'?'selected':''}>Monospace</option>
-          <option value="sans" ${settings.fontFamily==='sans'?'selected':''}>Sans-Serif</option>
-          <option value="serif" ${settings.fontFamily==='serif'?'selected':''}>Serif</option>
+          <option value="mono" ${settings.fontFamily==='mono'?'selected':''} data-i18n="settings.fontMono">Monospace</option>
+          <option value="sans" ${settings.fontFamily==='sans'?'selected':''} data-i18n="settings.fontSans">Sans-Serif</option>
+          <option value="serif" ${settings.fontFamily==='serif'?'selected':''} data-i18n="settings.fontSerif">Serif</option>
         </select>
       </div>
       <div class="setting-row" style="display:flex; flex-direction:column; align-items:flex-start; margin-top:24px;">
-        <span style="margin-bottom:8px;">Font Size: <span id="set-size-disp">${settings.fontSize}</span>px</span>
+        <span style="margin-bottom:8px;"><span data-i18n="settings.fontSize">Font Size:</span> <span id="set-size-disp">${settings.fontSize}</span>px</span>
         <input type="range" id="set-size" min="12" max="24" value="${settings.fontSize}" style="width:100%">
       </div>
     </div>
     
     <div class="setting-block" style="margin-top: 24px;">
-      <label>AI Features</label>
+      <label data-i18n="settings.aiFeatures">AI Features</label>
       <div class="setting-row">
-        <span>Enable @ queries</span>
+        <span data-i18n="settings.enableQueries">Enable @ queries</span>
         <label class="toggle-switch">
           <input type="checkbox" id="set-ai-enable" ${settings.aiMentionEnabled ? 'checked' : ''}>
           <span class="slider"></span>
         </label>
       </div>
       <div class="setting-row" style="margin-top:16px; flex-direction:column; align-items:flex-start; gap:8px;">
-        <span style="display:block; width:100%; font-weight: 500;">Active AI Engine</span>
+        <span style="display:block; width:100%; font-weight: 500;" data-i18n="settings.activeEngine">Active AI Engine</span>
         <select id="set-ai-provider" style="width:100%; padding: 10px; border-radius: 8px;">
-          <option value="cloud" ${settings.aiProvider === 'cloud' ? 'selected' : ''}>Free Cloud AI (Vercel)</option>
-          <option value="byot" ${settings.aiProvider === 'byot' ? 'selected' : ''}>Bring Your Own Token</option>
-          <option value="local" ${settings.aiProvider === 'local' ? 'selected' : ''} ${!('ai' in window && 'languageModel' in window.ai) ? 'disabled' : ''}>Local On-Device (window.ai)</option>
+          <option value="cloud" ${settings.aiProvider === 'cloud' ? 'selected' : ''} data-i18n="settings.engineCloud">Free Cloud AI (Vercel)</option>
+          <option value="byot" ${settings.aiProvider === 'byot' ? 'selected' : ''} data-i18n="settings.engineByot">Bring Your Own Token</option>
+          <option value="local" ${settings.aiProvider === 'local' ? 'selected' : ''} ${!('ai' in window && 'languageModel' in window.ai) ? 'disabled' : ''} data-i18n="settings.engineLocal">Local On-Device (window.ai)</option>
         </select>
-        <span style="font-size:11px; opacity:0.7;">Select which engine processes your text. Local requires Chrome Gemini Nano.</span>
+        <span style="font-size:11px; opacity:0.7;" data-i18n="settings.engineDesc">Select which engine processes your text. Local requires Chrome Gemini Nano.</span>
       </div>
 
       <div id="byot-container" style="display: ${settings.aiProvider === 'byot' ? 'block' : 'none'}; margin-top: 16px; background: var(--bg-tab-hover); padding: 12px; border-radius: 8px; border: 1px solid var(--border-hairline);">
-        <label style="display:block; font-size:11px; margin-bottom:8px; color:var(--text-primary);">Google Gemini API Key</label>
+        <label style="display:block; font-size:11px; margin-bottom:8px; color:var(--text-primary);" data-i18n="settings.geminiKey">Google Gemini API Key</label>
         <div style="display:flex; flex-direction:column; gap:8px;">
           <input type="password" id="set-api-key" placeholder="AIza..." value="${settings.geminiApiKey || ''}" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui); box-sizing:border-box;">
-          <button id="btn-verify-key" style="width:100%; padding:8px 12px; border-radius:6px; background:#A626A4; color:white; border:none; cursor:pointer; font-size:12px; font-weight:600; box-sizing:border-box;">Verify</button>
+          <button id="btn-verify-key" style="width:100%; padding:8px 12px; border-radius:6px; background:#A626A4; color:white; border:none; cursor:pointer; font-size:12px; font-weight:600; box-sizing:border-box;" data-i18n="settings.verify">Verify</button>
         </div>
         <span id="key-status" style="display:block; margin-top:8px; font-size:11px; color:var(--success);"></span>
       </div>

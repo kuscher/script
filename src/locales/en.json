@@ -21,12 +21,52 @@
   },
   "settings": {
     "appearance": "Appearance",
-    "language": "Language"
+    "language": "Language",
+    "theme": "Theme",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "fontFamily": "Font Family",
+    "fontMono": "Monospace",
+    "fontSans": "Sans-Serif",
+    "fontSerif": "Serif",
+    "fontSize": "Font Size:",
+    "aiFeatures": "AI Features",
+    "enableQueries": "Enable @ queries",
+    "activeEngine": "Active AI Engine",
+    "engineCloud": "Free Cloud AI (Vercel)",
+    "engineByot": "Bring Your Own Token",
+    "engineLocal": "Local On-Device (window.ai)",
+    "engineDesc": "Select which engine processes your text. Local requires Chrome Gemini Nano.",
+    "geminiKey": "Google Gemini API Key",
+    "verify": "Verify"
   },
   "firstRun": {
     "title": "Meet your new favorite editor.",
     "subtitle": "Fast, beautiful, and packed with magic.",
     "installApp": "Install Script App",
     "dismiss": "I have commitment issues. Use in browser."
+  },
+  "ui": {
+    "dropToOpen": "Drop to open",
+    "settingsTitle": "Settings",
+    "menuNew": "New",
+    "menuOpen": "Open",
+    "menuSave": "Save",
+    "menuSaveAs": "Save As",
+    "menuPrint": "Print",
+    "menuGoToLine": "Go to Line",
+    "menuSettings": "Settings",
+    "menuShortcuts": "Keyboard Shortcuts",
+    "recoveryText": "Restored unsaved file(s) from your last session.",
+    "aiMagic": "AI Magic",
+    "askPersona": "Ask Persona: Mom",
+    "adjustTone": "Adjust Tone",
+    "toneBlunt": "Blunt",
+    "toneDiplomatic": "Diplomatic",
+    "copy": "Copy",
+    "cut": "Cut",
+    "smartCopy": "Smart Copy",
+    "keyboardShortcutsTitle": "Keyboard Shortcuts"
   }
 }
