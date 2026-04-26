@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[de] File",
-    "category_view": "[de] View",
-    "category_search": "[de] Search",
-    "category_navigation": "[de] Navigation",
-    "category_help": "[de] Help",
-    "category_system": "[de] System",
-    "label_new_file": "[de] New file",
-    "label_open_file": "[de] Open file",
-    "label_save": "[de] Save",
-    "label_save_as": "[de] Save As",
-    "label_print": "[de] Print",
-    "label_close_tab": "[de] Close tab",
-    "label_toggle_sidebar": "[de] Toggle sidebar",
-    "label_find": "[de] Find",
-    "label_find_&_replace": "[de] Find & Replace",
-    "label_go_to_line": "[de] Go to line",
-    "label_keyboard_shortcuts": "[de] Keyboard shortcuts",
-    "label_dismiss_panels": "[de] Dismiss panels"
+    "category_file": "Datei",
+    "category_view": "Ansicht",
+    "category_search": "Suchen",
+    "category_navigation": "Navigation",
+    "category_help": "Hilfe",
+    "category_system": "System",
+    "label_new_file": "Neue Datei",
+    "label_open_file": "Datei öffnen",
+    "label_save": "Speichern",
+    "label_save_as": "Speichern unter",
+    "label_print": "Drucken",
+    "label_close_tab": "Tab schließen",
+    "label_toggle_sidebar": "Seitenleiste umschalten",
+    "label_find": "Suchen",
+    "label_find_&_replace": "Suchen & Ersetzen",
+    "label_go_to_line": "Gehe zu Zeile",
+    "label_keyboard_shortcuts": "Tastaturkürzel",
+    "label_dismiss_panels": "Panels schließen"
   },
   "settings": {
-    "appearance": "[de] Appearance",
-    "language": "[de] Language"
+    "appearance": "Erscheinungsbild",
+    "language": "Sprache"
   },
   "firstRun": {
-    "title": "[de] Meet your new favorite editor.",
-    "subtitle": "[de] Fast, beautiful, and packed with magic.",
-    "installApp": "[de] Install Script App",
-    "dismiss": "[de] I have commitment issues. Use in browser."
+    "title": "Lerne deinen neuen Lieblingseditor kennen.",
+    "subtitle": "Schnell, schön und voller Magie.",
+    "installApp": "Script-App installieren",
+    "dismiss": "Im Browser verwenden."
   }
 }

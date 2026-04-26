@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[ta] File",
-    "category_view": "[ta] View",
-    "category_search": "[ta] Search",
-    "category_navigation": "[ta] Navigation",
-    "category_help": "[ta] Help",
-    "category_system": "[ta] System",
-    "label_new_file": "[ta] New file",
-    "label_open_file": "[ta] Open file",
-    "label_save": "[ta] Save",
-    "label_save_as": "[ta] Save As",
-    "label_print": "[ta] Print",
-    "label_close_tab": "[ta] Close tab",
-    "label_toggle_sidebar": "[ta] Toggle sidebar",
-    "label_find": "[ta] Find",
-    "label_find_&_replace": "[ta] Find & Replace",
-    "label_go_to_line": "[ta] Go to line",
-    "label_keyboard_shortcuts": "[ta] Keyboard shortcuts",
-    "label_dismiss_panels": "[ta] Dismiss panels"
+    "category_file": "கோப்பு",
+    "category_view": "காட்சி",
+    "category_search": "தேடல்",
+    "category_navigation": "ஊடுருவல்",
+    "category_help": "உதவி",
+    "category_system": "கணினி",
+    "label_new_file": "புதிய கோப்பு",
+    "label_open_file": "கோப்பைத் திற",
+    "label_save": "சேமி",
+    "label_save_as": "என சேமி",
+    "label_print": "அச்சிடு",
+    "label_close_tab": "தாவலை மூடு",
+    "label_toggle_sidebar": "பக்கப்பட்டியை மாற்று",
+    "label_find": "கண்டுபிடி",
+    "label_find_&_replace": "கண்டுபிடித்து மாற்று",
+    "label_go_to_line": "வரிக்குச் செல்",
+    "label_keyboard_shortcuts": "விசைப்பலகை குறுக்குவழிகள்",
+    "label_dismiss_panels": "பேனல்களை நிராகரி"
   },
   "settings": {
-    "appearance": "[ta] Appearance",
-    "language": "[ta] Language"
+    "appearance": "தோற்றம்",
+    "language": "மொழி"
   },
   "firstRun": {
-    "title": "[ta] Meet your new favorite editor.",
-    "subtitle": "[ta] Fast, beautiful, and packed with magic.",
-    "installApp": "[ta] Install Script App",
-    "dismiss": "[ta] I have commitment issues. Use in browser."
+    "title": "உங்களுக்கு பிடித்த புதிய எடிட்டரை சந்தியுங்கள்.",
+    "subtitle": "வேகமான, அழகான, மற்றும் மாயாஜாலம் நிறைந்தது.",
+    "installApp": "Script பயன்பாட்டை நிறுவு",
+    "dismiss": "உலாவியில் பயன்படுத்து."
   }
 }

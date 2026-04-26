@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[yue] File",
-    "category_view": "[yue] View",
-    "category_search": "[yue] Search",
-    "category_navigation": "[yue] Navigation",
-    "category_help": "[yue] Help",
-    "category_system": "[yue] System",
-    "label_new_file": "[yue] New file",
-    "label_open_file": "[yue] Open file",
-    "label_save": "[yue] Save",
-    "label_save_as": "[yue] Save As",
-    "label_print": "[yue] Print",
-    "label_close_tab": "[yue] Close tab",
-    "label_toggle_sidebar": "[yue] Toggle sidebar",
-    "label_find": "[yue] Find",
-    "label_find_&_replace": "[yue] Find & Replace",
-    "label_go_to_line": "[yue] Go to line",
-    "label_keyboard_shortcuts": "[yue] Keyboard shortcuts",
-    "label_dismiss_panels": "[yue] Dismiss panels"
+    "category_file": "檔案",
+    "category_view": "顯示",
+    "category_search": "搜尋",
+    "category_navigation": "導航",
+    "category_help": "幫助",
+    "category_system": "系統",
+    "label_new_file": "新增檔案",
+    "label_open_file": "開啟檔案",
+    "label_save": "儲存",
+    "label_save_as": "另存新檔",
+    "label_print": "列印",
+    "label_close_tab": "關閉分頁",
+    "label_toggle_sidebar": "切換側邊欄",
+    "label_find": "尋找",
+    "label_find_&_replace": "尋找並取代",
+    "label_go_to_line": "跳至行號",
+    "label_keyboard_shortcuts": "鍵盤快捷鍵",
+    "label_dismiss_panels": "關閉面板"
   },
   "settings": {
-    "appearance": "[yue] Appearance",
-    "language": "[yue] Language"
+    "appearance": "外觀",
+    "language": "語言"
   },
   "firstRun": {
-    "title": "[yue] Meet your new favorite editor.",
-    "subtitle": "[yue] Fast, beautiful, and packed with magic.",
-    "installApp": "[yue] Install Script App",
-    "dismiss": "[yue] I have commitment issues. Use in browser."
+    "title": "遇見你最鍾意嘅新編輯器。",
+    "subtitle": "快、靚、充滿魔法。",
+    "installApp": "安裝 Script 應用程式",
+    "dismiss": "喺瀏覽器中使用。"
   }
 }

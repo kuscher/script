@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[ur] File",
-    "category_view": "[ur] View",
-    "category_search": "[ur] Search",
-    "category_navigation": "[ur] Navigation",
-    "category_help": "[ur] Help",
-    "category_system": "[ur] System",
-    "label_new_file": "[ur] New file",
-    "label_open_file": "[ur] Open file",
-    "label_save": "[ur] Save",
-    "label_save_as": "[ur] Save As",
-    "label_print": "[ur] Print",
-    "label_close_tab": "[ur] Close tab",
-    "label_toggle_sidebar": "[ur] Toggle sidebar",
-    "label_find": "[ur] Find",
-    "label_find_&_replace": "[ur] Find & Replace",
-    "label_go_to_line": "[ur] Go to line",
-    "label_keyboard_shortcuts": "[ur] Keyboard shortcuts",
-    "label_dismiss_panels": "[ur] Dismiss panels"
+    "category_file": "فائل",
+    "category_view": "منظر",
+    "category_search": "تلاش کریں",
+    "category_navigation": "نیویگیشن",
+    "category_help": "مدد",
+    "category_system": "سسٹم",
+    "label_new_file": "نئی فائل",
+    "label_open_file": "فائل کھولیں",
+    "label_save": "محفوظ کریں",
+    "label_save_as": "اس طور پر محفوظ کریں",
+    "label_print": "پرنٹ کریں",
+    "label_close_tab": "ٹیب بند کریں",
+    "label_toggle_sidebar": "سائیڈ بار ٹوگل کریں",
+    "label_find": "تلاش کریں",
+    "label_find_&_replace": "تلاش اور تبدیل کریں",
+    "label_go_to_line": "لائن پر جائیں",
+    "label_keyboard_shortcuts": "کی بورڈ شارٹ کٹس",
+    "label_dismiss_panels": "پینلز بند کریں"
   },
   "settings": {
-    "appearance": "[ur] Appearance",
-    "language": "[ur] Language"
+    "appearance": "ظاہری شکل",
+    "language": "زبان"
   },
   "firstRun": {
-    "title": "[ur] Meet your new favorite editor.",
-    "subtitle": "[ur] Fast, beautiful, and packed with magic.",
-    "installApp": "[ur] Install Script App",
-    "dismiss": "[ur] I have commitment issues. Use in browser."
+    "title": "اپنے نئے پسندیدہ ایڈیٹر سے ملیں۔",
+    "subtitle": "تیز، خوبصورت، اور جادو سے بھرا ہوا۔",
+    "installApp": "Script ایپ انسٹال کریں",
+    "dismiss": "براؤزر میں استعمال کریں۔"
   }
 }

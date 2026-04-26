@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[tr] File",
-    "category_view": "[tr] View",
-    "category_search": "[tr] Search",
-    "category_navigation": "[tr] Navigation",
-    "category_help": "[tr] Help",
-    "category_system": "[tr] System",
-    "label_new_file": "[tr] New file",
-    "label_open_file": "[tr] Open file",
-    "label_save": "[tr] Save",
-    "label_save_as": "[tr] Save As",
-    "label_print": "[tr] Print",
-    "label_close_tab": "[tr] Close tab",
-    "label_toggle_sidebar": "[tr] Toggle sidebar",
-    "label_find": "[tr] Find",
-    "label_find_&_replace": "[tr] Find & Replace",
-    "label_go_to_line": "[tr] Go to line",
-    "label_keyboard_shortcuts": "[tr] Keyboard shortcuts",
-    "label_dismiss_panels": "[tr] Dismiss panels"
+    "category_file": "Dosya",
+    "category_view": "Görünüm",
+    "category_search": "Ara",
+    "category_navigation": "Gezinme",
+    "category_help": "Yardım",
+    "category_system": "Sistem",
+    "label_new_file": "Yeni dosya",
+    "label_open_file": "Dosya aç",
+    "label_save": "Kaydet",
+    "label_save_as": "Farklı kaydet",
+    "label_print": "Yazdır",
+    "label_close_tab": "Sekmeyi kapat",
+    "label_toggle_sidebar": "Yan çubuğu aç/kapat",
+    "label_find": "Bul",
+    "label_find_&_replace": "Bul ve Değiştir",
+    "label_go_to_line": "Satıra git",
+    "label_keyboard_shortcuts": "Klavye kısayolları",
+    "label_dismiss_panels": "Panelleri kapat"
   },
   "settings": {
-    "appearance": "[tr] Appearance",
-    "language": "[tr] Language"
+    "appearance": "Görünüm",
+    "language": "Dil"
   },
   "firstRun": {
-    "title": "[tr] Meet your new favorite editor.",
-    "subtitle": "[tr] Fast, beautiful, and packed with magic.",
-    "installApp": "[tr] Install Script App",
-    "dismiss": "[tr] I have commitment issues. Use in browser."
+    "title": "Yeni favori editörünüzle tanışın.",
+    "subtitle": "Hızlı, güzel ve sihir dolu.",
+    "installApp": "Script Uygulamasını Yükle",
+    "dismiss": "Tarayıcıda kullan."
   }
 }

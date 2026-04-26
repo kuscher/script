@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[id] File",
-    "category_view": "[id] View",
-    "category_search": "[id] Search",
-    "category_navigation": "[id] Navigation",
-    "category_help": "[id] Help",
-    "category_system": "[id] System",
-    "label_new_file": "[id] New file",
-    "label_open_file": "[id] Open file",
-    "label_save": "[id] Save",
-    "label_save_as": "[id] Save As",
-    "label_print": "[id] Print",
-    "label_close_tab": "[id] Close tab",
-    "label_toggle_sidebar": "[id] Toggle sidebar",
-    "label_find": "[id] Find",
-    "label_find_&_replace": "[id] Find & Replace",
-    "label_go_to_line": "[id] Go to line",
-    "label_keyboard_shortcuts": "[id] Keyboard shortcuts",
-    "label_dismiss_panels": "[id] Dismiss panels"
+    "category_file": "Berkas",
+    "category_view": "Tampilan",
+    "category_search": "Cari",
+    "category_navigation": "Navigasi",
+    "category_help": "Bantuan",
+    "category_system": "Sistem",
+    "label_new_file": "Berkas baru",
+    "label_open_file": "Buka berkas",
+    "label_save": "Simpan",
+    "label_save_as": "Simpan sebagai",
+    "label_print": "Cetak",
+    "label_close_tab": "Tutup tab",
+    "label_toggle_sidebar": "Alihkan bilah sisi",
+    "label_find": "Cari",
+    "label_find_&_replace": "Cari & Ganti",
+    "label_go_to_line": "Ke baris",
+    "label_keyboard_shortcuts": "Pintasan keyboard",
+    "label_dismiss_panels": "Tutup panel"
   },
   "settings": {
-    "appearance": "[id] Appearance",
-    "language": "[id] Language"
+    "appearance": "Tampilan",
+    "language": "Bahasa"
   },
   "firstRun": {
-    "title": "[id] Meet your new favorite editor.",
-    "subtitle": "[id] Fast, beautiful, and packed with magic.",
-    "installApp": "[id] Install Script App",
-    "dismiss": "[id] I have commitment issues. Use in browser."
+    "title": "Temui editor favorit baru Anda.",
+    "subtitle": "Cepat, cantik, dan penuh keajaiban.",
+    "installApp": "Instal aplikasi Script",
+    "dismiss": "Gunakan di browser."
   }
 }

@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[hi] File",
-    "category_view": "[hi] View",
-    "category_search": "[hi] Search",
-    "category_navigation": "[hi] Navigation",
-    "category_help": "[hi] Help",
-    "category_system": "[hi] System",
-    "label_new_file": "[hi] New file",
-    "label_open_file": "[hi] Open file",
-    "label_save": "[hi] Save",
-    "label_save_as": "[hi] Save As",
-    "label_print": "[hi] Print",
-    "label_close_tab": "[hi] Close tab",
-    "label_toggle_sidebar": "[hi] Toggle sidebar",
-    "label_find": "[hi] Find",
-    "label_find_&_replace": "[hi] Find & Replace",
-    "label_go_to_line": "[hi] Go to line",
-    "label_keyboard_shortcuts": "[hi] Keyboard shortcuts",
-    "label_dismiss_panels": "[hi] Dismiss panels"
+    "category_file": "फ़ाइल",
+    "category_view": "दृश्य",
+    "category_search": "खोजें",
+    "category_navigation": "नेविगेशन",
+    "category_help": "सहायता",
+    "category_system": "सिस्टम",
+    "label_new_file": "नई फ़ाइल",
+    "label_open_file": "फ़ाइल खोलें",
+    "label_save": "सहेजें",
+    "label_save_as": "इस रूप में सहेजें",
+    "label_print": "प्रिंट करें",
+    "label_close_tab": "टैब बंद करें",
+    "label_toggle_sidebar": "साइडबार टॉगल करें",
+    "label_find": "खोजें",
+    "label_find_&_replace": "खोजें और बदलें",
+    "label_go_to_line": "लाइन पर जाएं",
+    "label_keyboard_shortcuts": "कीबोर्ड शॉर्टकट",
+    "label_dismiss_panels": "पैनल बंद करें"
   },
   "settings": {
-    "appearance": "[hi] Appearance",
-    "language": "[hi] Language"
+    "appearance": "दिखावट",
+    "language": "भाषा"
   },
   "firstRun": {
-    "title": "[hi] Meet your new favorite editor.",
-    "subtitle": "[hi] Fast, beautiful, and packed with magic.",
-    "installApp": "[hi] Install Script App",
-    "dismiss": "[hi] I have commitment issues. Use in browser."
+    "title": "मिलिए अपने नए पसंदीदा संपादक से।",
+    "subtitle": "तेज़, सुंदर और जादू से भरा हुआ।",
+    "installApp": "Script ऐप इंस्टॉल करें",
+    "dismiss": "मैं ब्राउज़र में ही उपयोग करूँगा।"
   }
 }

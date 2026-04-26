@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[ru] File",
-    "category_view": "[ru] View",
-    "category_search": "[ru] Search",
-    "category_navigation": "[ru] Navigation",
-    "category_help": "[ru] Help",
-    "category_system": "[ru] System",
-    "label_new_file": "[ru] New file",
-    "label_open_file": "[ru] Open file",
-    "label_save": "[ru] Save",
-    "label_save_as": "[ru] Save As",
-    "label_print": "[ru] Print",
-    "label_close_tab": "[ru] Close tab",
-    "label_toggle_sidebar": "[ru] Toggle sidebar",
-    "label_find": "[ru] Find",
-    "label_find_&_replace": "[ru] Find & Replace",
-    "label_go_to_line": "[ru] Go to line",
-    "label_keyboard_shortcuts": "[ru] Keyboard shortcuts",
-    "label_dismiss_panels": "[ru] Dismiss panels"
+    "category_file": "Файл",
+    "category_view": "Вид",
+    "category_search": "Поиск",
+    "category_navigation": "Навигация",
+    "category_help": "Справка",
+    "category_system": "Система",
+    "label_new_file": "Новый файл",
+    "label_open_file": "Открыть файл",
+    "label_save": "Сохранить",
+    "label_save_as": "Сохранить как",
+    "label_print": "Печать",
+    "label_close_tab": "Закрыть вкладку",
+    "label_toggle_sidebar": "Переключить боковую панель",
+    "label_find": "Найти",
+    "label_find_&_replace": "Найти и заменить",
+    "label_go_to_line": "Перейти к строке",
+    "label_keyboard_shortcuts": "Сочетания клавиш",
+    "label_dismiss_panels": "Закрыть панели"
   },
   "settings": {
-    "appearance": "[ru] Appearance",
-    "language": "[ru] Language"
+    "appearance": "Внешний вид",
+    "language": "Язык"
   },
   "firstRun": {
-    "title": "[ru] Meet your new favorite editor.",
-    "subtitle": "[ru] Fast, beautiful, and packed with magic.",
-    "installApp": "[ru] Install Script App",
-    "dismiss": "[ru] I have commitment issues. Use in browser."
+    "title": "Встречайте ваш новый любимый редактор.",
+    "subtitle": "Быстрый, красивый и полный магии.",
+    "installApp": "Установить приложение Script",
+    "dismiss": "Использовать в браузере."
   }
 }

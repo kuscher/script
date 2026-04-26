@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[es] File",
-    "category_view": "[es] View",
-    "category_search": "[es] Search",
-    "category_navigation": "[es] Navigation",
-    "category_help": "[es] Help",
-    "category_system": "[es] System",
-    "label_new_file": "[es] New file",
-    "label_open_file": "[es] Open file",
-    "label_save": "[es] Save",
-    "label_save_as": "[es] Save As",
-    "label_print": "[es] Print",
-    "label_close_tab": "[es] Close tab",
-    "label_toggle_sidebar": "[es] Toggle sidebar",
-    "label_find": "[es] Find",
-    "label_find_&_replace": "[es] Find & Replace",
-    "label_go_to_line": "[es] Go to line",
-    "label_keyboard_shortcuts": "[es] Keyboard shortcuts",
-    "label_dismiss_panels": "[es] Dismiss panels"
+    "category_file": "Archivo",
+    "category_view": "Ver",
+    "category_search": "Buscar",
+    "category_navigation": "Navegación",
+    "category_help": "Ayuda",
+    "category_system": "Sistema",
+    "label_new_file": "Nuevo archivo",
+    "label_open_file": "Abrir archivo",
+    "label_save": "Guardar",
+    "label_save_as": "Guardar como",
+    "label_print": "Imprimir",
+    "label_close_tab": "Cerrar pestaña",
+    "label_toggle_sidebar": "Alternar barra lateral",
+    "label_find": "Buscar",
+    "label_find_&_replace": "Buscar y reemplazar",
+    "label_go_to_line": "Ir a la línea",
+    "label_keyboard_shortcuts": "Atajos de teclado",
+    "label_dismiss_panels": "Cerrar paneles"
   },
   "settings": {
-    "appearance": "[es] Appearance",
-    "language": "[es] Language"
+    "appearance": "Apariencia",
+    "language": "Idioma"
   },
   "firstRun": {
-    "title": "[es] Meet your new favorite editor.",
-    "subtitle": "[es] Fast, beautiful, and packed with magic.",
-    "installApp": "[es] Install Script App",
-    "dismiss": "[es] I have commitment issues. Use in browser."
+    "title": "Conoce tu nuevo editor favorito.",
+    "subtitle": "Rápido, hermoso y lleno de magia.",
+    "installApp": "Instalar aplicación Script",
+    "dismiss": "Tengo problemas de compromiso. Usar en el navegador."
   }
 }

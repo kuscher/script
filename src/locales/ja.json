@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[ja] File",
-    "category_view": "[ja] View",
-    "category_search": "[ja] Search",
-    "category_navigation": "[ja] Navigation",
-    "category_help": "[ja] Help",
-    "category_system": "[ja] System",
-    "label_new_file": "[ja] New file",
-    "label_open_file": "[ja] Open file",
-    "label_save": "[ja] Save",
-    "label_save_as": "[ja] Save As",
-    "label_print": "[ja] Print",
-    "label_close_tab": "[ja] Close tab",
-    "label_toggle_sidebar": "[ja] Toggle sidebar",
-    "label_find": "[ja] Find",
-    "label_find_&_replace": "[ja] Find & Replace",
-    "label_go_to_line": "[ja] Go to line",
-    "label_keyboard_shortcuts": "[ja] Keyboard shortcuts",
-    "label_dismiss_panels": "[ja] Dismiss panels"
+    "category_file": "ファイル",
+    "category_view": "表示",
+    "category_search": "検索",
+    "category_navigation": "ナビゲーション",
+    "category_help": "ヘルプ",
+    "category_system": "システム",
+    "label_new_file": "新規ファイル",
+    "label_open_file": "ファイルを開く",
+    "label_save": "保存",
+    "label_save_as": "名前を付けて保存",
+    "label_print": "印刷",
+    "label_close_tab": "タブを閉じる",
+    "label_toggle_sidebar": "サイドバーの切り替え",
+    "label_find": "検索",
+    "label_find_&_replace": "検索と置換",
+    "label_go_to_line": "指定行へ移動",
+    "label_keyboard_shortcuts": "キーボードショートカット",
+    "label_dismiss_panels": "パネルを閉じる"
   },
   "settings": {
-    "appearance": "[ja] Appearance",
-    "language": "[ja] Language"
+    "appearance": "外観",
+    "language": "言語"
   },
   "firstRun": {
-    "title": "[ja] Meet your new favorite editor.",
-    "subtitle": "[ja] Fast, beautiful, and packed with magic.",
-    "installApp": "[ja] Install Script App",
-    "dismiss": "[ja] I have commitment issues. Use in browser."
+    "title": "あなたのお気に入りの新しいエディター。",
+    "subtitle": "高速、美しい、そして魔法のよう。",
+    "installApp": "Script アプリをインストール",
+    "dismiss": "ブラウザで使用する。"
   }
 }

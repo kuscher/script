@@ -1,32 +1,32 @@
 {
   "shortcuts": {
-    "category_file": "[fr] File",
-    "category_view": "[fr] View",
-    "category_search": "[fr] Search",
-    "category_navigation": "[fr] Navigation",
-    "category_help": "[fr] Help",
-    "category_system": "[fr] System",
-    "label_new_file": "[fr] New file",
-    "label_open_file": "[fr] Open file",
-    "label_save": "[fr] Save",
-    "label_save_as": "[fr] Save As",
-    "label_print": "[fr] Print",
-    "label_close_tab": "[fr] Close tab",
-    "label_toggle_sidebar": "[fr] Toggle sidebar",
-    "label_find": "[fr] Find",
-    "label_find_&_replace": "[fr] Find & Replace",
-    "label_go_to_line": "[fr] Go to line",
-    "label_keyboard_shortcuts": "[fr] Keyboard shortcuts",
-    "label_dismiss_panels": "[fr] Dismiss panels"
+    "category_file": "Fichier",
+    "category_view": "Affichage",
+    "category_search": "Recherche",
+    "category_navigation": "Navigation",
+    "category_help": "Aide",
+    "category_system": "Système",
+    "label_new_file": "Nouveau fichier",
+    "label_open_file": "Ouvrir un fichier",
+    "label_save": "Enregistrer",
+    "label_save_as": "Enregistrer sous",
+    "label_print": "Imprimer",
+    "label_close_tab": "Fermer l’onglet",
+    "label_toggle_sidebar": "Basculer la barre latérale",
+    "label_find": "Rechercher",
+    "label_find_&_replace": "Rechercher et remplacer",
+    "label_go_to_line": "Aller à la ligne",
+    "label_keyboard_shortcuts": "Raccourcis clavier",
+    "label_dismiss_panels": "Fermer les panneaux"
   },
   "settings": {
-    "appearance": "[fr] Appearance",
-    "language": "[fr] Language"
+    "appearance": "Apparence",
+    "language": "Langue"
   },
   "firstRun": {
-    "title": "[fr] Meet your new favorite editor.",
-    "subtitle": "[fr] Fast, beautiful, and packed with magic.",
-    "installApp": "[fr] Install Script App",
-    "dismiss": "[fr] I have commitment issues. Use in browser."
+    "title": "Découvrez votre nouvel éditeur préféré.",
+    "subtitle": "Rapide, beau et plein de magie.",
+    "installApp": "Installer l’application Script",
+    "dismiss": "Utiliser dans le navigateur."
   }
 }
