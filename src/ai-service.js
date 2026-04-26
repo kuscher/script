@@ -87,7 +87,7 @@ export async function generateFormat(text) {
   }
 }
 
-export async function generateTone(text, toneValue) {
+export async function generateTone(text, toneValue, signal) {
   checkTokenLimit(text);
   const settings = getSettings();
   if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
@@ -97,13 +97,14 @@ The tone is specified as a number from 0 to 100.
 100 = Highly diplomatic, extremely polite, tactful, and considerate.
 The requested tone level is: ${toneValue}.
 Do not add any conversational filler. Only return the rewritten text natively. Match the language of the original text.`;
-    const rewrittenText = await fetchByot(`${systemPrompt}\n\nText to rewrite: "${text}"`, settings.geminiApiKey, 8192);
+    const rewrittenText = await fetchByot(`${systemPrompt}\n\nText to rewrite: "${text}"`, settings.geminiApiKey, 8192, false, signal);
     return { rewrittenText };
   } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/tone', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, toneValue })
+      body: JSON.stringify({ text, toneValue }),
+      signal
     });
     if (!res.ok) throw new Error('Cloud API failed');
     const data = await res.json();
@@ -171,7 +172,7 @@ export async function generateMention(query) {
 }
 
 // --- BYOT AI FETCH HELPER ---
-async function fetchByot(prompt, apiKey, maxTokens = 8192, jsonMode = false) {
+async function fetchByot(prompt, apiKey, maxTokens = 8192, jsonMode = false, signal = null) {
   const config = { maxOutputTokens: maxTokens };
   if (jsonMode) {
     config.responseMimeType = "application/json";
@@ -181,14 +182,18 @@ async function fetchByot(prompt, apiKey, maxTokens = 8192, jsonMode = false) {
       required: ["title", "emoji", "extension"]
     };
   }
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+  
+  const fetchOpts = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: config
     })
-  });
+  };
+  if (signal) fetchOpts.signal = signal;
+  
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, fetchOpts);
   if (!res.ok) throw new Error('BYOT API failed');
   const data = await res.json();
   if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {

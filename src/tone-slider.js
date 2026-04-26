@@ -273,7 +273,7 @@ async function triggerRewrite(toneValue) {
   try {
     startToneLoadingAnimation();
     
-    const data = await generateTone(state.originalText, toneValue);
+    const data = await generateTone(state.originalText, toneValue, controller.signal);
     
     if (data && data.rewrittenText) {
       const editor = window.__editorInstance;

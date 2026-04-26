@@ -35,7 +35,7 @@ export default async function handler(req) {
     
     rateLimit.set(ip, userLimit);
     
-    if (userLimit.count > 20) { // Slightly higher limit for live slider (20 req/min)
+    if (userLimit.count > 60) { // Higher limit for live slider (60 req/min)
       return new Response(JSON.stringify({ error: 'Rate limit exceeded for tone slider.' }), {
         status: 429,
         headers: { 'Content-Type': 'application/json' },
