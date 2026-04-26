@@ -219,28 +219,44 @@ export function handleSelectionChange(text, range, isProgrammaticSelection = fal
     slider.classList.remove('hidden');
     setToneEditingRange(range);
 
-    // Position the bubble on desktop based on mouse cursor
+    // Position the bubble on desktop based on selection coordinates
     if (bubble && range) {
       if (text && text.trim().length > 0) {
-        if (window.innerWidth > 768 && window.lastMouseX !== undefined) {
+        if (window.innerWidth > 768) {
           // Temporarily show to get dimensions
           bubble.style.visibility = 'hidden';
           bubble.classList.add('visible');
           
-          // Position to the bottom right of cursor
-          let left = window.lastMouseX + 15;
-          let top = window.lastMouseY + 15;
+          let left = 10;
+          let top = 10;
+          
+          const coords = getSelectionCoords(range.from, range.to);
+          if (coords) {
+             // Position it centered below the selection
+             left = coords.left + ((coords.right - coords.left) / 2) - 190; // 190 is half of 380
+             top = coords.bottom + 15;
+          } else if (window.lastMouseX !== undefined) {
+             // Fallback to mouse position if coords fail
+             left = window.lastMouseX + 15;
+             top = window.lastMouseY + 15;
+          }
           
           // Keep it within window bounds
           const bubbleWidth = bubble.offsetWidth || 380;
           const bubbleHeight = bubble.offsetHeight || 200;
           
+          if (left < 10) left = 10;
           if (left + bubbleWidth > window.innerWidth) {
-            left = window.lastMouseX - bubbleWidth - 15; // flip left
-            if (left < 10) left = 10;
+            left = window.innerWidth - bubbleWidth - 10;
           }
+          
           if (top + bubbleHeight > window.innerHeight) {
-            top = window.lastMouseY - bubbleHeight - 15; // flip top
+            // Flip to top if not enough room at bottom
+            if (coords) {
+              top = coords.top - bubbleHeight - 15;
+            } else {
+              top = window.innerHeight - bubbleHeight - 10;
+            }
             if (top < 10) top = 10;
           }
           
