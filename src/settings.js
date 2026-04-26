@@ -55,7 +55,7 @@ export function openSettingsPanel(container, onBack) {
       
       <div class="setting-row">
         <span data-i18n="settings.language">Language</span>
-        <select id="set-language">
+        <select id="set-language" style="max-width: 150px; padding: 6px; border-radius: 6px; box-sizing: border-box;">
           ${SUPPORTED_LANGUAGES.map(l => `<option value="${l.code}" ${getCurrentLanguage() === l.code ? 'selected' : ''}>${l.name}</option>`).join('')}
         </select>
       </div>
@@ -298,6 +298,8 @@ export function openSettingsPanel(container, onBack) {
       syncStatus.innerText = 'New phrase generated. Click Save to activate.';
     });
   }
+  
+  createIcons({ icons, nameAttr: 'data-lucide' });
 }
 
 function applySettings(s) {

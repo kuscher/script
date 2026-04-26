@@ -22,6 +22,16 @@ async function hashKey(key) {
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+let syncStatusCallback = null;
+export function setSyncStatusCallback(cb) {
+  syncStatusCallback = cb;
+}
+
+function updateSyncingState(state) {
+  isSyncing = state;
+  if (syncStatusCallback) syncStatusCallback(state);
+}
+
 export async function initSyncEngine(onRemoteUpdate) {
   updateCallback = onRemoteUpdate;
   
@@ -74,7 +84,7 @@ export function queueSyncSave(content) {
     // If the content hasn't changed since our last remote sync, don't waste a request
     if (content === lastSyncedContent) return;
     
-    isSyncing = true;
+    updateSyncingState(true);
     try {
       const res = await fetch(`/api/sync?key=${syncKey}`, {
         method: 'POST',
@@ -87,7 +97,7 @@ export function queueSyncSave(content) {
     } catch (e) {
       console.error('Failed to sync save', e);
     } finally {
-      isSyncing = false;
+      updateSyncingState(false);
     }
   }, 2000); // Wait 2 seconds after typing stops
 }
@@ -97,7 +107,7 @@ export async function forceSyncSave(content) {
   if (!isCloudNoteActive || !syncKey) return false;
   if (syncTimer) clearTimeout(syncTimer);
   
-  isSyncing = true;
+  updateSyncingState(true);
   try {
     const res = await fetch(`/api/sync?key=${syncKey}`, {
       method: 'POST',
@@ -111,7 +121,7 @@ export async function forceSyncSave(content) {
   } catch (e) {
     console.error('Failed to force sync save', e);
   } finally {
-    isSyncing = false;
+    updateSyncingState(false);
   }
   return false;
 }
@@ -119,7 +129,7 @@ export async function forceSyncSave(content) {
 export async function forceFetch() {
   if (!syncKey || isSyncing) return;
   
-  isSyncing = true;
+  updateSyncingState(true);
   try {
     const res = await fetch(`/api/sync?key=${syncKey}`);
     if (res.ok) {
@@ -134,7 +144,7 @@ export async function forceFetch() {
   } catch (e) {
     console.error('Failed to fetch sync note', e);
   } finally {
-    isSyncing = false;
+    updateSyncingState(false);
   }
 }
 

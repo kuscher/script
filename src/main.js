@@ -13,7 +13,7 @@ import { initPersonaFeedback } from './persona.js';
 import { initFirstRun } from './first-run.js';
 import { generateAutoName, generateFormat } from './ai-service.js';
 import { initI18n, translateDOM } from './i18n.js';
-import { initSyncEngine, hasSyncKey, setIsCloudNoteActive, queueSyncSave, forceSyncSave, forceFetch } from './sync-engine.js';
+import { initSyncEngine, hasSyncKey, setIsCloudNoteActive, queueSyncSave, forceSyncSave, forceFetch, setSyncStatusCallback } from './sync-engine.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -165,6 +165,10 @@ async function bootstrap() {
       dom.tabListView.classList.add('hidden');
       dom.settingsView.classList.remove('hidden');
       openSettingsPanel(dom.settingsContainer);
+      if (window.innerWidth > 768) {
+        dom.sidebar.dataset.previousWidth = dom.sidebar.style.width || '260px';
+        dom.sidebar.style.width = '40%';
+      }
     }
   };
 
@@ -186,6 +190,10 @@ async function bootstrap() {
   dom.btnSettingsBack.addEventListener('click', () => {
     dom.settingsView.classList.add('hidden');
     dom.tabListView.classList.remove('hidden');
+    if (dom.sidebar.dataset.previousWidth) {
+      dom.sidebar.style.width = dom.sidebar.dataset.previousWidth;
+      delete dom.sidebar.dataset.previousWidth;
+    }
   });
 
   dom.hamburger.addEventListener('click', actions.onToggleSidebar);
@@ -463,9 +471,7 @@ async function bootstrap() {
     const btnSyncReload = document.getElementById('btn-sync-reload');
     if (btnSyncReload) {
       btnSyncReload.addEventListener('click', async () => {
-        btnSyncReload.style.opacity = '0.5';
         await forceFetch();
-        btnSyncReload.style.opacity = '1';
       });
     }
     
@@ -625,11 +631,28 @@ async function bootstrap() {
          if (btnSyncReload) btnSyncReload.style.display = 'none';
        }
        if (dom.diskWarning) {
-         if (!active.fileHandle) {
+         const btnDiskSave = document.getElementById('btn-disk-warn-save');
+         if (activeTabId === 'cloud-note') {
            dom.diskWarning.classList.remove('hidden');
+           if (active.content !== active.savedContent) {
+             dom.diskWarning.title = 'Unsaved changes (Cloud Note)';
+             btnDiskSave.innerHTML = '<i data-lucide="cloud-off"></i>';
+             btnDiskSave.style.color = 'var(--text-secondary)';
+           } else {
+             dom.diskWarning.title = 'Synced to Cloud';
+             btnDiskSave.innerHTML = '<i data-lucide="cloud"></i>';
+             btnDiskSave.style.color = 'var(--success)';
+           }
+           dom.diskWarning.classList.remove('danger-icon-btn');
+         } else if (!active.fileHandle) {
+           dom.diskWarning.classList.remove('hidden');
+           dom.diskWarning.title = 'Only saved locally. Click to save to disk.';
+           btnDiskSave.innerHTML = '<i data-lucide="save"></i>';
+           btnDiskSave.style.color = 'var(--danger)';
          } else {
            dom.diskWarning.classList.add('hidden');
          }
+         createIcons({ icons, nameAttr: 'data-lucide' });
        }
     }
     
@@ -638,6 +661,37 @@ async function bootstrap() {
     } else {
       setIsCloudNoteActive(false);
     }
+  });
+
+  setSyncStatusCallback((isSyncing) => {
+    const btnSyncReload = document.getElementById('btn-sync-reload');
+    const cloudIcon = document.querySelector('.tab[data-id="cloud-note"] .cloud-icon');
+    
+    if (isSyncing) {
+      if (btnSyncReload) btnSyncReload.innerHTML = '<i data-lucide="refresh-cw" class="spin"></i>';
+      if (cloudIcon) cloudIcon.classList.add('spin');
+    } else {
+      if (btnSyncReload) btnSyncReload.innerHTML = '<i data-lucide="refresh-cw"></i>';
+      if (cloudIcon) cloudIcon.classList.remove('spin');
+      
+      // Update topnav save state
+      const activeTab = getActiveTab();
+      if (activeTab && activeTab.id === 'cloud-note') {
+        const btnDiskSave = document.getElementById('btn-disk-warn-save');
+        if (btnDiskSave && dom.diskWarning) {
+          if (activeTab.content !== activeTab.savedContent) {
+            dom.diskWarning.title = 'Unsaved changes (Cloud Note)';
+            btnDiskSave.innerHTML = '<i data-lucide="cloud-off"></i>';
+            btnDiskSave.style.color = 'var(--text-secondary)';
+          } else {
+            dom.diskWarning.title = 'Synced to Cloud';
+            btnDiskSave.innerHTML = '<i data-lucide="cloud"></i>';
+            btnDiskSave.style.color = 'var(--success)';
+          }
+        }
+      }
+    }
+    createIcons({ icons, nameAttr: 'data-lucide' });
   });
 
   if (state.restored && state.count > 0) {

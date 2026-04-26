@@ -153,6 +153,15 @@ button {
   transition: opacity 0.2s;
 }
 .status-bar:hover { opacity: 1; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+
 .status-bar .left-stats {
   display: flex;
   align-items: center;
