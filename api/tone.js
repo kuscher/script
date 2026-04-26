@@ -66,7 +66,7 @@ Do not add any conversational filler. Only return the rewritten text natively. M
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: `${systemPrompt}\n\nText to rewrite: "${text}"` }] }],
-        generationConfig: { maxOutputTokens: 2000 }
+        generationConfig: { maxOutputTokens: 8192 }
       })
     });
 

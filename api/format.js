@@ -61,7 +61,7 @@ export default async function handler(req) {
         }],
         generationConfig: {
           temperature: 0.4,
-          maxOutputTokens: 4000
+          maxOutputTokens: 8192
         }
       })
     });

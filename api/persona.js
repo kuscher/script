@@ -72,7 +72,7 @@ export default async function handler(req) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: `${systemInstruction}\n\nDocument text: "${text}"` }] }],
-        generationConfig: { maxOutputTokens: 250 }
+        generationConfig: { maxOutputTokens: 1000 }
       })
     });
 
