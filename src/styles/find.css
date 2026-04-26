@@ -45,7 +45,7 @@
 }
 
 .find-bubble {
-  top: 16px;
+  top: 80px; /* Offset for floating header */
   left: 50%;
   display: flex;
   flex-direction: column;
@@ -251,6 +251,10 @@
 
 /* Mobile Find Responsiveness */
 @media (max-width: 768px) {
+  .find-bubble {
+    top: 110px; /* Larger offset for double-row mobile header */
+    width: 90%;
+  }
   .find-wrapper {
     width: 100%;
   }
