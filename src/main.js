@@ -167,7 +167,7 @@ async function bootstrap() {
       openSettingsPanel(dom.settingsContainer);
       if (window.innerWidth > 768) {
         dom.sidebar.dataset.previousWidth = dom.sidebar.style.width || '260px';
-        dom.sidebar.style.width = '40%';
+        dom.sidebar.style.width = '40vw';
       }
     }
   };
@@ -471,7 +471,7 @@ async function bootstrap() {
     const btnSyncReload = document.getElementById('btn-sync-reload');
     if (btnSyncReload) {
       btnSyncReload.addEventListener('click', async () => {
-        await forceFetch();
+        await forceFetch(true);
       });
     }
     
@@ -643,12 +643,13 @@ async function bootstrap() {
              btnDiskSave.innerHTML = '<i data-lucide="cloud"></i>';
              btnDiskSave.style.color = 'var(--success)';
            }
-           dom.diskWarning.classList.remove('danger-icon-btn');
+           btnDiskSave.classList.remove('danger-icon-btn');
          } else if (!active.fileHandle) {
            dom.diskWarning.classList.remove('hidden');
            dom.diskWarning.title = 'Only saved locally. Click to save to disk.';
            btnDiskSave.innerHTML = '<i data-lucide="save"></i>';
            btnDiskSave.style.color = 'var(--danger)';
+           btnDiskSave.classList.add('danger-icon-btn');
          } else {
            dom.diskWarning.classList.add('hidden');
          }
@@ -663,7 +664,9 @@ async function bootstrap() {
     }
   });
 
-  setSyncStatusCallback((isSyncing) => {
+  setSyncStatusCallback((isSyncing, userInitiated) => {
+    if (!userInitiated) return;
+    
     const btnSyncReload = document.getElementById('btn-sync-reload');
     const cloudIcon = document.querySelector('.tab[data-id="cloud-note"] .cloud-icon');
     

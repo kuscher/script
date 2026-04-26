@@ -27,9 +27,9 @@ export function setSyncStatusCallback(cb) {
   syncStatusCallback = cb;
 }
 
-function updateSyncingState(state) {
+function updateSyncingState(state, userInitiated = false) {
   isSyncing = state;
-  if (syncStatusCallback) syncStatusCallback(state);
+  if (syncStatusCallback) syncStatusCallback(state, userInitiated);
 }
 
 export async function initSyncEngine(onRemoteUpdate) {
@@ -103,11 +103,11 @@ export function queueSyncSave(content) {
 }
 
 // Immediately flush any pending save and force an un-debounced upload
-export async function forceSyncSave(content) {
+export async function forceSyncSave(content, userInitiated = true) {
   if (!isCloudNoteActive || !syncKey) return false;
   if (syncTimer) clearTimeout(syncTimer);
   
-  updateSyncingState(true);
+  updateSyncingState(true, userInitiated);
   try {
     const res = await fetch(`/api/sync?key=${syncKey}`, {
       method: 'POST',
@@ -121,15 +121,15 @@ export async function forceSyncSave(content) {
   } catch (e) {
     console.error('Failed to force sync save', e);
   } finally {
-    updateSyncingState(false);
+    updateSyncingState(false, userInitiated);
   }
   return false;
 }
 
-export async function forceFetch() {
+export async function forceFetch(userInitiated = false) {
   if (!syncKey || isSyncing) return;
   
-  updateSyncingState(true);
+  updateSyncingState(true, userInitiated);
   try {
     const res = await fetch(`/api/sync?key=${syncKey}`);
     if (res.ok) {
@@ -144,7 +144,7 @@ export async function forceFetch() {
   } catch (e) {
     console.error('Failed to fetch sync note', e);
   } finally {
-    updateSyncingState(false);
+    updateSyncingState(false, userInitiated);
   }
 }
 
