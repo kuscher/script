@@ -4,7 +4,12 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: auto;
+  max-height: 75vh;
+  border-bottom-left-radius: 32px;
+  border-bottom-right-radius: 32px;
+  border-bottom: 1px solid var(--border-hairline);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   z-index: 500;
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(24px);
@@ -30,7 +35,7 @@
 .first-run-content {
   max-width: 640px;
   width: 100%;
-  padding: 80px 32px;
+  padding: 40px 32px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,53 +44,53 @@
 }
 
 .first-run-logo-container {
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(135deg, #A626A4, #F07178);
-  border-radius: 24px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   box-shadow: 0 10px 30px rgba(166, 38, 164, 0.3);
 }
 
 .first-run-logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   color: white;
 }
 
 .first-run-hero h1 {
-  font-size: 42px;
+  font-size: 32px;
   font-weight: 700;
   letter-spacing: -1px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   background: linear-gradient(to right, #A626A4, #F07178);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .first-run-hero p {
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text-secondary);
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 }
 
 .first-run-features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 16px;
   width: 100%;
-  margin-bottom: 56px;
+  margin-bottom: 32px;
   text-align: left;
 }
 
 .feature-item {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px 16px;
   background: var(--bg-editor);
   border: 1px solid var(--border-hairline);
   border-radius: 16px;
@@ -165,13 +170,15 @@
 
 /* Morphing Animation Class */
 .first-run-drawer.morphing {
+  max-height: 64px;
   height: 64px;
-  min-height: 64px;
   background-color: rgba(255, 255, 255, 0.8); /* Matches header */
   backdrop-filter: blur(3px); /* Matches header */
   -webkit-backdrop-filter: blur(3px);
   background-image: none; /* remove gradient mesh */
-  border-bottom: 1px solid var(--border-hairline);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 0 6px 15px #00000008;
   overflow: hidden;
 }
 
@@ -185,9 +192,23 @@
 }
 
 @media (max-width: 768px) {
-  .first-run-hero h1 { font-size: 32px; }
-  .first-run-content { padding: 40px 24px; }
+  .first-run-drawer {
+    max-height: 85vh; /* Allow a bit more height on mobile */
+  }
+  .first-run-logo-container { 
+    display: none; 
+  }
+  .first-run-hero h1 { 
+    font-size: 26px; 
+  }
+  .first-run-content { 
+    padding: 24px 16px; 
+  }
+  .feature-item:nth-child(n+4) {
+    display: none; /* Hide 4th and 5th items on mobile to save space */
+  }
   .first-run-drawer.morphing {
-    height: 110px; /* Header is double height on mobile */
+    max-height: 110px; /* Header is double height on mobile */
+    height: 110px;
   }
 }
