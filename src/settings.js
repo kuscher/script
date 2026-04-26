@@ -1,3 +1,5 @@
+import { getCurrentLanguage, changeLanguage, SUPPORTED_LANGUAGES, translateDOM } from './i18n.js';
+
 const SETTINGS_KEY = 'script_settings';
 
 let defaultSettings = {
@@ -48,7 +50,13 @@ export function openSettingsPanel(container, onBack) {
   // Built naive config form
   container.innerHTML = `
     <div class="setting-block">
-      <label>Appearance</label>
+      <label data-i18n="settings.appearance">Appearance</label>
+      <div class="setting-row">
+        <span data-i18n="settings.language">Language</span>
+        <select id="set-language">
+          ${SUPPORTED_LANGUAGES.map(l => `<option value="${l.code}" ${getCurrentLanguage() === l.code ? 'selected' : ''}>${l.name}</option>`).join('')}
+        </select>
+      </div>
       <div class="setting-row">
         <span>Theme</span>
         <select id="set-theme">
@@ -101,6 +109,15 @@ export function openSettingsPanel(container, onBack) {
     </div>
   `;
   
+  translateDOM();
+  
+  const langSelect = container.querySelector('#set-language');
+  if (langSelect) {
+    langSelect.addEventListener('change', e => {
+      changeLanguage(e.target.value);
+    });
+  }
+
   container.querySelector('#set-theme').addEventListener('change', e => {
     settings.theme = e.target.value;
     saveSettings();

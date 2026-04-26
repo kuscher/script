@@ -1,0 +1,32 @@
+{
+  "shortcuts": {
+    "category_file": "[ur] File",
+    "category_view": "[ur] View",
+    "category_search": "[ur] Search",
+    "category_navigation": "[ur] Navigation",
+    "category_help": "[ur] Help",
+    "category_system": "[ur] System",
+    "label_new_file": "[ur] New file",
+    "label_open_file": "[ur] Open file",
+    "label_save": "[ur] Save",
+    "label_save_as": "[ur] Save As",
+    "label_print": "[ur] Print",
+    "label_close_tab": "[ur] Close tab",
+    "label_toggle_sidebar": "[ur] Toggle sidebar",
+    "label_find": "[ur] Find",
+    "label_find_&_replace": "[ur] Find & Replace",
+    "label_go_to_line": "[ur] Go to line",
+    "label_keyboard_shortcuts": "[ur] Keyboard shortcuts",
+    "label_dismiss_panels": "[ur] Dismiss panels"
+  },
+  "settings": {
+    "appearance": "[ur] Appearance",
+    "language": "[ur] Language"
+  },
+  "firstRun": {
+    "title": "[ur] Meet your new favorite editor.",
+    "subtitle": "[ur] Fast, beautiful, and packed with magic.",
+    "installApp": "[ur] Install Script App",
+    "dismiss": "[ur] I have commitment issues. Use in browser."
+  }
+}

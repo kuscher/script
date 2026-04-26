@@ -12,6 +12,7 @@ import { initToneSlider, handleSelectionChange } from './tone-slider.js';
 import { initPersonaFeedback } from './persona.js';
 import { initFirstRun } from './first-run.js';
 import { generateAutoName, generateFormat } from './ai-service.js';
+import { initI18n, translateDOM } from './i18n.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -61,6 +62,9 @@ async function bootstrap() {
   if ('serviceWorker' in navigator) {
     registerSW();
   }
+
+  // Initialize Internationalization
+  await initI18n();
 
   // Default collapse sidebar on narrow screens
   if (window.innerWidth <= 768 && dom.sidebar) {
@@ -128,6 +132,9 @@ async function bootstrap() {
     },
     onEscape: () => {
        document.getElementById('go-to-line-bar').classList.add('hidden');
+       findCtrl.hide();
+       const aiBubble = document.getElementById('ai-selection-bubble');
+       if (aiBubble) aiBubble.classList.remove('visible');
     }
   };
 

@@ -1,0 +1,32 @@
+{
+  "shortcuts": {
+    "category_file": "[yue] File",
+    "category_view": "[yue] View",
+    "category_search": "[yue] Search",
+    "category_navigation": "[yue] Navigation",
+    "category_help": "[yue] Help",
+    "category_system": "[yue] System",
+    "label_new_file": "[yue] New file",
+    "label_open_file": "[yue] Open file",
+    "label_save": "[yue] Save",
+    "label_save_as": "[yue] Save As",
+    "label_print": "[yue] Print",
+    "label_close_tab": "[yue] Close tab",
+    "label_toggle_sidebar": "[yue] Toggle sidebar",
+    "label_find": "[yue] Find",
+    "label_find_&_replace": "[yue] Find & Replace",
+    "label_go_to_line": "[yue] Go to line",
+    "label_keyboard_shortcuts": "[yue] Keyboard shortcuts",
+    "label_dismiss_panels": "[yue] Dismiss panels"
+  },
+  "settings": {
+    "appearance": "[yue] Appearance",
+    "language": "[yue] Language"
+  },
+  "firstRun": {
+    "title": "[yue] Meet your new favorite editor.",
+    "subtitle": "[yue] Fast, beautiful, and packed with magic.",
+    "installApp": "[yue] Install Script App",
+    "dismiss": "[yue] I have commitment issues. Use in browser."
+  }
+}
