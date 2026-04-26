@@ -37,7 +37,7 @@ export default async function handler(req) {
       body: JSON.stringify({
         contents: [{
           role: 'user',
-          parts: [{ text: "Read the following document text and suggest a snappy, highly relevant title (max 5 words) and a single representative emoji. Return ONLY JSON.\n\n" + truncatedText }]
+          parts: [{ text: "Read the following document text and suggest a snappy, highly relevant title (max 5 words), a single representative emoji, and the correct file extension based on the content (e.g. .md, .txt, .js, .py, .html). Return ONLY JSON.\n\n" + truncatedText }]
         }],
         generationConfig: {
           temperature: 0.7,
@@ -46,9 +46,10 @@ export default async function handler(req) {
             type: "object",
             properties: {
               title: { type: "string" },
-              emoji: { type: "string" }
+              emoji: { type: "string" },
+              extension: { type: "string" }
             },
-            required: ["title", "emoji"]
+            required: ["title", "emoji", "extension"]
           }
         }
       })

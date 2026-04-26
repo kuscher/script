@@ -23,7 +23,10 @@ Script is a fast, robust, and lightweight plain-text & Markdown editor built wit
 - **Markdown Previews:** Hit the eye icon in the top right to hot-swap to rendered Markdown (with full Github-flavored syntax support and injected syntax coloring).
 - **Find & Replace:** Seamlessly traverse large codebases directly using native keyboard shortcuts & continuous DOM-based scroll injections.
 - **PWA Ready:** Click the install icon in your address bar to snap Script right into your dock, or deploy natively to mobile!
-- **AI Assist:** Built-in generative autocomplete specifically context-mapped to your layout.
+- **Auto-Naming AI:** Just brain dump in an Untitled document. After a short pause, the AI will automatically name it, pick an emoji, and assign the correct file extension.
+- **Smart Format (Markdownifier):** Click the magic wand (✨) in the top right to instantly turn any unstructured wall of text into perfectly structured, bulleted, and bolded Markdown.
+- **Adjust Tone & Ghostwriter:** Highlight text to adjust its tone on a slider from blunt to diplomatic, or use the floating action bubble to smart-copy.
+- **Kuscher Judgement:** Need brutal, honest feedback? The AI Persona bubble is always watching.
 
 ---
 

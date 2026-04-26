@@ -457,7 +457,8 @@ async function bootstrap() {
            if (res.ok) {
              const data = await res.json();
              if (data.title && data.emoji) {
-               const newName = `${data.emoji} ${data.title}.txt`;
+               const ext = data.extension ? (data.extension.startsWith('.') ? data.extension : '.' + data.extension) : '.txt';
+               const newName = `${data.emoji} ${data.title}${ext}`;
                renameActiveTab(newName);
                if (dom.headerTitle && document.activeElement !== dom.headerTitle) {
                  dom.headerTitle.innerText = newName;
