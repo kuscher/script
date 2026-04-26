@@ -324,6 +324,10 @@
     z-index: 200; /* Above everything */
     transform: translateX(0); /* Default open position for overlay mode */
   }
+  
+  .sidebar-view {
+    padding-top: 110px; /* Offset for double-height mobile header */
+  }
 
   .sidebar.collapsed {
     width: 260px !important; /* Keep width so it animates nicely, just translate */

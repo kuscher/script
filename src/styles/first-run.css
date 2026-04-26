@@ -44,11 +44,11 @@
 }
 
 .first-run-logo-container {
+  display: none; /* User requested to keep the markup but not show it */
   width: 56px;
   height: 56px;
   background: linear-gradient(135deg, #A626A4, #F07178);
   border-radius: 16px;
-  display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
@@ -194,9 +194,6 @@
 @media (max-width: 768px) {
   .first-run-drawer {
     max-height: 85vh; /* Allow a bit more height on mobile */
-  }
-  .first-run-logo-container { 
-    display: none; 
   }
   .first-run-hero h1 { 
     font-size: 26px; 
