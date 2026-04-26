@@ -16,6 +16,7 @@
     "@tiptap/extension-placeholder": "^2.3.0",
     "@tiptap/extension-text": "^2.3.0",
     "@tiptap/pm": "^2.3.0",
+    "@upstash/redis": "^1.37.0",
     "i18next": "^26.0.8",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-http-backend": "^3.0.6",

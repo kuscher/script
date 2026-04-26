@@ -129,3 +129,37 @@ export function closeTab(id) {
 function notify() {
   if (changeCallback) changeCallback({ tabs, activeTabId });
 }
+
+export function ensureCloudNote() {
+  const existing = tabs.find(t => t.id === 'cloud-note');
+  if (!existing) {
+    tabs.unshift({
+      id: 'cloud-note',
+      filename: 'Cloud Note',
+      fileHandle: null,
+      content: '',
+      savedContent: '',
+      cursorPosition: 0,
+      encoding: 'utf-8',
+      lineEnding: 'LF'
+    });
+    debouncedSaveTabsState(tabs);
+    notify();
+  }
+}
+
+export function removeCloudNote() {
+  const idx = tabs.findIndex(t => t.id === 'cloud-note');
+  if (idx !== -1) {
+    if (activeTabId === 'cloud-note') {
+      const nextTab = tabs.find(t => t.id !== 'cloud-note');
+      activeTabId = nextTab ? nextTab.id : null;
+    }
+    tabs.splice(idx, 1);
+    if (tabs.length === 0) createNewTab();
+    else {
+      debouncedSaveTabsState(tabs);
+      notify();
+    }
+  }
+}

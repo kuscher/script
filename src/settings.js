@@ -1,4 +1,5 @@
 import { getCurrentLanguage, changeLanguage, SUPPORTED_LANGUAGES, translateDOM } from './i18n.js';
+import { setSyncKey } from './sync-engine.js';
 
 const SETTINGS_KEY = 'script_settings';
 
@@ -106,6 +107,20 @@ export function openSettingsPanel(container, onBack) {
         </div>
         <span id="key-status" style="display:block; margin-top:8px; font-size:11px; color:var(--success);"></span>
       </div>
+      </div>
+    </div>
+    
+    <div class="setting-block">
+      <label data-i18n="settings.sync">Cloud Sync</label>
+      <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:8px;">
+        <span style="font-size:12px; color:var(--text-secondary);" data-i18n="settings.syncDesc">Share a single special note across instances using a secret passphrase. Requires Vercel KV.</span>
+        <div style="display:flex; gap:8px; width:100%;">
+          <input type="text" id="set-sync-key" placeholder="Enter passphrase..." style="flex:1; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui); box-sizing:border-box;">
+          <button id="btn-save-sync" style="padding:8px 12px; border-radius:6px; background:#38BDF8; color:white; border:none; cursor:pointer; font-size:12px; font-weight:600;" data-i18n="settings.save">Save</button>
+        </div>
+        <button id="btn-generate-sync" style="padding:6px 10px; border-radius:6px; background:var(--bg-tab-hover); color:var(--text-primary); border:1px solid var(--border-hairline); cursor:pointer; font-size:11px;" data-i18n="settings.generatePhrase">Generate Passphrase</button>
+        <span id="sync-status" style="font-size:11px; color:var(--success);"></span>
+      </div>
     </div>
   `;
   
@@ -196,6 +211,37 @@ export function openSettingsPanel(container, onBack) {
       } finally {
         btnVerify.disabled = false;
       }
+    });
+  }
+
+  // Cloud Sync Logic
+  const btnSaveSync = container.querySelector('#btn-save-sync');
+  const btnGenSync = container.querySelector('#btn-generate-sync');
+  const inputSync = container.querySelector('#set-sync-key');
+  const syncStatus = container.querySelector('#sync-status');
+
+  const storedSyncKey = localStorage.getItem('script_sync_key');
+  if (storedSyncKey) inputSync.value = storedSyncKey;
+
+  if (btnSaveSync && inputSync) {
+    btnSaveSync.addEventListener('click', async () => {
+      const key = inputSync.value.trim();
+      await setSyncKey(key);
+      if (key) {
+        syncStatus.innerText = 'Sync Key saved! Cloud Note is active.';
+      } else {
+        syncStatus.innerText = 'Sync Key cleared. Cloud Note disabled.';
+      }
+    });
+  }
+
+  if (btnGenSync && inputSync) {
+    btnGenSync.addEventListener('click', () => {
+      const words = ['apple', 'horse', 'staple', 'battery', 'purple', 'ocean', 'sunset', 'flying', 'turtle', 'mountain', 'river', 'forest', 'dragon', 'wizard', 'crystal', 'silver', 'golden', 'shadow', 'light', 'dream'];
+      const getWord = () => words[Math.floor(Math.random() * words.length)];
+      const phrase = `${getWord()}-${getWord()}-${getWord()}-${getWord()}`;
+      inputSync.value = phrase;
+      syncStatus.innerText = 'New phrase generated. Click Save to activate.';
     });
   }
 }

@@ -23,16 +23,22 @@ export function renderTabs(tabs, activeTabId, container) {
     // File type icon
     const isMd = tab.filename.endsWith('.md');
     const isRtf = tab.filename.endsWith('.rtf');
+    const isCloud = tab.id === 'cloud-note';
     let iconName = 'file-text';
-    if (isMd) iconName = 'file-code';
-    if (isRtf) iconName = 'file-type';
+    if (isCloud) iconName = 'cloud';
+    else if (isMd) iconName = 'file-code';
+    else if (isRtf) iconName = 'file-type';
     
     const div = document.createElement('div');
-    div.className = `tab ${isActive ? 'active' : ''} ${isUnsaved ? 'unsaved' : ''}`;
+    div.className = `tab ${isActive ? 'active' : ''} ${isUnsaved && !isCloud ? 'unsaved' : ''}`;
+    if (isCloud) {
+       div.style.background = isActive ? 'rgba(56, 189, 248, 0.1)' : 'transparent';
+       div.style.borderLeft = isActive ? '3px solid #38BDF8' : '3px solid transparent';
+    }
     div.innerHTML = `
-      <i class="tab-icon" data-lucide="${iconName}"></i>
-      <span class="tab-name">${escapeHtml(tab.filename)}<span class="tab-unsaved"> • unsaved</span></span>
-      <button class="tab-close" aria-label="Close" title="Close"><i data-lucide="x"></i></button>
+      <i class="tab-icon ${isCloud ? 'cloud-icon' : ''}" data-lucide="${iconName}" ${isCloud ? 'style="color:#38BDF8;"' : ''}></i>
+      <span class="tab-name" ${isCloud ? 'style="color:#38BDF8; font-weight:600;"' : ''}>${escapeHtml(tab.filename)}<span class="tab-unsaved"> • unsaved</span></span>
+      <button class="tab-close" aria-label="Close" title="Close" style="${isCloud ? 'display:none;' : ''}"><i data-lucide="x"></i></button>
     `;
     
     // Interactions

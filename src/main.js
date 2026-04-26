@@ -1,4 +1,4 @@
-import { initTabs, getTabs, getActiveTab, setActiveTab, closeTab, createNewTab, updateActiveTabContent, markActiveTabSaved, renameActiveTab } from './tabs.js';
+import { initTabs, getTabs, getActiveTab, setActiveTab, closeTab, createNewTab, updateActiveTabContent, markActiveTabSaved, renameActiveTab, ensureCloudNote, removeCloudNote } from './tabs.js';
 import { initSidebar, renderTabs } from './sidebar.js';
 import { initMenu } from './menu.js';
 import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex, undo, redo, gotoLine, getCursorPosition } from './editor.js';
@@ -13,6 +13,7 @@ import { initPersonaFeedback } from './persona.js';
 import { initFirstRun } from './first-run.js';
 import { generateAutoName, generateFormat } from './ai-service.js';
 import { initI18n, translateDOM } from './i18n.js';
+import { initSyncEngine, hasSyncKey, setIsCloudNoteActive, queueSyncSave } from './sync-engine.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -481,10 +482,14 @@ async function bootstrap() {
   initEditor('editor-root', '', (text) => {
      updateActiveTabContent(text);
      statusBarCtrl.updateStats(text);
+     
+     const activeTab = getActiveTab();
+     if (activeTab && activeTab.id === 'cloud-note') {
+       queueSyncSave(text);
+     }
 
      // Auto-Naming Logic
      if (autonameTimer) clearTimeout(autonameTimer);
-     const activeTab = getActiveTab();
      if (activeTab && activeTab.filename === 'Untitled.txt' && text.trim().length > 50) {
        autonameTimer = setTimeout(async () => {
          try {
@@ -542,6 +547,26 @@ async function bootstrap() {
 
   initShortcuts(document.getElementById('shortcuts-overlay'), document.getElementById('shortcuts-container'), actions);
 
+  // Sync Engine init
+  await initSyncEngine((remoteContent) => {
+    const activeTab = getActiveTab();
+    if (activeTab && activeTab.id === 'cloud-note') {
+      if (activeTab.content !== remoteContent) {
+        updateActiveTabContent(remoteContent);
+        setEditorContent(remoteContent);
+        statusBarCtrl.updateStats(remoteContent, getCursorPosition());
+      }
+    } else {
+      // Background update if not active
+      const cloudTab = getTabs().find(t => t.id === 'cloud-note');
+      if (cloudTab) cloudTab.content = remoteContent;
+    }
+  });
+
+  if (hasSyncKey()) {
+    ensureCloudNote();
+  }
+
   // Tabs start
   const state = await initTabs(({ tabs, activeTabId }) => {
     renderTabs(tabs, activeTabId, dom.tabsContainer);
@@ -575,6 +600,12 @@ async function bootstrap() {
            diskWarning.classList.add('hidden');
          }
        }
+    }
+    
+    if (activeTabId === 'cloud-note') {
+      setIsCloudNoteActive(true);
+    } else {
+      setIsCloudNoteActive(false);
     }
   });
 
