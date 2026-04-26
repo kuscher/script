@@ -1,0 +1,193 @@
+/* First Run Drawer (PWA Install) */
+.first-run-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 500;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  /* The subtle animated gradient mesh */
+  background-image: radial-gradient(at 0% 0%, hsla(320, 100%, 75%, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 100% 0%, hsla(280, 100%, 75%, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, hsla(220, 100%, 75%, 0.1) 0px, transparent 50%);
+}
+
+[data-theme="dark"] .first-run-drawer {
+  background-color: rgba(15, 15, 15, 0.7);
+  background-image: radial-gradient(at 0% 0%, hsla(320, 100%, 65%, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 100% 0%, hsla(280, 100%, 65%, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, hsla(220, 100%, 65%, 0.1) 0px, transparent 50%);
+}
+
+.first-run-content {
+  max-width: 640px;
+  width: 100%;
+  padding: 80px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.first-run-logo-container {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #A626A4, #F07178);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 30px rgba(166, 38, 164, 0.3);
+}
+
+.first-run-logo-icon {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+.first-run-hero h1 {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  background: linear-gradient(to right, #A626A4, #F07178);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.first-run-hero p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+}
+
+.first-run-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 56px;
+  text-align: left;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-editor);
+  border: 1px solid var(--border-hairline);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--accent-subtle);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.feature-text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.feature-text p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.first-run-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.btn-first-run-primary {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #A626A4, #F07178);
+  border-radius: 30px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(240, 113, 120, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-first-run-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(240, 113, 120, 0.4);
+}
+
+.btn-first-run-ghost {
+  background: transparent;
+  border: none;
+  color: var(--text-placeholder);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.btn-first-run-ghost:hover {
+  color: var(--text-secondary);
+}
+
+/* Morphing Animation Class */
+.first-run-drawer.morphing {
+  height: 64px;
+  min-height: 64px;
+  background-color: rgba(255, 255, 255, 0.8); /* Matches header */
+  backdrop-filter: blur(3px); /* Matches header */
+  -webkit-backdrop-filter: blur(3px);
+  background-image: none; /* remove gradient mesh */
+  border-bottom: 1px solid var(--border-hairline);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .first-run-drawer.morphing {
+  background-color: rgba(31, 31, 31, 0.8); /* Matches dark header */
+}
+
+.first-run-drawer.morphing .first-run-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .first-run-hero h1 { font-size: 32px; }
+  .first-run-content { padding: 40px 24px; }
+  .first-run-drawer.morphing {
+    height: 110px; /* Header is double height on mobile */
+  }
+}

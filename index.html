@@ -16,12 +16,71 @@
     <link rel="stylesheet" href="/src/styles/sidebar.css" />
     <link rel="stylesheet" href="/src/styles/editor.css" />
     <link rel="stylesheet" href="/src/styles/find.css" />
+    <link rel="stylesheet" href="/src/styles/first-run.css" />
     <link rel="stylesheet" href="/src/styles/print.css" media="print" />
   </head>
   <body>
     <div id="app" class="app-container">
       
-
+      <!-- First Run Drawer Overlay -->
+      <div id="first-run-drawer" class="first-run-drawer hidden">
+        <div class="first-run-content">
+          <div class="first-run-hero">
+            <div class="first-run-logo-container">
+              <i data-lucide="pen-tool" class="first-run-logo-icon"></i>
+            </div>
+            <h1>Meet your new favorite editor.</h1>
+            <p>Fast, beautiful, and packed with magic.</p>
+          </div>
+          
+          <div class="first-run-features">
+            <div class="feature-item">
+              <div class="feature-icon"><i data-lucide="code"></i></div>
+              <div class="feature-text">
+                <h3>Syntax Highlighting</h3>
+                <p>Rich support for most file formats natively.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i data-lucide="wifi-off"></i></div>
+              <div class="feature-text">
+                <h3>Offline Enabled</h3>
+                <p>Fully local. Write anywhere, anytime.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i data-lucide="eye"></i></div>
+              <div class="feature-text">
+                <h3>Markup Preview</h3>
+                <p>Instant live rendering for Markdown files.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i data-lucide="sparkles"></i></div>
+              <div class="feature-text">
+                <h3>AI Rephrasing</h3>
+                <p>Adjust tone and get smart completions.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon"><i data-lucide="gavel"></i></div>
+              <div class="feature-text">
+                <h3>Kuscher Judgement AI</h3>
+                <p>Brutal, honest feedback on your writing.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="first-run-actions">
+            <button id="btn-first-run-install" class="btn-first-run-primary">
+              <i data-lucide="download"></i> Install Script App
+            </button>
+            <button id="btn-first-run-dismiss" class="btn-first-run-ghost">
+              I have commitment issues. Use in browser.
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- Persistent Top Header -->
       <header class="app-header">

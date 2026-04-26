@@ -10,6 +10,7 @@ import { initShortcuts } from './shortcuts.js';
 import { initFindReplace } from './find-replace.js';
 import { initToneSlider, handleSelectionChange } from './tone-slider.js';
 import { initPersonaFeedback } from './persona.js';
+import { initFirstRun } from './first-run.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -241,40 +242,8 @@ async function bootstrap() {
     });
   }
 
-  // PWA Dynamic Install Prompt Logic
-  let deferredPrompt;
-  const btnInstallPwa = document.getElementById('btn-install-pwa');
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the mini-infobar from appearing on mobile natively
-    e.preventDefault();
-    // Stash the event so it can be triggered later.
-    deferredPrompt = e;
-    // Update UI to notify the user they can install the PWA
-    if (btnInstallPwa) {
-      btnInstallPwa.classList.remove('hidden');
-    }
-  });
-
-  if (btnInstallPwa) {
-    btnInstallPwa.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      // Show the native install prompt
-      deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        btnInstallPwa.classList.add('hidden'); // Hide button if installed successfully
-      }
-      // Clear the saved prompt since it can't be used again
-      deferredPrompt = null;
-    });
-  }
-
-  window.addEventListener('appinstalled', () => {
-    if (btnInstallPwa) btnInstallPwa.classList.hidden = true;
-    deferredPrompt = null;
-  });
+  // PWA Dynamic Install Prompt Logic has been moved to first-run.js
+  initFirstRun();
 
   // Editable Header Title Logic
   if (dom.headerTitle) {
