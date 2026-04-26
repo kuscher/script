@@ -44,6 +44,7 @@ const dom = {
   // Header details
   headerTitle: document.getElementById('header-title'),
   headerIcon: document.getElementById('header-file-icon'),
+  btnPreview: document.getElementById('btn-toggle-preview'),
   
   // Status Bar
   statusBars: {
