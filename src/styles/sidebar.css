@@ -177,7 +177,7 @@
 /* Overflow Menu */
 .shadow-menu {
   position: absolute;
-  top: 48px;
+  top: 116px;
   left: 16px;
   background-color: var(--bg-find);
   border: 1px solid var(--border-hairline);
