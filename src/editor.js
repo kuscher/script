@@ -4,13 +4,106 @@ import History from '@tiptap/extension-history';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import Placeholder from '@tiptap/extension-placeholder';
-import { Plugin, PluginKey } from '@tiptap/pm/state';
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { Extension } from '@tiptap/core';
 import { createLowlight, common } from 'lowlight';
 import { AiMention } from './ai-mention.js';
 
 const lowlight = createLowlight(common);
+
+// Custom Selection Handles DOM Elements
+let handleStartEl = null;
+let handleEndEl = null;
+let activeDragHandle = null;
+
+function initCustomHandles() {
+  if (handleStartEl) return;
+  handleStartEl = document.createElement('div');
+  handleStartEl.className = 'custom-selection-handle handle-start';
+  handleStartEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>`;
+  
+  handleEndEl = document.createElement('div');
+  handleEndEl.className = 'custom-selection-handle handle-end';
+  handleEndEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>`;
+
+  document.body.appendChild(handleStartEl);
+  document.body.appendChild(handleEndEl);
+
+  const startDrag = (e, handleType) => {
+    e.preventDefault();
+    e.stopPropagation();
+    activeDragHandle = handleType;
+  };
+
+  const onDrag = (e) => {
+    if (!activeDragHandle || !editor) return;
+    e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    const posAtCoords = editor.view.posAtCoords({ left: clientX, top: clientY });
+    if (!posAtCoords) return;
+
+    let { from, to } = editor.state.selection;
+    if (activeDragHandle === 'start') {
+      from = Math.min(posAtCoords.pos, to - 1);
+    } else {
+      to = Math.max(posAtCoords.pos, from + 1);
+    }
+
+    isProgrammaticSelection = true;
+    editor.view.dispatch(editor.state.tr.setSelection(TextSelection.create(editor.state.doc, from, to)));
+    isProgrammaticSelection = false;
+  };
+
+  const endDrag = () => {
+    activeDragHandle = null;
+  };
+
+  handleStartEl.addEventListener('touchstart', (e) => startDrag(e, 'start'), { passive: false });
+  handleStartEl.addEventListener('mousedown', (e) => startDrag(e, 'start'));
+  
+  handleEndEl.addEventListener('touchstart', (e) => startDrag(e, 'end'), { passive: false });
+  handleEndEl.addEventListener('mousedown', (e) => startDrag(e, 'end'));
+
+  window.addEventListener('touchmove', onDrag, { passive: false });
+  window.addEventListener('mousemove', onDrag);
+
+  window.addEventListener('touchend', endDrag);
+  window.addEventListener('mouseup', endDrag);
+
+  // Re-position on scroll
+  document.querySelector('.app-container')?.addEventListener('scroll', updateCustomHandlesPosition, { passive: true });
+  window.addEventListener('resize', updateCustomHandlesPosition, { passive: true });
+}
+
+function updateCustomHandlesPosition() {
+  if (!editor || !handleStartEl || !handleEndEl) return;
+  const { from, to, empty } = editor.state.selection;
+  if (empty) {
+    handleStartEl.style.display = 'none';
+    handleEndEl.style.display = 'none';
+    return;
+  }
+
+  try {
+    const startCoords = editor.view.coordsAtPos(from);
+    const endCoords = editor.view.coordsAtPos(to);
+
+    handleStartEl.style.display = 'flex';
+    handleStartEl.style.left = `${startCoords.left}px`;
+    handleStartEl.style.top = `${startCoords.top}px`;
+
+    handleEndEl.style.display = 'flex';
+    handleEndEl.style.left = `${endCoords.right}px`;
+    handleEndEl.style.top = `${endCoords.bottom}px`;
+  } catch (e) {
+    // If coordsAtPos fails (e.g. node not rendered yet), hide handles
+    handleStartEl.style.display = 'none';
+    handleEndEl.style.display = 'none';
+  }
+}
 
 export let searchMatches = [];
 export let activeSearchIndex = -1;
@@ -210,23 +303,23 @@ export function initEditor(containerId, initialContent, onChange, onSelectionCha
         updateLineNumbers(raw);
         updateCallback(raw);
       }
+      updateCustomHandlesPosition();
     },
     onSelectionUpdate: ({ editor }) => {
       if (onSelectionChange) {
         const { from, to, empty } = editor.state.selection;
         
-        // Suppress keyboard on mobile during text selection (iOS only)
-        // Android text selection handles break if inputmode is changed dynamically
+        // Suppress keyboard on mobile during text selection globally
+        // We now use our own custom selection handles, so we can hide the OS keyboard on both iOS and Android
         if (window.innerWidth <= 768) {
-          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-          if (isIOS) {
-            if (!empty) {
-              editor.view.dom.setAttribute('inputmode', 'none');
-            } else {
-              editor.view.dom.removeAttribute('inputmode');
-            }
+          if (!empty) {
+            editor.view.dom.setAttribute('inputmode', 'none');
+          } else {
+            editor.view.dom.removeAttribute('inputmode');
           }
         }
+        
+        updateCustomHandlesPosition();
         
         if (empty) {
           onSelectionChange('', null, isProgrammaticSelection);
@@ -245,6 +338,7 @@ export function initEditor(containerId, initialContent, onChange, onSelectionCha
   });
   
   updateLineNumbers(initialContent);
+  initCustomHandles();
   return editor;
 }
 

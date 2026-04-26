@@ -934,3 +934,50 @@
   border-color: rgba(240, 113, 120, 0.3);
 }
 
+/* Custom Selection Handles */
+.custom-selection-handle {
+  position: fixed;
+  z-index: 1000;
+  display: none; /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(166, 38, 164, 0.3);
+  cursor: ew-resize;
+  border-radius: 4px;
+  /* Make sure it sits exactly on the cursor line */
+  transform: translateY(-50%);
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
+  touch-action: none; /* Prevent scroll while dragging */
+}
+
+.custom-selection-handle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.custom-selection-handle.handle-start {
+  width: 24px;
+  height: 28px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  /* Anchor to the right edge */
+  transform: translate(-100%, -50%);
+}
+
+.custom-selection-handle.handle-end {
+  width: 24px;
+  height: 28px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  /* Anchor to the left edge */
+  transform: translate(0, -50%);
+}
+
+[data-theme="dark"] .custom-selection-handle {
+  background-color: #F07178;
+  box-shadow: 0 4px 12px rgba(240, 113, 120, 0.3);
+}
