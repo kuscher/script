@@ -214,6 +214,16 @@ export function initEditor(containerId, initialContent, onChange, onSelectionCha
     onSelectionUpdate: ({ editor }) => {
       if (onSelectionChange) {
         const { from, to, empty } = editor.state.selection;
+        
+        // Suppress keyboard on mobile during text selection
+        if (window.innerWidth <= 768) {
+          if (!empty) {
+            editor.view.dom.setAttribute('inputmode', 'none');
+          } else {
+            editor.view.dom.removeAttribute('inputmode');
+          }
+        }
+        
         if (empty) {
           onSelectionChange('', null, isProgrammaticSelection);
         } else {

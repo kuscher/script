@@ -46,8 +46,13 @@ export function initFirstRun() {
         }
         deferredPrompt = null;
       } else {
-        // Fallback for unsupported browsers
-        alert('App installation is not supported in this browser, or it is already installed.');
+        // Fallback for unsupported browsers, primarily iOS Safari
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+          alert("To install Script on iOS:\n\n1. Tap the Share icon at the bottom of Safari.\n2. Scroll down and tap 'Add to Home Screen'.");
+        } else {
+          alert('App installation is not supported in this browser, or it is already installed.');
+        }
       }
       dismissDrawer();
     });

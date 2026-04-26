@@ -196,8 +196,8 @@
   flex: 1;
   padding: 80px 40px 100px 4px;
   overflow: visible; /* Scroll is handled by .editor-container */
-  user-select: text;
-  -webkit-user-select: text;
+  user-select: auto;
+  -webkit-user-select: auto;
   -webkit-touch-callout: default;
 }
 
@@ -211,8 +211,8 @@
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  user-select: text;
-  -webkit-user-select: text;
+  user-select: auto;
+  -webkit-user-select: auto;
   -webkit-touch-callout: default;
 }
 
