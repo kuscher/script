@@ -923,7 +923,6 @@
   align-items: center;
   gap: 6px;
   transition: all 0.2s;
-  pointer-events: auto;
 }
 .ai-pill-btn:hover {
   background-color: rgba(255, 255, 255, 0.95);

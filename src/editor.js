@@ -599,41 +599,32 @@ export function setSyntaxLanguage(filename) {
 export function gotoLine(lineNumber) {
   if (!editor) return;
   const { doc } = editor.state;
-  let pos = 0;
-  let line = 1;
-  doc.descendants((node, p) => {
-    if (node.type.name === 'paragraph') {
-      if (line === lineNumber) {
-        pos = p + 1; // start of paragraph text
-        return false;
-      }
-      line++;
-    }
-  });
   
-  if (pos > 0 || lineNumber === 1) {
-    // We use .focus(pos) so it natively focuses and places the cursor without Tiptap restoring old cached cursor positions
-    editor.commands.focus(pos);
-    editor.view.dispatch(editor.state.tr.scrollIntoView());
+  if (lineNumber > doc.childCount) {
+    lineNumber = doc.childCount;
   }
+  if (lineNumber < 1) {
+    lineNumber = 1;
+  }
+  
+  // Find the start pos of the target paragraph
+  let pos = 0;
+  for (let i = 0; i < lineNumber - 1; i++) {
+    pos += doc.child(i).nodeSize;
+  }
+  
+  const targetPos = pos + 1; // +1 to move inside the paragraph node
+  
+  editor.chain().focus().setTextSelection(targetPos).scrollIntoView().run();
 }
 
 export function getCursorPosition() {
   if (!editor) return { line: 1, col: 1 };
   const { doc, selection } = editor.state;
   const pos = selection.from;
-  let line = 1;
-  let col = 1;
-  doc.descendants((node, p) => {
-    if (node.type.name === 'paragraph') {
-      const nodeSize = node.nodeSize;
-      if (pos >= p && pos < p + nodeSize) {
-        col = Math.max(1, pos - p);
-        return false;
-      }
-      line++;
-    }
-  });
+  const resolvedPos = doc.resolve(pos);
+  const line = resolvedPos.index(0) + 1;
+  const col = resolvedPos.parentOffset + 1;
   return { line, col };
 }
 
