@@ -238,7 +238,7 @@ async function bootstrap() {
       
       const subject = encodeURIComponent(activeTab.filename || 'Untitled Document');
       const body = encodeURIComponent(activeTab.content || '');
-      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+      window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
     });
   }
 
