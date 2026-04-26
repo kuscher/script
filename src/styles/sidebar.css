@@ -338,4 +338,8 @@
   .sidebar-resizer {
     display: none !important;
   }
+  
+  .shadow-menu {
+    top: calc(110px + env(safe-area-inset-top) + 56px);
+  }
 }
