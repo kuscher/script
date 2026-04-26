@@ -438,13 +438,74 @@ async function bootstrap() {
   }
 
   // Editor wireup
+  let autonameTimer = null;
   initEditor('editor-root', '', (text) => {
      updateActiveTabContent(text);
      statusBarCtrl.updateStats(text);
+
+     // Auto-Naming Logic
+     if (autonameTimer) clearTimeout(autonameTimer);
+     const activeTab = getActiveTab();
+     if (activeTab && activeTab.filename === 'Untitled.txt' && text.trim().length > 50) {
+       autonameTimer = setTimeout(async () => {
+         try {
+           const res = await fetch('/api/autoname', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ text })
+           });
+           if (res.ok) {
+             const data = await res.json();
+             if (data.title && data.emoji) {
+               const newName = `${data.emoji} ${data.title}.txt`;
+               renameActiveTab(newName);
+               if (dom.headerTitle && document.activeElement !== dom.headerTitle) {
+                 dom.headerTitle.innerText = newName;
+               }
+             }
+           }
+         } catch (e) {
+           console.error('Autoname failed', e);
+         }
+       }, 3000);
+     }
   }, handleSelectionChange);
 
   initToneSlider();
   initPersonaFeedback();
+
+  const btnSmartFormat = document.getElementById('btn-smart-format');
+  if (btnSmartFormat) {
+    btnSmartFormat.addEventListener('click', async () => {
+      const activeTab = getActiveTab();
+      if (!activeTab || !activeTab.content || activeTab.content.trim().length < 10) return;
+      
+      const originalHtml = btnSmartFormat.innerHTML;
+      btnSmartFormat.innerHTML = '<i data-lucide="loader-2" class="spin"></i>';
+      createIcons({ icons, nameAttr: 'data-lucide' });
+      
+      try {
+        const res = await fetch('/api/format', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: activeTab.content })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.formattedText) {
+             setEditorContent(data.formattedText);
+             updateActiveTabContent(data.formattedText);
+             statusBarCtrl.updateStats(data.formattedText);
+          }
+        }
+      } catch (e) {
+        console.error('Smart Format failed', e);
+      } finally {
+        btnSmartFormat.innerHTML = originalHtml;
+        createIcons({ icons, nameAttr: 'data-lucide' });
+      }
+    });
+  }
 
   initShortcuts(document.getElementById('shortcuts-overlay'), document.getElementById('shortcuts-container'), actions);
 

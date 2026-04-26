@@ -1,0 +1,84 @@
+export const config = {
+  runtime: 'edge',
+};
+
+export default async function handler(req) {
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return new Response(JSON.stringify({ error: 'Missing API Key' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  try {
+    const { text } = await req.json();
+
+    if (!text || text.trim().length < 10) {
+      return new Response(JSON.stringify({ error: 'Text too short' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Limit text to first 3000 chars to save tokens, it's just for a title
+    const truncatedText = text.substring(0, 3000);
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          role: 'user',
+          parts: [{ text: "Read the following document text and suggest a snappy, highly relevant title (max 5 words) and a single representative emoji. Return ONLY JSON.\n\n" + truncatedText }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "object",
+            properties: {
+              title: { type: "string" },
+              emoji: { type: "string" }
+            },
+            required: ["title", "emoji"]
+          }
+        }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Gemini API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let result = { title: "Untitled Document", emoji: "📄" };
+    
+    if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+      try {
+        result = JSON.parse(data.candidates[0].content.parts[0].text.trim());
+      } catch (e) {
+        console.error("Failed to parse JSON from Gemini:", e);
+      }
+    }
+
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+  } catch (error) {
+    console.error('Auto-name error:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+}
