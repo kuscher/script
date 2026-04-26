@@ -2,6 +2,21 @@ export const config = {
   runtime: 'edge',
 };
 
+const rateLimit = new Map();
+const MAX_REQUESTS_PER_MINUTE = 20;
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const data = rateLimit.get(ip);
+  if (!data || now > data.resetAt) {
+    rateLimit.set(ip, { count: 1, resetAt: now + 60000 });
+    return true;
+  }
+  if (data.count >= MAX_REQUESTS_PER_MINUTE) return false;
+  data.count++;
+  return true;
+}
+
 export default async function handler(req) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
@@ -14,6 +29,14 @@ export default async function handler(req) {
   if (!apiKey) {
     return new Response(JSON.stringify({ error: 'Missing API Key' }), {
       status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
+  if (!checkRateLimit(ip)) {
+    return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
+      status: 429,
       headers: { 'Content-Type': 'application/json' },
     });
   }
@@ -41,6 +64,7 @@ export default async function handler(req) {
         }],
         generationConfig: {
           temperature: 0.7,
+          maxOutputTokens: 50,
           responseMimeType: "application/json",
           responseSchema: {
             type: "object",

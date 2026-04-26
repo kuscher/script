@@ -71,7 +71,8 @@ export default async function handler(req) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: `${systemInstruction}\n\nDocument text: "${text}"` }] }]
+        contents: [{ parts: [{ text: `${systemInstruction}\n\nDocument text: "${text}"` }] }],
+        generationConfig: { maxOutputTokens: 250 }
       })
     });
 

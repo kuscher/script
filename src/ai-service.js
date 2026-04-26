@@ -1,7 +1,46 @@
 import { getSettings } from './settings.js';
 
+// Rate limiting and token tracking logic
+function checkTokenLimit(text) {
+  if (!text) return;
+  const estimatedTokens = Math.ceil(text.length / 4);
+  const now = Date.now();
+  const today = new Date().toISOString().split('T')[0];
+  
+  let usage = JSON.parse(localStorage.getItem('ai_usage') || '{}');
+  
+  if (!usage.firstUsedDate) usage.firstUsedDate = today;
+  if (usage.currentDate !== today) {
+    usage.currentDate = today;
+    usage.dailyTokens = 0;
+  }
+  
+  if (!usage.minuteWindow || now - usage.minuteWindow > 60000) {
+    usage.minuteWindow = now;
+    usage.minuteTokens = 0;
+  }
+  
+  const isFirstDay = usage.firstUsedDate === today;
+  const DAILY_LIMIT = isFirstDay ? 100000 : 30000;
+  const MINUTE_LIMIT = 15000;
+  
+  if (usage.minuteTokens + estimatedTokens > MINUTE_LIMIT) {
+    throw new Error('You are generating too fast. Please wait a minute.');
+  }
+  
+  if (usage.dailyTokens + estimatedTokens > DAILY_LIMIT) {
+    throw new Error(`Daily AI limit reached (${DAILY_LIMIT.toLocaleString()} tokens). Please try again tomorrow.`);
+  }
+  
+  usage.minuteTokens += estimatedTokens;
+  usage.dailyTokens += estimatedTokens;
+  
+  localStorage.setItem('ai_usage', JSON.stringify(usage));
+}
+
 // Centralize the AI logic here
 export async function generateAutoName(text) {
+  checkTokenLimit(text);
   const settings = getSettings();
   if (settings.useCloudModels) {
     const res = await fetch('/api/autoname', {
@@ -18,6 +57,7 @@ export async function generateAutoName(text) {
 }
 
 export async function generateFormat(text) {
+  checkTokenLimit(text);
   const settings = getSettings();
   if (settings.useCloudModels) {
     const res = await fetch('/api/format', {
@@ -33,6 +73,7 @@ export async function generateFormat(text) {
 }
 
 export async function generateTone(text, toneValue) {
+  checkTokenLimit(text);
   const settings = getSettings();
   if (settings.useCloudModels) {
     const res = await fetch('/api/tone', {
@@ -53,6 +94,7 @@ export async function generateTone(text, toneValue) {
 }
 
 export async function generatePersona(text, persona) {
+  checkTokenLimit(text);
   const settings = getSettings();
   if (settings.useCloudModels) {
     const res = await fetch('/api/persona', {
@@ -73,6 +115,7 @@ export async function generatePersona(text, persona) {
 }
 
 export async function generateMention(query) {
+  checkTokenLimit(query);
   const settings = getSettings();
   if (settings.useCloudModels) {
     const res = await fetch('/api/gemini', {
