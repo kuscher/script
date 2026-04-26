@@ -10,6 +10,45 @@ let state = {
   activeRequest: null
 };
 
+let loadingInterval;
+let loadingTextIndex = 0;
+let loadingDots = 0;
+const loadingStrings = ["combulating", "pondering", "sophisticating", "kuscherifying"];
+
+function startToneLoadingAnimation() {
+  const titleEl = document.querySelector('.tone-panel-title');
+  if (!titleEl) return;
+  
+  if (loadingInterval) clearInterval(loadingInterval);
+  
+  loadingTextIndex = 0;
+  loadingDots = 0;
+  
+  loadingInterval = setInterval(() => {
+    loadingDots = (loadingDots + 1) % 4;
+    let dots = '';
+    for (let i = 0; i < loadingDots; i++) dots += '.';
+    
+    // Capitalize the first letter
+    const str = loadingStrings[loadingTextIndex];
+    const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+    
+    titleEl.innerText = capitalized + dots;
+    
+    // occasionally swap string
+    if (Math.random() > 0.8) {
+       loadingTextIndex = (loadingTextIndex + 1) % loadingStrings.length;
+    }
+  }, 400);
+}
+
+function stopToneLoadingAnimation() {
+  const titleEl = document.querySelector('.tone-panel-title');
+  if (loadingInterval) clearInterval(loadingInterval);
+  loadingInterval = null;
+  if (titleEl) titleEl.innerText = "Adjust Tone";
+}
+
 export function initToneSlider() {
   bubble = document.getElementById('ai-selection-bubble');
   container = document.getElementById('tone-slider-container');
@@ -228,6 +267,7 @@ async function triggerRewrite(toneValue) {
   const controller = new AbortController();
   state.activeRequest = controller;
   setToneEditingRange(state.currentRange);
+  startToneLoadingAnimation();
 
   try {
     const res = await fetch('/api/tone', {
@@ -266,6 +306,7 @@ async function triggerRewrite(toneValue) {
   } finally {
     if (state.activeRequest === controller) {
       state.activeRequest = null;
+      stopToneLoadingAnimation();
     }
   }
 }
