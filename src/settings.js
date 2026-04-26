@@ -92,9 +92,9 @@ export function openSettingsPanel(container, onBack) {
 
       <div id="byot-container" style="display: ${settings.aiProvider === 'byot' ? 'block' : 'none'}; margin-top: 16px; background: var(--bg-tab-hover); padding: 12px; border-radius: 8px; border: 1px solid var(--border-hairline);">
         <label style="display:block; font-size:11px; margin-bottom:8px; color:var(--text-primary);">Google Gemini API Key</label>
-        <div style="display:flex; gap:8px;">
-          <input type="password" id="set-api-key" placeholder="AIza..." value="${settings.geminiApiKey || ''}" style="flex:1; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui);">
-          <button id="btn-verify-key" style="padding:0 12px; border-radius:6px; background:#A626A4; color:white; border:none; cursor:pointer; font-size:12px; font-weight:600;">Verify</button>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <input type="password" id="set-api-key" placeholder="AIza..." value="${settings.geminiApiKey || ''}" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui); box-sizing:border-box;">
+          <button id="btn-verify-key" style="width:100%; padding:8px 12px; border-radius:6px; background:#A626A4; color:white; border:none; cursor:pointer; font-size:12px; font-weight:600; box-sizing:border-box;">Verify</button>
         </div>
         <span id="key-status" style="display:block; margin-top:8px; font-size:11px; color:var(--success);"></span>
       </div>
