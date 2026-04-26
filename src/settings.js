@@ -50,14 +50,16 @@ export function openSettingsPanel(container, onBack) {
   container.innerHTML = '';
   // Built naive config form
   container.innerHTML = `
-    <div class="setting-block">
-      <label data-i18n="settings.appearance">Appearance</label>
+    <div class="setting-card">
+      <div class="setting-card-title"><i data-lucide="palette"></i> <span data-i18n="settings.appearance">Appearance</span></div>
+      
       <div class="setting-row">
         <span data-i18n="settings.language">Language</span>
         <select id="set-language">
           ${SUPPORTED_LANGUAGES.map(l => `<option value="${l.code}" ${getCurrentLanguage() === l.code ? 'selected' : ''}>${l.name}</option>`).join('')}
         </select>
       </div>
+      
       <div class="setting-row">
         <span data-i18n="settings.theme">Theme</span>
         <select id="set-theme">
@@ -66,6 +68,7 @@ export function openSettingsPanel(container, onBack) {
           <option value="dark" ${settings.theme==='dark'?'selected':''} data-i18n="settings.themeDark">Dark</option>
         </select>
       </div>
+      
       <div class="setting-row">
         <span data-i18n="settings.fontFamily">Font Family</span>
         <select id="set-font">
@@ -74,14 +77,16 @@ export function openSettingsPanel(container, onBack) {
           <option value="serif" ${settings.fontFamily==='serif'?'selected':''} data-i18n="settings.fontSerif">Serif</option>
         </select>
       </div>
+      
       <div class="setting-row" style="display:flex; flex-direction:column; align-items:flex-start; margin-top:24px;">
         <span style="margin-bottom:8px;"><span data-i18n="settings.fontSize">Font Size:</span> <span id="set-size-disp">${settings.fontSize}</span>px</span>
         <input type="range" id="set-size" min="12" max="24" value="${settings.fontSize}" style="width:100%">
       </div>
     </div>
     
-    <div class="setting-block" style="margin-top: 24px;">
-      <label data-i18n="settings.aiFeatures">AI Features</label>
+    <div class="setting-card">
+      <div class="setting-card-title"><i data-lucide="bot"></i> <span data-i18n="settings.aiFeatures">AI Features</span></div>
+      
       <div class="setting-row">
         <span data-i18n="settings.enableQueries">Enable @ queries</span>
         <label class="toggle-switch">
@@ -89,6 +94,7 @@ export function openSettingsPanel(container, onBack) {
           <span class="slider"></span>
         </label>
       </div>
+      
       <div class="setting-row" style="margin-top:16px; flex-direction:column; align-items:flex-start; gap:8px;">
         <span style="display:block; width:100%; font-weight: 500;" data-i18n="settings.activeEngine">Active AI Engine</span>
         <select id="set-ai-provider" style="width:100%; padding: 10px; border-radius: 8px;">
@@ -99,7 +105,7 @@ export function openSettingsPanel(container, onBack) {
         <span style="font-size:11px; opacity:0.7;" data-i18n="settings.engineDesc">Select which engine processes your text. Local requires Chrome Gemini Nano.</span>
       </div>
 
-      <div id="byot-container" style="display: ${settings.aiProvider === 'byot' ? 'block' : 'none'}; margin-top: 16px; background: var(--bg-tab-hover); padding: 12px; border-radius: 8px; border: 1px solid var(--border-hairline);">
+      <div id="byot-container" style="display: ${settings.aiProvider === 'byot' ? 'block' : 'none'}; margin-top: 16px; background: var(--bg-sidebar); padding: 12px; border-radius: 8px; border: 1px solid var(--border-hairline);">
         <label style="display:block; font-size:11px; margin-bottom:8px; color:var(--text-primary);" data-i18n="settings.geminiKey">Google Gemini API Key</label>
         <div style="display:flex; flex-direction:column; gap:8px;">
           <input type="password" id="set-api-key" placeholder="AIza..." value="${settings.geminiApiKey || ''}" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui); box-sizing:border-box;">
@@ -107,20 +113,19 @@ export function openSettingsPanel(container, onBack) {
         </div>
         <span id="key-status" style="display:block; margin-top:8px; font-size:11px; color:var(--success);"></span>
       </div>
-      </div>
     </div>
     
-    <div class="setting-block">
+    <div class="setting-card">
       <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom: 8px;">
-        <label data-i18n="settings.sync" style="margin:0;">Cloud Sync</label>
+        <div class="setting-card-title" style="margin:0;"><i data-lucide="cloud"></i> <span data-i18n="settings.sync">Cloud Sync</span></div>
         <label class="toggle-switch">
           <input type="checkbox" id="sync-toggle" ${localStorage.getItem('script_sync_key') ? 'checked' : ''}>
-          <span class="toggle-slider"></span>
+          <span class="slider"></span>
         </label>
       </div>
-      <span style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:8px;" data-i18n="settings.syncDesc">Share a single special note across instances using a secret passphrase. Requires Vercel KV.</span>
+      <span style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:12px;" data-i18n="settings.syncDesc">Share a single special note across instances using a secret passphrase. Requires Vercel KV.</span>
       
-      <div id="sync-config-area" style="display: ${localStorage.getItem('script_sync_key') ? 'flex' : 'none'}; flex-direction:column; gap:8px; background: var(--bg-tab-hover); padding: 12px; border-radius: 8px; border: 1px solid var(--border-hairline);">
+      <div id="sync-config-area" style="display: ${localStorage.getItem('script_sync_key') ? 'flex' : 'none'}; flex-direction:column; gap:8px; background: var(--bg-sidebar); padding: 12px; border-radius: 8px; border: 1px solid var(--border-hairline);">
         <label style="font-size:11px; color:var(--text-primary);">Sync Passphrase</label>
         <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">
           <input type="text" id="set-sync-key" placeholder="Enter or generate passphrase..." style="flex:1; min-width: 150px; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui); box-sizing:border-box;">
