@@ -109,8 +109,10 @@ Do not add any conversational filler. Only return the rewritten text natively. M
     if (!res.ok) throw new Error('Cloud API failed');
     const data = await res.json();
     let rewrittenText = '';
-    if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
       rewrittenText = data.candidates[0].content.parts[0].text.trim();
+    } else {
+      console.warn("Unexpected Gemini response:", data);
     }
     return { rewrittenText };
   } else {
@@ -196,10 +198,11 @@ async function fetchByot(prompt, apiKey, maxTokens = 8192, jsonMode = false, sig
   const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, fetchOpts);
   if (!res.ok) throw new Error('BYOT API failed');
   const data = await res.json();
-  if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+  if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
     return data.candidates[0].content.parts[0].text.trim();
   }
-  throw new Error("No response");
+  console.warn("Unexpected BYOT Gemini response:", data);
+  throw new Error("No response or safety block");
 }
 
 // --- LOCAL AI FALLBACKS ---
