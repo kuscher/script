@@ -42,6 +42,7 @@ export function initFindReplace(containerId) {
   }, 100);
 
   return {
+    isOpen: () => container.classList.contains('visible'),
     show: (showReplace) => {
       container.classList.remove('hidden');
       container.classList.add('visible');

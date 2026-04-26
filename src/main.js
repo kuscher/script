@@ -1,7 +1,7 @@
 import { initTabs, getTabs, getActiveTab, setActiveTab, closeTab, createNewTab, updateActiveTabContent, markActiveTabSaved, renameActiveTab } from './tabs.js';
 import { initSidebar, renderTabs } from './sidebar.js';
 import { initMenu } from './menu.js';
-import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex, undo, redo, gotoLine } from './editor.js';
+import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex, undo, redo, gotoLine, getCursorPosition } from './editor.js';
 import { loadSettings, openSettingsPanel } from './settings.js';
 import { openFilePicker, saveFilePicker, saveFileToHandle, verifyPermission, readAsText } from './file-system.js';
 
@@ -112,12 +112,23 @@ async function bootstrap() {
       if (handle) markActiveTabSaved(handle, handle.name);
     },
     onPrint: () => window.print(),
-    onFind: () => findCtrl.show(false),
-    onReplace: () => findCtrl.show(true),
+    onFind: () => {
+      if (findCtrl && findCtrl.isOpen()) findCtrl.hide();
+      else if (findCtrl) findCtrl.show(false);
+    },
+    onReplace: () => {
+      if (findCtrl && findCtrl.isOpen()) findCtrl.hide();
+      else if (findCtrl) findCtrl.show(true);
+    },
     onGotoLine: () => {
        const bar = document.getElementById('go-to-line-bar');
-       bar.classList.remove('hidden');
-       document.getElementById('input-goto-line').focus();
+       if (!bar.classList.contains('hidden')) {
+         bar.classList.add('hidden');
+         focusEditor();
+       } else {
+         bar.classList.remove('hidden');
+         document.getElementById('input-goto-line').focus();
+       }
     },
     onToggleSidebar: () => {
        dom.sidebar.classList.toggle('collapsed');
@@ -256,11 +267,12 @@ async function bootstrap() {
     gotoInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const line = parseInt(e.target.value, 10);
+        document.getElementById('go-to-line-bar').classList.add('hidden');
         if (!isNaN(line)) {
           gotoLine(line);
+        } else {
+          focusEditor();
         }
-        document.getElementById('go-to-line-bar').classList.add('hidden');
-        focusEditor();
         e.target.value = '';
       } else if (e.key === 'Escape') {
         document.getElementById('go-to-line-bar').classList.add('hidden');
@@ -490,7 +502,13 @@ async function bootstrap() {
          }
        }, 3000);
      }
-  }, handleSelectionChange);
+  }, (text, range, isProgrammatic) => {
+    handleSelectionChange(text, range, isProgrammatic);
+    const activeTab = getActiveTab();
+    if (activeTab) {
+      statusBarCtrl.updateStats(activeTab.content, getCursorPosition());
+    }
+  });
 
   initToneSlider();
   initPersonaFeedback();

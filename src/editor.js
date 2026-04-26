@@ -612,9 +612,29 @@ export function gotoLine(lineNumber) {
   });
   
   if (pos > 0 || lineNumber === 1) {
-    editor.commands.setTextSelection(pos);
+    // We use .focus(pos) so it natively focuses and places the cursor without Tiptap restoring old cached cursor positions
+    editor.commands.focus(pos);
     editor.view.dispatch(editor.state.tr.scrollIntoView());
   }
+}
+
+export function getCursorPosition() {
+  if (!editor) return { line: 1, col: 1 };
+  const { doc, selection } = editor.state;
+  const pos = selection.from;
+  let line = 1;
+  let col = 1;
+  doc.descendants((node, p) => {
+    if (node.type.name === 'paragraph') {
+      const nodeSize = node.nodeSize;
+      if (pos >= p && pos < p + nodeSize) {
+        col = Math.max(1, pos - p);
+        return false;
+      }
+      line++;
+    }
+  });
+  return { line, col };
 }
 
 /** Tiptap natively wants block nodes (Paragraphs). 
