@@ -1,7 +1,7 @@
 import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords, clearSelection, copySelection, cutSelection, expandSelectionToSentence } from './editor.js';
 import { createIcons, icons } from 'lucide';
 import { getActiveTab, updateActiveTabContent } from './tabs.js';
-import { generateTone } from './ai-service.js';
+import { generateToneRewrite } from './ai-service.js';
 
 let bubble, container, slider, placeholder, labelBlunt, labelDiplomatic, btnToneUndo;
 let state = {
@@ -273,7 +273,7 @@ async function triggerRewrite(toneValue) {
   try {
     startToneLoadingAnimation();
     
-    const data = await generateTone(state.originalText, toneValue, controller.signal);
+    const data = await generateToneRewrite(state.originalText, toneValue, controller.signal);
     
     if (data && data.rewrittenText && state.currentRange && state.activeRequest === controller) {
        // Make sure to add one line break at the end

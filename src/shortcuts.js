@@ -77,9 +77,10 @@ export function initShortcuts(overlayEl, container, actions) {
     const matched = map.find(m => m.key.toUpperCase() === shortcutStr);
     if (matched && matched.action) {
       e.preventDefault();
+      e.stopPropagation();
       matched.action();
     }
-  });
+  }, { capture: true });
 
   document.getElementById('btn-close-shortcuts').addEventListener('click', () => {
     overlayEl.classList.add('hidden');
