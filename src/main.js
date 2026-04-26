@@ -13,7 +13,7 @@ import { initPersonaFeedback } from './persona.js';
 import { initFirstRun } from './first-run.js';
 import { generateAutoName, generateFormat } from './ai-service.js';
 import { initI18n, translateDOM } from './i18n.js';
-import { initSyncEngine, hasSyncKey, setIsCloudNoteActive, queueSyncSave } from './sync-engine.js';
+import { initSyncEngine, hasSyncKey, setIsCloudNoteActive, queueSyncSave, forceSyncSave, forceFetch } from './sync-engine.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -96,6 +96,17 @@ async function bootstrap() {
     onSave: async () => {
       const tab = getActiveTab();
       if (!tab) return;
+      
+      if (tab.id === 'cloud-note') {
+        const success = await forceSyncSave(tab.content);
+        if (success) {
+           markActiveTabSaved();
+        } else {
+           alert('Failed to force sync cloud note. Please check your network.');
+        }
+        return;
+      }
+      
       if (tab.fileHandle) {
         const hasPerms = await verifyPermission(tab.fileHandle, true);
         if (!hasPerms) return; // user discarded permission prompt
@@ -147,6 +158,11 @@ async function bootstrap() {
        findCtrl.hide();
        const aiBubble = document.getElementById('ai-selection-bubble');
        if (aiBubble) aiBubble.classList.remove('visible');
+    },
+    onOpenSettings: () => {
+      dom.tabListView.classList.add('hidden');
+      dom.settingsView.classList.remove('hidden');
+      openSettingsPanel(dom.settingsContainer);
     }
   };
 
@@ -159,11 +175,7 @@ async function bootstrap() {
     print: actions.onPrint,
     find: actions.onFind,
     goTo: actions.onGotoLine,
-    settings: () => {
-      dom.tabListView.classList.add('hidden');
-      dom.settingsView.classList.remove('hidden');
-      openSettingsPanel(dom.settingsContainer);
-    },
+    settings: actions.onOpenSettings,
     shortcuts: () => {
        document.getElementById('shortcuts-overlay').classList.remove('hidden');
     }
@@ -446,6 +458,15 @@ async function bootstrap() {
       btnToggleReplace.addEventListener('mousedown', e => e.preventDefault());
     }
     
+    const btnSyncReload = document.getElementById('btn-sync-reload');
+    if (btnSyncReload) {
+      btnSyncReload.addEventListener('click', async () => {
+        btnSyncReload.style.opacity = '0.5';
+        await forceFetch();
+        btnSyncReload.style.opacity = '1';
+      });
+    }
+    
     document.getElementById('btn-undo')?.addEventListener('click', () => { undo(); focusEditor(); });
     document.getElementById('btn-redo')?.addEventListener('click', () => { redo(); focusEditor(); });
 
@@ -585,14 +606,22 @@ async function bootstrap() {
          else if (active.filename.endsWith('.rtf')) iconName = 'file-type';
          dom.headerIcon.setAttribute('data-lucide', iconName);
        }
+       const btnSyncReload = document.getElementById('btn-sync-reload');
+       
        if (active.filename.endsWith('.md') || active.filename.endsWith('.markdown')) {
-          if (btnTogglePreview) btnTogglePreview.style.display = 'flex';
+         dom.btnPreview.style.display = 'block';
        } else {
-          if (btnTogglePreview) btnTogglePreview.style.display = 'none';
-          if (isPreviewMode && btnTogglePreview) btnTogglePreview.click();
+         dom.btnPreview.style.display = 'none';
+         if (isPreviewMode && dom.btnPreview) dom.btnPreview.click();
        }
        
-       const diskWarning = document.getElementById('disk-warning');
+       if (activeTabId === 'cloud-note') {
+         setIsCloudNoteActive(true);
+         if (btnSyncReload) btnSyncReload.style.display = 'flex';
+       } else {
+         setIsCloudNoteActive(false);
+         if (btnSyncReload) btnSyncReload.style.display = 'none';
+       }
        if (diskWarning) {
          if (!active.fileHandle) {
            diskWarning.classList.remove('hidden');

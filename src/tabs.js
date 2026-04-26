@@ -9,9 +9,10 @@ export async function initTabs(onChange) {
   const hydrated = await loadTabsState();
   if (hydrated && hydrated.length > 0) {
     tabs = hydrated;
+    ensureCloudNote(); // ensure cloud note is always in the hydrated list
     activeTabId = tabs[0].id;
     notify();
-    const unsavedCount = tabs.filter(t => t.content !== t.savedContent).length;
+    const unsavedCount = tabs.filter(t => t.content !== t.savedContent && t.id !== 'cloud-note').length;
     return { restored: true, count: unsavedCount };
   } else {
     const welcomeContent = `# Welcome to Script 👋
@@ -36,6 +37,7 @@ Script is actively built and maintained entirely out in the open! If you want to
 [Improve the project on GitHub](https://github.com/kuscher/script)
 `;
     createNewTab(welcomeContent, 'Welcome.md');
+    ensureCloudNote();
     return { restored: false, count: 0 };
   }
 }
@@ -149,17 +151,5 @@ export function ensureCloudNote() {
 }
 
 export function removeCloudNote() {
-  const idx = tabs.findIndex(t => t.id === 'cloud-note');
-  if (idx !== -1) {
-    if (activeTabId === 'cloud-note') {
-      const nextTab = tabs.find(t => t.id !== 'cloud-note');
-      activeTabId = nextTab ? nextTab.id : null;
-    }
-    tabs.splice(idx, 1);
-    if (tabs.length === 0) createNewTab();
-    else {
-      debouncedSaveTabsState(tabs);
-      notify();
-    }
-  }
+  // Now deprecated since cloud note is permanently installed
 }

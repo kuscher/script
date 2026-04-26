@@ -111,14 +111,25 @@ export function openSettingsPanel(container, onBack) {
     </div>
     
     <div class="setting-block">
-      <label data-i18n="settings.sync">Cloud Sync</label>
-      <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:8px;">
-        <span style="font-size:12px; color:var(--text-secondary);" data-i18n="settings.syncDesc">Share a single special note across instances using a secret passphrase. Requires Vercel KV.</span>
-        <div style="display:flex; gap:8px; width:100%;">
-          <input type="text" id="set-sync-key" placeholder="Enter passphrase..." style="flex:1; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui); box-sizing:border-box;">
-          <button id="btn-save-sync" style="padding:8px 12px; border-radius:6px; background:#38BDF8; color:white; border:none; cursor:pointer; font-size:12px; font-weight:600;" data-i18n="settings.save">Save</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom: 8px;">
+        <label data-i18n="settings.sync" style="margin:0;">Cloud Sync</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="sync-toggle" ${localStorage.getItem('script_sync_key') ? 'checked' : ''}>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <span style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:8px;" data-i18n="settings.syncDesc">Share a single special note across instances using a secret passphrase. Requires Vercel KV.</span>
+      
+      <div id="sync-config-area" style="display: ${localStorage.getItem('script_sync_key') ? 'flex' : 'none'}; flex-direction:column; gap:8px; background: var(--bg-tab-hover); padding: 12px; border-radius: 8px; border: 1px solid var(--border-hairline);">
+        <label style="font-size:11px; color:var(--text-primary);">Sync Passphrase</label>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">
+          <input type="text" id="set-sync-key" placeholder="Enter or generate passphrase..." style="flex:1; min-width: 150px; padding:8px; border-radius:6px; border:1px solid var(--border-hairline); background:var(--bg-find); color:var(--text-primary); font-family:var(--font-ui); box-sizing:border-box;">
+          <div style="display:flex; gap:4px;">
+            <button id="btn-copy-sync" style="padding:8px 12px; border-radius:6px; background:var(--bg-tab-hover); color:var(--text-primary); border:1px solid var(--border-hairline); cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center;" title="Copy Passphrase"><i data-lucide="copy" style="width:14px;height:14px;"></i></button>
+            <button id="btn-save-sync" style="padding:8px 12px; border-radius:6px; background:#38BDF8; color:white; border:none; cursor:pointer; font-size:12px; font-weight:600;" data-i18n="settings.save">Save</button>
+          </div>
         </div>
-        <button id="btn-generate-sync" style="padding:6px 10px; border-radius:6px; background:var(--bg-tab-hover); color:var(--text-primary); border:1px solid var(--border-hairline); cursor:pointer; font-size:11px;" data-i18n="settings.generatePhrase">Generate Passphrase</button>
+        <button id="btn-generate-sync" style="align-self:flex-start; padding:6px 10px; border-radius:6px; background:transparent; color:var(--accent); border:none; cursor:pointer; font-size:11px; text-decoration:underline;" data-i18n="settings.generatePhrase">Generate random passphrase</button>
         <span id="sync-status" style="font-size:11px; color:var(--success);"></span>
       </div>
     </div>
@@ -215,13 +226,36 @@ export function openSettingsPanel(container, onBack) {
   }
 
   // Cloud Sync Logic
+  const syncToggle = container.querySelector('#sync-toggle');
+  const syncConfigArea = container.querySelector('#sync-config-area');
   const btnSaveSync = container.querySelector('#btn-save-sync');
   const btnGenSync = container.querySelector('#btn-generate-sync');
+  const btnCopySync = container.querySelector('#btn-copy-sync');
   const inputSync = container.querySelector('#set-sync-key');
   const syncStatus = container.querySelector('#sync-status');
 
   const storedSyncKey = localStorage.getItem('script_sync_key');
-  if (storedSyncKey) inputSync.value = storedSyncKey;
+  if (storedSyncKey && inputSync) inputSync.value = storedSyncKey;
+
+  const generatePhrase = () => {
+    const words = ['apple', 'horse', 'staple', 'battery', 'purple', 'ocean', 'sunset', 'flying', 'turtle', 'mountain', 'river', 'forest', 'dragon', 'wizard', 'crystal', 'silver', 'golden', 'shadow', 'light', 'dream'];
+    const getWord = () => words[Math.floor(Math.random() * words.length)];
+    return `${getWord()}-${getWord()}-${getWord()}-${getWord()}`;
+  };
+
+  if (syncToggle && syncConfigArea) {
+    syncToggle.addEventListener('change', async (e) => {
+      const isEnabled = e.target.checked;
+      syncConfigArea.style.display = isEnabled ? 'flex' : 'none';
+      if (!isEnabled) {
+        inputSync.value = '';
+        syncStatus.innerText = '';
+        await setSyncKey('');
+      } else if (!inputSync.value) {
+        inputSync.value = generatePhrase();
+      }
+    });
+  }
 
   if (btnSaveSync && inputSync) {
     btnSaveSync.addEventListener('click', async () => {
@@ -235,12 +269,27 @@ export function openSettingsPanel(container, onBack) {
     });
   }
 
+  if (btnCopySync && inputSync) {
+    btnCopySync.addEventListener('click', async () => {
+      if (!inputSync.value) return;
+      try {
+        await navigator.clipboard.writeText(inputSync.value);
+        const originalHtml = btnCopySync.innerHTML;
+        btnCopySync.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;color:var(--success);"></i>';
+        createIcons({ icons, nameAttr: 'data-lucide' });
+        setTimeout(() => {
+          btnCopySync.innerHTML = originalHtml;
+          createIcons({ icons, nameAttr: 'data-lucide' });
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy', err);
+      }
+    });
+  }
+
   if (btnGenSync && inputSync) {
     btnGenSync.addEventListener('click', () => {
-      const words = ['apple', 'horse', 'staple', 'battery', 'purple', 'ocean', 'sunset', 'flying', 'turtle', 'mountain', 'river', 'forest', 'dragon', 'wizard', 'crystal', 'silver', 'golden', 'shadow', 'light', 'dream'];
-      const getWord = () => words[Math.floor(Math.random() * words.length)];
-      const phrase = `${getWord()}-${getWord()}-${getWord()}-${getWord()}`;
-      inputSync.value = phrase;
+      inputSync.value = generatePhrase();
       syncStatus.innerText = 'New phrase generated. Click Save to activate.';
     });
   }

@@ -92,7 +92,31 @@ export function queueSyncSave(content) {
   }, 2000); // Wait 2 seconds after typing stops
 }
 
-async function forceFetch() {
+// Immediately flush any pending save and force an un-debounced upload
+export async function forceSyncSave(content) {
+  if (!isCloudNoteActive || !syncKey) return false;
+  if (syncTimer) clearTimeout(syncTimer);
+  
+  isSyncing = true;
+  try {
+    const res = await fetch(`/api/sync?key=${syncKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
+    });
+    if (res.ok) {
+      lastSyncedContent = content;
+      return true;
+    }
+  } catch (e) {
+    console.error('Failed to force sync save', e);
+  } finally {
+    isSyncing = false;
+  }
+  return false;
+}
+
+export async function forceFetch() {
   if (!syncKey || isSyncing) return;
   
   isSyncing = true;
