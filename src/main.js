@@ -1,7 +1,7 @@
 import { initTabs, getTabs, getActiveTab, setActiveTab, closeTab, createNewTab, updateActiveTabContent, markActiveTabSaved, renameActiveTab } from './tabs.js';
 import { initSidebar, renderTabs } from './sidebar.js';
 import { initMenu } from './menu.js';
-import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex, undo, redo } from './editor.js';
+import { initEditor, setEditorContent, focusEditor, setSearchTerm, setSyntaxLanguage, findNext, findPrev, replaceActive, replaceAll, searchMatches, activeSearchIndex, undo, redo, gotoLine } from './editor.js';
 import { loadSettings, openSettingsPanel } from './settings.js';
 import { openFilePicker, saveFilePicker, saveFileToHandle, verifyPermission, readAsText } from './file-system.js';
 
@@ -247,6 +247,25 @@ async function bootstrap() {
       const subject = encodeURIComponent(activeTab.filename || 'Untitled Document');
       const body = encodeURIComponent(activeTab.content || '');
       window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+    });
+  }
+
+  // Go to Line Logic
+  const gotoInput = document.getElementById('input-goto-line');
+  if (gotoInput) {
+    gotoInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const line = parseInt(e.target.value, 10);
+        if (!isNaN(line)) {
+          gotoLine(line);
+        }
+        document.getElementById('go-to-line-bar').classList.add('hidden');
+        focusEditor();
+        e.target.value = '';
+      } else if (e.key === 'Escape') {
+        document.getElementById('go-to-line-bar').classList.add('hidden');
+        focusEditor();
+      }
     });
   }
 

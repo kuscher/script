@@ -44,6 +44,7 @@ export function initFindReplace(containerId) {
   return {
     show: (showReplace) => {
       container.classList.remove('hidden');
+      container.classList.add('visible');
       const repGroup = document.getElementById('replace-group');
       const btnToggle = document.getElementById('btn-toggle-replace');
       if (showReplace) {
@@ -58,6 +59,7 @@ export function initFindReplace(containerId) {
     },
     hide: () => {
       container.classList.add('hidden');
+      container.classList.remove('visible');
     }
   };
 }

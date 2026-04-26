@@ -596,6 +596,27 @@ export function setSyntaxLanguage(filename) {
   }
 }
 
+export function gotoLine(lineNumber) {
+  if (!editor) return;
+  const { doc } = editor.state;
+  let pos = 0;
+  let line = 1;
+  doc.descendants((node, p) => {
+    if (node.type.name === 'paragraph') {
+      if (line === lineNumber) {
+        pos = p + 1; // start of paragraph text
+        return false;
+      }
+      line++;
+    }
+  });
+  
+  if (pos > 0 || lineNumber === 1) {
+    editor.commands.setTextSelection(pos);
+    editor.view.dispatch(editor.state.tr.scrollIntoView());
+  }
+}
+
 /** Tiptap natively wants block nodes (Paragraphs). 
  * For a plain-text editor, we represent each line as a paragraph. */
 function formatContentForTiptap(text) {
