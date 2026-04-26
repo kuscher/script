@@ -42,7 +42,11 @@ function checkTokenLimit(text) {
 export async function generateAutoName(text) {
   checkTokenLimit(text);
   const settings = getSettings();
-  if (settings.useCloudModels) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
+    const prompt = `Read the following document text and suggest a snappy, highly relevant title (max 5 words), a single representative emoji, and the correct file extension based on the content (e.g. .md, .txt, .js, .py, .html). Return ONLY JSON.\n\n${text.substring(0, 3000)}`;
+    const resultText = await fetchByot(prompt, settings.geminiApiKey, 150, true);
+    return JSON.parse(resultText);
+  } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/autoname', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -59,7 +63,14 @@ export async function generateAutoName(text) {
 export async function generateFormat(text) {
   checkTokenLimit(text);
   const settings = getSettings();
-  if (settings.useCloudModels) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
+    const prompt = `You are an expert editor. Format the following unstructured text into beautiful, structured Markdown. Add logical headers, bullet points for lists, and bold important keywords where logically appropriate to improve readability. Do NOT change the core meaning, tone, or remove any information. Only return the raw formatted Markdown text, without any \`\`\`markdown code blocks wrapping it.\n\n${text}`;
+    let formattedText = await fetchByot(prompt, settings.geminiApiKey, 8192);
+    if (formattedText.startsWith('```markdown')) formattedText = formattedText.substring(11).trim();
+    if (formattedText.startsWith('```')) formattedText = formattedText.substring(3).trim();
+    if (formattedText.endsWith('```')) formattedText = formattedText.substring(0, formattedText.length - 3).trim();
+    return { formattedText };
+  } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/format', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -75,7 +86,16 @@ export async function generateFormat(text) {
 export async function generateTone(text, toneValue) {
   checkTokenLimit(text);
   const settings = getSettings();
-  if (settings.useCloudModels) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
+    const systemPrompt = `You are a writing assistant. Rewrite the provided text with a specific tone. 
+The tone is specified as a number from 0 to 100.
+0 = Extremely blunt, direct, concise, no pleasantries.
+100 = Highly diplomatic, extremely polite, tactful, and considerate.
+The requested tone level is: ${toneValue}.
+Do not add any conversational filler. Only return the rewritten text natively. Match the language of the original text.`;
+    const rewrittenText = await fetchByot(`${systemPrompt}\n\nText to rewrite: "${text}"`, settings.geminiApiKey, 8192);
+    return { rewrittenText };
+  } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/tone', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -96,7 +116,14 @@ export async function generateTone(text, toneValue) {
 export async function generatePersona(text, persona) {
   checkTokenLimit(text);
   const settings = getSettings();
-  if (settings.useCloudModels) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
+    let systemInstruction = "You are Kuscher, a brilliant but brutally honest senior software engineer and writing critic. The user has written the following text. Give them a 2-3 sentence extremely blunt, unfiltered critique of the logic, tone, or quality of the text. Do not be polite. Point out exactly what is stupid or could be better. No greetings or pleasantries, just jump straight into the critique.";
+    if (persona === 'yoda') systemInstruction = "You are Yoda from Star Wars. Critique the following text briefly in the speaking style of Yoda.";
+    if (persona === 'shakespeare') systemInstruction = "You are William Shakespeare. Critique the following text briefly using Early Modern English, poetic flair, and dramatic theatrical phrasing.";
+    
+    const feedback = await fetchByot(`${systemInstruction}\n\nDocument text: "${text}"`, settings.geminiApiKey, 8192);
+    return { feedback };
+  } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/persona', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -117,7 +144,11 @@ export async function generatePersona(text, persona) {
 export async function generateMention(query) {
   checkTokenLimit(query);
   const settings = getSettings();
-  if (settings.useCloudModels) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
+    const prompt = "System prompt: Answer perfectly concisely in 15 words or less. Reply in absolute facts with zero conversational preamble. Do not repeat the subject of the context. Provide only the direct answer.\nQuery: " + query;
+    const answer = await fetchByot(prompt, settings.geminiApiKey, 8192);
+    return { answer };
+  } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -133,6 +164,33 @@ export async function generateMention(query) {
   } else {
     return localMention(query);
   }
+}
+
+// --- BYOT AI FETCH HELPER ---
+async function fetchByot(prompt, apiKey, maxTokens = 8192, jsonMode = false) {
+  const config = { maxOutputTokens: maxTokens };
+  if (jsonMode) {
+    config.responseMimeType = "application/json";
+    config.responseSchema = {
+      type: "object",
+      properties: { title: { type: "string" }, emoji: { type: "string" }, extension: { type: "string" } },
+      required: ["title", "emoji", "extension"]
+    };
+  }
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: config
+    })
+  });
+  if (!res.ok) throw new Error('BYOT API failed');
+  const data = await res.json();
+  if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+    return data.candidates[0].content.parts[0].text.trim();
+  }
+  throw new Error("No response");
 }
 
 // --- LOCAL AI FALLBACKS ---
