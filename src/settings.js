@@ -76,7 +76,7 @@ export function openSettingsPanel(container, onBack) {
           <span>Use Cloud Models</span>
           <span style="font-size:11px; opacity:0.7; margin-top:4px;">Turn off to use 100% free, local on-device AI. (Requires Chrome with Gemini Nano enabled).</span>
         </div>
-        <label class="toggle-switch">
+        <label class="toggle-switch" style="flex-shrink: 0; margin-left: 16px;">
           <input type="checkbox" id="set-ai-cloud" ${settings.useCloudModels ? 'checked' : ''}>
           <span class="slider"></span>
         </label>

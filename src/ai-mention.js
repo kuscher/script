@@ -3,6 +3,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { icons, createIcons } from 'lucide';
 import { generateMention } from './ai-service.js';
+import { getSettings } from './settings.js';
 
 const aiMentionKey = new PluginKey('ai-mention');
 
@@ -100,6 +101,9 @@ export const AiMention = Extension.create({
             return DecorationSet.create(state.doc, decos);
           },
           handleKeyDown(view, event) {
+            const settings = getSettings();
+            if (!settings.aiMentionEnabled) return false;
+
             const state = aiMentionKey.getState(view.state);
             
             // Trigger Activation
