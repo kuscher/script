@@ -252,7 +252,7 @@
 /* Mobile Find Responsiveness */
 @media (max-width: 768px) {
   .find-bubble {
-    top: 110px; /* Larger offset for double-row mobile header */
+    top: calc(110px + env(safe-area-inset-top)); /* Larger offset for double-row mobile header */
     width: 90%;
   }
   .find-wrapper {

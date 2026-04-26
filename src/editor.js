@@ -215,12 +215,16 @@ export function initEditor(containerId, initialContent, onChange, onSelectionCha
       if (onSelectionChange) {
         const { from, to, empty } = editor.state.selection;
         
-        // Suppress keyboard on mobile during text selection
+        // Suppress keyboard on mobile during text selection (iOS only)
+        // Android text selection handles break if inputmode is changed dynamically
         if (window.innerWidth <= 768) {
-          if (!empty) {
-            editor.view.dom.setAttribute('inputmode', 'none');
-          } else {
-            editor.view.dom.removeAttribute('inputmode');
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+          if (isIOS) {
+            if (!empty) {
+              editor.view.dom.setAttribute('inputmode', 'none');
+            } else {
+              editor.view.dom.removeAttribute('inputmode');
+            }
           }
         }
         

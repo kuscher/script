@@ -205,7 +205,7 @@
     display: none; /* Hide 4th and 5th items on mobile to save space */
   }
   .first-run-drawer.morphing {
-    max-height: 110px; /* Header is double height on mobile */
-    height: 110px;
+    max-height: calc(110px + env(safe-area-inset-top)); /* Header is double height on mobile */
+    height: calc(110px + env(safe-area-inset-top));
   }
 }

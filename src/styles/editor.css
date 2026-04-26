@@ -801,9 +801,9 @@
 @media (max-width: 768px) {
   .app-header {
     height: auto;
-    min-height: 64px;
+    min-height: calc(64px + env(safe-area-inset-top));
     flex-direction: column;
-    padding: 8px 12px;
+    padding: calc(8px + env(safe-area-inset-top)) 12px 8px;
     align-items: stretch;
     gap: 8px;
   }
@@ -837,18 +837,18 @@
   
   /* Minimize padding for editor on phone, but clear double-height header */
   #editor-root {
-    padding: 110px 12px 100px 4px;
+    padding: calc(110px + env(safe-area-inset-top)) 12px 100px 4px;
   }
   #markdown-preview {
-    padding: 110px 16px 100px 24px;
+    padding: calc(110px + env(safe-area-inset-top)) 16px 100px 24px;
   }
   .line-numbers-gutter {
-    padding-top: 110px;
+    padding-top: calc(110px + env(safe-area-inset-top));
     min-width: 32px; /* Reduce minimal width slightly */
   }
 
   #recovery-banner {
-    top: 110px; /* Clear double-height mobile header */
+    top: calc(110px + env(safe-area-inset-top)); /* Clear double-height mobile header */
   }
 
   /* Fix AI bubble to bottom on mobile */
