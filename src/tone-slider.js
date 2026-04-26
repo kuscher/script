@@ -1,5 +1,7 @@
 import { replaceSelectionWithReSelect, setToneEditingRange, getSelectionCoords, clearSelection, copySelection, cutSelection, expandSelectionToSentence } from './editor.js';
 import { createIcons, icons } from 'lucide';
+import { getActiveTab, updateActiveTabContent } from './tabs.js';
+import { generateTone } from './ai-service.js';
 
 let bubble, container, slider, placeholder, labelBlunt, labelDiplomatic, btnToneUndo;
 let state = {
@@ -267,37 +269,31 @@ async function triggerRewrite(toneValue) {
   const controller = new AbortController();
   state.activeRequest = controller;
   setToneEditingRange(state.currentRange);
-  startToneLoadingAnimation();
-
+  
   try {
-    const res = await fetch('/api/tone', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: state.originalText, toneValue }),
-      signal: controller.signal
-    });
-
-    if (!res.ok) throw new Error('API error');
-    const data = await res.json();
+    startToneLoadingAnimation();
     
-    let answer = '';
-    if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-      answer = data.candidates[0].content.parts[0].text.trim();
-    }
-
-    if (answer && state.currentRange && state.activeRequest === controller) {
-       // Make sure to add one line break at the end
-       const finalAnswer = answer.endsWith('\n') ? answer : answer + '\n';
-       
-       // Replace and update range
-       const newRange = replaceSelectionWithReSelect(state.currentRange, finalAnswer);
-       if (newRange) {
-         state.currentRange = newRange;
-         setToneEditingRange(newRange); // Re-sync the purple pulse highlight
-         if (btnToneUndo) btnToneUndo.style.display = 'flex';
-         
-         // The bubble is now pinned to the bottom globally via CSS
-       }
+    const data = await generateTone(state.originalText, toneValue);
+    
+    if (data && data.rewrittenText) {
+      const editor = window.__editorInstance;
+      if (editor) {
+        editor.commands.insertContentAt(
+          { from: state.currentRange.from, to: state.currentRange.to },
+          data.rewrittenText
+        );
+        const newText = editor.getText();
+        updateActiveTabContent(newText);
+        
+        resetState();
+        
+        // Let UI settle then re-trigger selection
+        setTimeout(() => {
+          if (typeof window.triggerSelectionCheck === 'function') {
+            window.triggerSelectionCheck();
+          }
+        }, 50);
+      }
     }
   } catch (err) {
     if (err.name !== 'AbortError') {

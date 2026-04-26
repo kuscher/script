@@ -2,15 +2,12 @@ import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { icons, createIcons } from 'lucide';
+import { generateMention } from './ai-service.js';
 
 const aiMentionKey = new PluginKey('ai-mention');
 
 function runGeminiFetch(query) {
-  return fetch('/api/gemini', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query })
-  }).then(r => r.json());
+  return generateMention(query);
 }
 
 export const AiMention = Extension.create({
@@ -164,12 +161,12 @@ export const AiMention = Extension.create({
                 
                 runGeminiFetch(finalPromptQuery)
                   .then(data => {
-                     let answer = "Error parsing AI response";
-                     if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                        answer = data.candidates[0].content.parts[0].text.trim();
-                     } else if (data.error) {
-                        answer = typeof data.error === 'string' ? data.error : (data.error.message || 'API Error');
+                     if (!data || !data.answer) {
+                        view.dispatch(view.state.tr.delete(state.range.from, state.range.to)); // remove original query
+                        return;
                      }
+                     
+                     let answer = data.answer;
                      
                      const finalState = aiMentionKey.getState(view.state);
                      if (finalState.active && finalState.range) {

@@ -11,6 +11,7 @@ import { initFindReplace } from './find-replace.js';
 import { initToneSlider, handleSelectionChange } from './tone-slider.js';
 import { initPersonaFeedback } from './persona.js';
 import { initFirstRun } from './first-run.js';
+import { generateAutoName, generateFormat } from './ai-service.js';
 // Service worker for PWA
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
@@ -449,17 +450,11 @@ async function bootstrap() {
      if (activeTab && activeTab.filename === 'Untitled.txt' && text.trim().length > 50) {
        autonameTimer = setTimeout(async () => {
          try {
-           const res = await fetch('/api/autoname', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ text })
-           });
-           if (res.ok) {
-             const data = await res.json();
-             if (data.title && data.emoji) {
-               const ext = data.extension ? (data.extension.startsWith('.') ? data.extension : '.' + data.extension) : '.txt';
-               const newName = `${data.emoji} ${data.title}${ext}`;
-               renameActiveTab(newName);
+           const data = await generateAutoName(text);
+           if (data && data.title && data.emoji) {
+             const ext = data.extension ? (data.extension.startsWith('.') ? data.extension : '.' + data.extension) : '.txt';
+             const newName = `${data.emoji} ${data.title}${ext}`;
+             renameActiveTab(newName);
                if (dom.headerTitle && document.activeElement !== dom.headerTitle) {
                  dom.headerTitle.innerText = newName;
                }
@@ -486,21 +481,15 @@ async function bootstrap() {
       createIcons({ icons, nameAttr: 'data-lucide' });
       
       try {
-        const res = await fetch('/api/format', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: activeTab.content })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.formattedText) {
-             setEditorContent(data.formattedText);
-             updateActiveTabContent(data.formattedText);
-             statusBarCtrl.updateStats(data.formattedText);
-          }
+        const data = await generateFormat(activeTab.content);
+        if (data && data.formattedText) {
+           setEditorContent(data.formattedText);
+           updateActiveTabContent(data.formattedText);
+           statusBarCtrl.updateStats(data.formattedText);
         }
       } catch (e) {
         console.error('Smart Format failed', e);
+        alert(e.message || 'Smart Format failed');
       } finally {
         btnSmartFormat.innerHTML = originalHtml;
         createIcons({ icons, nameAttr: 'data-lucide' });

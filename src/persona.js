@@ -1,5 +1,6 @@
 import { getEditorContent, getEditorSelectionText } from './editor.js';
 import { hideAiBubble } from './tone-slider.js';
+import { generatePersona } from './ai-service.js';
 
 let toggleBtn, overlay, closeBtn, personaPills, feedbackText;
 let currentPersona = 'mom';
@@ -86,26 +87,15 @@ async function fetchFeedback() {
   activeRequest = controller;
 
   try {
-    const res = await fetch('/api/persona', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, persona: currentPersona }),
-      signal: controller.signal
-    });
-
-    if (!res.ok) throw new Error('API error');
-    const data = await res.json();
+    const data = await generatePersona(text, currentPersona);
     
     if (activeRequest !== controller) return;
 
-    let answer = '';
-    if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-      answer = data.candidates[0].content.parts[0].text.trim();
-    } else if (data.error) {
-       answer = `Error: ${data.error}`;
+    if (data.feedback) {
+      feedbackText.innerHTML = data.feedback.replace(/\n/g, '<br>');
+    } else {
+      feedbackText.innerHTML = '<em>*Judgment failed. You got lucky.*</em>';
     }
-
-    feedbackText.innerHTML = answer || '<em>No feedback available.</em>';
   } catch (err) {
     if (err.name !== 'AbortError') {
       console.error('Persona feedback failed:', err);

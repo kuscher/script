@@ -8,11 +8,16 @@ let defaultSettings = {
   wordWrap: true,
   autoIndent: true,
   tabSize: 4,
-  aiMentionEnabled: false
+  aiMentionEnabled: false,
+  useCloudModels: true
 };
 
 let settings = { ...defaultSettings };
 let notifyChange = null;
+
+export function getSettings() {
+  return settings;
+}
 
 export function loadSettings(onChange) {
   notifyChange = onChange;
@@ -66,6 +71,16 @@ export function openSettingsPanel(container, onBack) {
           <span class="slider"></span>
         </label>
       </div>
+      <div class="setting-row" style="margin-top:16px;">
+        <div style="display:flex; flex-direction:column;">
+          <span>Use Cloud Models</span>
+          <span style="font-size:11px; opacity:0.7; margin-top:4px;">Turn off to use 100% free, local on-device AI. (Requires Chrome with Gemini Nano enabled).</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="set-ai-cloud" ${settings.useCloudModels ? 'checked' : ''}>
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
   `;
   
@@ -86,6 +101,13 @@ export function openSettingsPanel(container, onBack) {
     settings.aiMentionEnabled = e.target.checked;
     saveSettings();
   });
+  const cloudToggle = container.querySelector('#set-ai-cloud');
+  if (cloudToggle) {
+    cloudToggle.addEventListener('change', e => {
+      settings.useCloudModels = e.target.checked;
+      saveSettings();
+    });
+  }
 }
 
 function applySettings(s) {
