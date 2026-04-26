@@ -25,8 +25,8 @@ function checkTokenLimit(text) {
   }
   
   const isFirstDay = usage.firstUsedDate === today;
-  const DAILY_LIMIT = isFirstDay ? 100000 : 30000;
-  const MINUTE_LIMIT = 15000;
+  const DAILY_LIMIT = isFirstDay ? 500000 : 100000;
+  const MINUTE_LIMIT = 30000;
   
   if (usage.minuteTokens + estimatedTokens > MINUTE_LIMIT) {
     throw new Error('You are generating too fast. Please wait a minute.');
