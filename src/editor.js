@@ -12,6 +12,33 @@ import { AiMention } from './ai-mention.js';
 
 const lowlight = createLowlight(common);
 
+let onSelectionChangeCallback = null;
+let isMouseDraggingNative = false;
+
+const startNativeDrag = (e) => {
+  if (e.target.closest('.custom-selection-handle')) return;
+  isMouseDraggingNative = true;
+  updateCustomHandlesPosition(); // Instantly hide them
+};
+
+const endNativeDrag = () => {
+  if (isMouseDraggingNative) {
+    isMouseDraggingNative = false;
+    // Force a position update now that drag finished
+    setTimeout(() => {
+      if (typeof updateCustomHandlesPosition === 'function') {
+        updateCustomHandlesPosition();
+      }
+    }, 10);
+  }
+};
+
+window.addEventListener('mousedown', startNativeDrag);
+window.addEventListener('touchstart', startNativeDrag, { passive: true });
+
+window.addEventListener('mouseup', endNativeDrag);
+window.addEventListener('touchend', endNativeDrag);
+
 // Custom Selection Handles DOM Elements
 let handleStartEl = null;
 let handleEndEl = null;
@@ -58,6 +85,13 @@ function initCustomHandles() {
   };
 
   const endDrag = () => {
+    if (activeDragHandle && editor && onSelectionChangeCallback) {
+      const { from, to, empty } = editor.state.selection;
+      if (!empty) {
+        const text = editor.state.doc.textBetween(from, to, '\n');
+        onSelectionChangeCallback(text, { from, to }, false); // Trigger AI bubble
+      }
+    }
     activeDragHandle = null;
   };
 
@@ -81,7 +115,7 @@ function initCustomHandles() {
 function updateCustomHandlesPosition() {
   if (!editor || !handleStartEl || !handleEndEl) return;
   const { from, to, empty } = editor.state.selection;
-  if (empty) {
+  if (empty || isMouseDraggingNative) {
     handleStartEl.style.display = 'none';
     handleEndEl.style.display = 'none';
     return;
@@ -270,6 +304,7 @@ let updateCallback = null;
 
 export function initEditor(containerId, initialContent, onChange, onSelectionChange) {
   updateCallback = onChange;
+  onSelectionChangeCallback = onSelectionChange;
   const container = document.getElementById(containerId);
   if (!container) return;
   
