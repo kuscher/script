@@ -275,25 +275,18 @@ async function triggerRewrite(toneValue) {
     
     const data = await generateTone(state.originalText, toneValue, controller.signal);
     
-    if (data && data.rewrittenText) {
-      const editor = window.__editorInstance;
-      if (editor) {
-        editor.commands.insertContentAt(
-          { from: state.currentRange.from, to: state.currentRange.to },
-          data.rewrittenText
-        );
-        const newText = editor.getText();
-        updateActiveTabContent(newText);
-        
-        resetState();
-        
-        // Let UI settle then re-trigger selection
-        setTimeout(() => {
-          if (typeof window.triggerSelectionCheck === 'function') {
-            window.triggerSelectionCheck();
-          }
-        }, 50);
-      }
+    if (data && data.rewrittenText && state.currentRange && state.activeRequest === controller) {
+       // Make sure to add one line break at the end
+       const answer = data.rewrittenText;
+       const finalAnswer = answer.endsWith('\n') ? answer : answer + '\n';
+       
+       // Replace and update range
+       const newRange = replaceSelectionWithReSelect(state.currentRange, finalAnswer);
+       if (newRange) {
+         state.currentRange = newRange;
+         setToneEditingRange(newRange); // Re-sync the purple pulse highlight
+         if (btnToneUndo) btnToneUndo.style.display = 'flex';
+       }
     }
   } catch (err) {
     if (err.name !== 'AbortError') {
