@@ -45,6 +45,7 @@ const dom = {
   headerTitle: document.getElementById('header-title'),
   headerIcon: document.getElementById('header-file-icon'),
   btnPreview: document.getElementById('btn-toggle-preview'),
+  diskWarning: document.getElementById('disk-warning'),
   
   // Status Bar
   statusBars: {
@@ -623,11 +624,11 @@ async function bootstrap() {
          setIsCloudNoteActive(false);
          if (btnSyncReload) btnSyncReload.style.display = 'none';
        }
-       if (diskWarning) {
+       if (dom.diskWarning) {
          if (!active.fileHandle) {
-           diskWarning.classList.remove('hidden');
+           dom.diskWarning.classList.remove('hidden');
          } else {
-           diskWarning.classList.add('hidden');
+           dom.diskWarning.classList.add('hidden');
          }
        }
     }
