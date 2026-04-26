@@ -42,7 +42,7 @@ export default async function handler(req) {
   }
 
   try {
-    const { text } = await req.json();
+    const { text, language } = await req.json();
 
     if (!text || text.trim().length < 10) {
       return new Response(JSON.stringify({ error: 'Text too short' }), {
@@ -60,7 +60,7 @@ export default async function handler(req) {
       body: JSON.stringify({
         contents: [{
           role: 'user',
-          parts: [{ text: "Read the following document text and suggest a snappy, highly relevant title (max 5 words), a single representative emoji, and the correct file extension based on the content (e.g. .md, .txt, .js, .py, .html). Return ONLY JSON.\n\n" + truncatedText }]
+          parts: [{ text: `Read the following document text and suggest a snappy, highly relevant title (max 5 words), a single representative emoji, and the correct file extension based on the content (e.g. .md, .txt, .js, .py, .html). Return ONLY JSON. Respond in the language code: ${language || 'en'}\n\n${truncatedText}` }]
         }],
         generationConfig: {
           temperature: 0.7,

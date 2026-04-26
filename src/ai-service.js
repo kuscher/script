@@ -46,15 +46,16 @@ function checkTokenLimit(text) {
 export async function generateAutoName(text) {
   checkTokenLimit(text);
   const settings = getSettings();
+  const lang = localStorage.getItem('i18nextLng') || 'en';
   if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
-    const prompt = `Read the following document text and suggest a snappy, highly relevant title (max 5 words), a single representative emoji, and the correct file extension based on the content (e.g. .md, .txt, .js, .py, .html). Return ONLY JSON.\n\n${text.substring(0, 3000)}`;
+    const prompt = `Read the following document text and suggest a snappy, highly relevant title (max 5 words), a single representative emoji, and the correct file extension based on the content (e.g. .md, .txt, .js, .py, .html). Return ONLY JSON. Respond in the language code: ${lang}\n\n${text.substring(0, 3000)}`;
     const resultText = await fetchByot(prompt, settings.geminiApiKey, 150, true);
     return JSON.parse(resultText);
   } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/autoname', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text })
+      body: JSON.stringify({ text, language: lang })
     });
     if (!res.ok) throw new Error('Cloud API failed');
     return res.json();
@@ -87,23 +88,27 @@ export async function generateFormat(text) {
   }
 }
 
-export async function generateTone(text, toneValue, signal) {
+export async function generateToneRewrite(text, toneValue, signal) {
   checkTokenLimit(text);
   const settings = getSettings();
+  const lang = localStorage.getItem('i18nextLng') || 'en';
+  
   if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
-    const systemPrompt = `You are a writing assistant. Rewrite the provided text with a specific tone. 
-The tone is specified as a number from 0 to 100.
-0 = Extremely blunt, direct, concise, no pleasantries.
-100 = Highly diplomatic, extremely polite, tactful, and considerate.
-The requested tone level is: ${toneValue}.
-Do not add any conversational filler. Only return the rewritten text natively. Match the language of the original text.`;
+    let systemPrompt = `You are an expert writing assistant. Rewrite the following text. Preserve the original meaning but change the tone to be exactly ${toneValue}% where 0% is extremely blunt, concise, and brutally direct, and 100% is extremely diplomatic, polite, and padded with pleasantries. 50% is neutral. Output ONLY the rewritten text, nothing else. Respond in the language code: ${lang}.`;
+    
+    if (toneValue < 30) {
+      systemPrompt = `You are a brutally concise editor. Rewrite the text to be as blunt and direct as possible. Remove all fluff. Tone level: ${toneValue}%. Output ONLY the rewritten text. Respond in the language code: ${lang}.`;
+    } else if (toneValue > 70) {
+      systemPrompt = `You are a highly diplomatic, corporate communications expert. Rewrite the text to be extremely polite, gentle, and padded with pleasantries. Tone level: ${toneValue}%. Output ONLY the rewritten text. Respond in the language code: ${lang}.`;
+    }
+
     const rewrittenText = await fetchByot(`${systemPrompt}\n\nText to rewrite: "${text}"`, settings.geminiApiKey, 8192, false, signal);
     return { rewrittenText };
   } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/tone', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, toneValue }),
+      body: JSON.stringify({ text, toneValue, language: lang }),
       signal
     });
     if (!res.ok) throw new Error('Cloud API failed');
@@ -123,10 +128,12 @@ Do not add any conversational filler. Only return the rewritten text natively. M
 export async function generatePersona(text, persona) {
   checkTokenLimit(text);
   const settings = getSettings();
+  const lang = localStorage.getItem('i18nextLng') || 'en';
+  
   if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
-    let systemInstruction = "You are Kuscher, a brilliant but brutally honest senior software engineer and writing critic. The user has written the following text. Give them a 2-3 sentence extremely blunt, unfiltered critique of the logic, tone, or quality of the text. Do not be polite. Point out exactly what is stupid or could be better. No greetings or pleasantries, just jump straight into the critique.";
-    if (persona === 'yoda') systemInstruction = "You are Yoda from Star Wars. Critique the following text briefly in the speaking style of Yoda.";
-    if (persona === 'shakespeare') systemInstruction = "You are William Shakespeare. Critique the following text briefly using Early Modern English, poetic flair, and dramatic theatrical phrasing.";
+    let systemInstruction = `You are Kuscher, a brilliant but brutally honest senior software engineer and writing critic. The user has written the following text. Give them a 2-3 sentence extremely blunt, unfiltered critique of the logic, tone, or quality of the text. Do not be polite. Point out exactly what is stupid or could be better. No greetings or pleasantries, just jump straight into the critique. Respond in the language code: ${lang}.`;
+    if (persona === 'yoda') systemInstruction = `You are Yoda from Star Wars. Critique the following text briefly in the speaking style of Yoda. Respond in the language code: ${lang}.`;
+    if (persona === 'shakespeare') systemInstruction = `You are William Shakespeare. Critique the following text briefly using Early Modern English, poetic flair, and dramatic theatrical phrasing. Respond in the language code: ${lang}.`;
     
     const feedback = await fetchByot(`${systemInstruction}\n\nDocument text: "${text}"`, settings.geminiApiKey, 8192);
     return { feedback };
@@ -134,7 +141,7 @@ export async function generatePersona(text, persona) {
     const res = await fetch('/api/persona', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, persona })
+      body: JSON.stringify({ text, persona, language: lang })
     });
     if (!res.ok) throw new Error('Cloud API failed');
     const data = await res.json();
@@ -151,15 +158,17 @@ export async function generatePersona(text, persona) {
 export async function generateMention(query) {
   checkTokenLimit(query);
   const settings = getSettings();
+  const lang = localStorage.getItem('i18nextLng') || 'en';
+  
   if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
-    const prompt = "System prompt: Answer perfectly concisely in 15 words or less. Reply in absolute facts with zero conversational preamble. Do not repeat the subject of the context. Provide only the direct answer.\nQuery: " + query;
+    const prompt = `System prompt: Answer perfectly concisely in 15 words or less. Reply in absolute facts with zero conversational preamble. Do not repeat the subject of the context. Provide only the direct answer. Respond in the language code: ${lang}.\nQuery: ` + query;
     const answer = await fetchByot(prompt, settings.geminiApiKey, 8192);
     return { answer };
   } else if (settings.aiProvider === 'cloud') {
     const res = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query })
+      body: JSON.stringify({ query, language: lang })
     });
     if (!res.ok) throw new Error('Cloud API failed');
     const data = await res.json();

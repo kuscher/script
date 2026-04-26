@@ -45,7 +45,7 @@ export default async function handler(req) {
 
   try {
     const body = await req.json();
-    const { text, persona } = body;
+    const { text, persona, language } = body;
 
     if (!text || !persona) {
       return new Response(JSON.stringify({ error: 'Missing text or persona parameter' }), {
@@ -71,7 +71,7 @@ export default async function handler(req) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: `${systemInstruction}\n\nDocument text: "${text}"` }] }],
+        contents: [{ parts: [{ text: `${systemInstruction}\nRespond in the language code: ${language || 'en'}.\n\nDocument text: "${text}"` }] }],
         generationConfig: { maxOutputTokens: 8192 }
       })
     });

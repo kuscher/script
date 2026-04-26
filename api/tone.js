@@ -45,7 +45,7 @@ export default async function handler(req) {
 
   try {
     const body = await req.json();
-    const { text, toneValue } = body; // toneValue 0-100
+    const { text, toneValue, language } = body; // toneValue 0-100
 
     if (text === undefined || toneValue === undefined) {
       return new Response(JSON.stringify({ error: 'Missing text or toneValue parameters' }), {
@@ -59,7 +59,7 @@ The tone is specified as a number from 0 to 100.
 0 = Extremely blunt, direct, concise, no pleasantries.
 100 = Highly diplomatic, extremely polite, tactful, and considerate.
 The requested tone level is: ${toneValue}.
-Do not add any conversational filler. Only return the rewritten text natively. Match the language of the original text.`;
+Do not add any conversational filler. Only return the rewritten text natively. Respond in the language code: ${language || 'en'}.`;
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',

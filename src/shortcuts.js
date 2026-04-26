@@ -64,11 +64,15 @@ export function initShortcuts(overlayEl, container, actions) {
     if (e.altKey) shortcutStr += 'ALT+';
     if (e.shiftKey) shortcutStr += 'SHIFT+';
     
-    // Normalize key
-    const key = e.key.toUpperCase();
-    if (key === '/') shortcutStr += '/';
-    else if (key.length === 1 && key >= 'A' && key <= 'Z') shortcutStr += key;
-    else return;
+    // Normalize key using e.code for layout-independent matching
+    if (e.code) {
+      if (e.code === 'Slash') shortcutStr += '/';
+      else if (e.code.startsWith('Key')) shortcutStr += e.code.replace('Key', '');
+      else if (e.code.startsWith('Digit')) shortcutStr += e.code.replace('Digit', '');
+      else return;
+    } else {
+      return;
+    }
 
     const matched = map.find(m => m.key.toUpperCase() === shortcutStr);
     if (matched && matched.action) {

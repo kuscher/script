@@ -45,7 +45,7 @@ export default async function handler(req) {
 
   try {
     const body = await req.json();
-    const { query } = body;
+    const { query, language } = body;
 
     if (!query) {
       return new Response(JSON.stringify({ error: 'Missing query parameter' }), {
@@ -58,7 +58,7 @@ export default async function handler(req) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: "System prompt: Answer perfectly concisely in 15 words or less. Reply in absolute facts with zero conversational preamble. Do not repeat the subject of the context. Provide only the direct answer.\nQuery: " + query }] }],
+        contents: [{ parts: [{ text: `System prompt: Answer perfectly concisely in 15 words or less. Reply in absolute facts with zero conversational preamble. Do not repeat the subject of the context. Provide only the direct answer. Respond in the language code: ${language || 'en'}.\nQuery: ${query}` }] }],
         generationConfig: { maxOutputTokens: 8192 }
       })
     });

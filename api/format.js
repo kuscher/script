@@ -42,7 +42,7 @@ export default async function handler(req) {
   }
 
   try {
-    const { text } = await req.json();
+    const { text, language } = await req.json();
 
     if (!text || text.trim().length < 10) {
       return new Response(JSON.stringify({ error: 'Text too short' }), {
@@ -57,7 +57,7 @@ export default async function handler(req) {
       body: JSON.stringify({
         contents: [{
           role: 'user',
-          parts: [{ text: "You are an expert editor. Format the following unstructured text into beautiful, structured Markdown. Add logical headers, bullet points for lists, and bold important keywords where logically appropriate to improve readability. Do NOT change the core meaning, tone, or remove any information. Only return the raw formatted Markdown text, without any ```markdown code blocks wrapping it.\n\n" + text }]
+          parts: [{ text: `You are an expert editor. Format the following unstructured text into beautiful, structured Markdown. Add logical headers, bullet points for lists, and bold important keywords where logically appropriate to improve readability. Do NOT change the core meaning, tone, or remove any information. Only return the raw formatted Markdown text, without any \`\`\`markdown code blocks wrapping it. Respond in the language code: ${language || 'en'}\n\n${text}` }]
         }],
         generationConfig: {
           temperature: 0.4,

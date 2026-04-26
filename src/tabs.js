@@ -76,10 +76,16 @@ export function setActiveTab(id) {
 export function updateActiveTabContent(content) {
   const tab = getActiveTab();
   if (!tab) return;
+  if (tab.content === content) return;
+
+  const wasUnsaved = tab.content !== tab.savedContent;
   tab.content = content;
   debouncedSaveTabsState(tabs);
-  // We notify to update unsaved dot. Could optimize to only notify if state changes.
-  notify(); 
+  
+  const isUnsaved = tab.content !== tab.savedContent;
+  if (wasUnsaved !== isUnsaved) {
+    notify(); 
+  }
 }
 
 export function renameActiveTab(newFilename) {
