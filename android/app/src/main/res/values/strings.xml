@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Script</string>
+    <string name="title_activity_main">Script</string>
+    <string name="package_name">com.kuscher.script</string>
+    <string name="custom_url_scheme">com.kuscher.script</string>
+</resources>

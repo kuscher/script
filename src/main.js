@@ -18,6 +18,9 @@ import { initSyncEngine, hasSyncKey, setIsCloudNoteActive, queueSyncSave, forceS
 import { registerSW } from 'virtual:pwa-register';
 import { createIcons, icons } from 'lucide';
 import { marked } from 'marked';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Keyboard } from '@capacitor/keyboard';
 
 const dom = {
   sidebar: document.getElementById('sidebar'),
@@ -61,6 +64,23 @@ const dom = {
 let statusBarCtrl;
 
 async function bootstrap() {
+  if (Capacitor.isNativePlatform()) {
+    try {
+      await StatusBar.setStyle({ style: Style.Default });
+      await StatusBar.setOverlaysWebView({ overlay: false });
+      
+      // Ensure keyboard doesn't mess up our layout completely, maybe Resize mode
+      if (Capacitor.getPlatform() === 'android') {
+         Keyboard.setAccessoryBarVisible({ isVisible: false }).catch(() => {});
+      }
+      
+      // Hide PWA install button explicitly
+      if (dom.btnInstallPwa) dom.btnInstallPwa.style.display = 'none';
+    } catch (e) {
+      console.warn('Capacitor init failed:', e);
+    }
+  }
+
   // PWA SW
   if ('serviceWorker' in navigator) {
     registerSW();
