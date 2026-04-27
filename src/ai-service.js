@@ -42,29 +42,20 @@ function checkTokenLimit(text) {
   localStorage.setItem('ai_usage', JSON.stringify(usage));
 }
 
-function getEffectiveApiKey(settings) {
-  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
-    return settings.geminiApiKey;
-  }
-  if (window.Capacitor && window.Capacitor.isNativePlatform() && import.meta.env.VITE_GEMINI_API_KEY) {
-    return import.meta.env.VITE_GEMINI_API_KEY;
-  }
-  return null;
-}
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 // Centralize the AI logic here
 export async function generateAutoName(text) {
   checkTokenLimit(text);
   const settings = getSettings();
   const lang = localStorage.getItem('i18nextLng') || 'en';
-  const effectiveKey = getEffectiveApiKey(settings);
   
-  if (effectiveKey) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
     const prompt = `Read the following document text and suggest a snappy, highly relevant title (max 5 words), a single representative emoji, and the correct file extension based on the content (e.g. .md, .txt, .js, .py, .html). Return ONLY JSON. Respond in the language code: ${lang}\n\n${text.substring(0, 3000)}`;
-    const resultText = await fetchByot(prompt, effectiveKey, 150, true);
+    const resultText = await fetchByot(prompt, settings.geminiApiKey, 150, true);
     return JSON.parse(resultText);
   } else if (settings.aiProvider === 'cloud') {
-    const res = await fetch('/api/autoname', {
+    const res = await fetch(`${API_BASE}/api/autoname`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, language: lang })
@@ -80,16 +71,15 @@ export async function generateAutoName(text) {
 export async function generateFormat(text) {
   checkTokenLimit(text);
   const settings = getSettings();
-  const effectiveKey = getEffectiveApiKey(settings);
-  if (effectiveKey) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
     const prompt = `You are an expert editor. Format the following unstructured text into beautiful, structured Markdown. Add logical headers, bullet points for lists, and bold important keywords where logically appropriate to improve readability. Do NOT change the core meaning, tone, or remove any information. Only return the raw formatted Markdown text, without any \`\`\`markdown code blocks wrapping it.\n\n${text}`;
-    let formattedText = await fetchByot(prompt, effectiveKey, 8192);
+    let formattedText = await fetchByot(prompt, settings.geminiApiKey, 8192);
     if (formattedText.startsWith('```markdown')) formattedText = formattedText.substring(11).trim();
     if (formattedText.startsWith('```')) formattedText = formattedText.substring(3).trim();
     if (formattedText.endsWith('```')) formattedText = formattedText.substring(0, formattedText.length - 3).trim();
     return { formattedText };
   } else if (settings.aiProvider === 'cloud') {
-    const res = await fetch('/api/format', {
+    const res = await fetch(`${API_BASE}/api/format`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text })
@@ -105,9 +95,8 @@ export async function generateToneRewrite(text, toneValue, signal) {
   checkTokenLimit(text);
   const settings = getSettings();
   const lang = localStorage.getItem('i18nextLng') || 'en';
-  const effectiveKey = getEffectiveApiKey(settings);
   
-  if (effectiveKey) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
     let systemPrompt = `You are an expert writing assistant. Rewrite the following text. Preserve the original meaning but change the tone to be exactly ${toneValue}% where 0% is extremely blunt, concise, and brutally direct, and 100% is extremely diplomatic, polite, and padded with pleasantries. 50% is neutral. Output ONLY the rewritten text, nothing else. Respond in the language code: ${lang}.`;
     
     if (toneValue < 30) {
@@ -116,10 +105,10 @@ export async function generateToneRewrite(text, toneValue, signal) {
       systemPrompt = `You are a highly diplomatic, corporate communications expert. Rewrite the text to be extremely polite, gentle, and padded with pleasantries. Tone level: ${toneValue}%. Output ONLY the rewritten text. Respond in the language code: ${lang}.`;
     }
 
-    const rewrittenText = await fetchByot(`${systemPrompt}\n\nText to rewrite: "${text}"`, effectiveKey, 8192, false, signal);
+    const rewrittenText = await fetchByot(`${systemPrompt}\n\nText to rewrite: "${text}"`, settings.geminiApiKey, 8192, false, signal);
     return { rewrittenText };
   } else if (settings.aiProvider === 'cloud') {
-    const res = await fetch('/api/tone', {
+    const res = await fetch(`${API_BASE}/api/tone`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, toneValue, language: lang }),
@@ -143,17 +132,16 @@ export async function generatePersona(text, persona) {
   checkTokenLimit(text);
   const settings = getSettings();
   const lang = localStorage.getItem('i18nextLng') || 'en';
-  const effectiveKey = getEffectiveApiKey(settings);
   
-  if (effectiveKey) {
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
     let systemInstruction = `You are Kuscher, a brilliant but brutally honest senior software engineer and writing critic. The user has written the following text. Give them a 2-3 sentence extremely blunt, unfiltered critique of the logic, tone, or quality of the text. Do not be polite. Point out exactly what is stupid or could be better. No greetings or pleasantries, just jump straight into the critique. Respond in the language code: ${lang}.`;
     if (persona === 'yoda') systemInstruction = `You are Yoda from Star Wars. Critique the following text briefly in the speaking style of Yoda. Respond in the language code: ${lang}.`;
     if (persona === 'shakespeare') systemInstruction = `You are William Shakespeare. Critique the following text briefly using Early Modern English, poetic flair, and dramatic theatrical phrasing. Respond in the language code: ${lang}.`;
     
-    const feedback = await fetchByot(`${systemInstruction}\n\nDocument text: "${text}"`, effectiveKey, 8192);
+    const feedback = await fetchByot(`${systemInstruction}\n\nDocument text: "${text}"`, settings.geminiApiKey, 8192);
     return { feedback };
   } else if (settings.aiProvider === 'cloud') {
-    const res = await fetch('/api/persona', {
+    const res = await fetch(`${API_BASE}/api/persona`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, persona, language: lang })
@@ -170,6 +158,32 @@ export async function generatePersona(text, persona) {
   }
 }
 
+export async function chatWithDocument(text, history, userMessage) {
+  checkTokenLimit(text);
+  const settings = getSettings();
+  const lang = localStorage.getItem('i18nextLng') || 'en';
+  if (settings.aiProvider === 'byot' && settings.geminiApiKey) {
+    const prompt = `You are an AI assistant helping a user with their document. Context: ${text}\nHistory: ${JSON.stringify(history)}\nUser: ${userMessage}\nEnsure your response is in the language code: ${lang}`;
+    const answer = await fetchByot(prompt, settings.geminiApiKey, 8192);
+    return { answer };
+  } else if (settings.aiProvider === 'cloud') {
+    const res = await fetch(`${API_BASE}/api/gemini`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: userMessage, text, history, language: lang })
+    });
+    if (!res.ok) throw new Error('Cloud API failed');
+    const data = await res.json();
+    let answer = '';
+    if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+      answer = data.candidates[0].content.parts[0].text.trim();
+    }
+    return { answer };
+  } else {
+    return localMention(userMessage);
+  }
+}
+
 export async function generateMention(query) {
   checkTokenLimit(query);
   const settings = getSettings();
@@ -180,7 +194,7 @@ export async function generateMention(query) {
     const answer = await fetchByot(prompt, settings.geminiApiKey, 8192);
     return { answer };
   } else if (settings.aiProvider === 'cloud') {
-    const res = await fetch('/api/gemini', {
+    const res = await fetch(`${API_BASE}/api/gemini`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query, language: lang })
