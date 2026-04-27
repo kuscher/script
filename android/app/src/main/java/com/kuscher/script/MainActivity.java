@@ -47,13 +47,13 @@ public class MainActivity extends BridgeActivity {
             if (android.os.Build.VERSION.SDK_INT >= 35) { // API 35
                 int captionBarTop = insets.getInsets(WindowInsets.Type.captionBar()).top;
                 if (captionBarTop > 0) {
-                    params.topMargin = (captionBarTop - 96) / 2 - 16;
+                    params.topMargin = (captionBarTop - 96) / 2 - 24;
                     if (params.topMargin < 0) params.topMargin = 0;
                     chevron.setLayoutParams(params);
                 }
             } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 int topInset = insets.getInsets(WindowInsets.Type.systemBars()).top;
-                params.topMargin = topInset > 96 ? (topInset - 96) / 2 - 16 : 0;
+                params.topMargin = topInset > 96 ? (topInset - 96) / 2 - 24 : 0;
                 if (params.topMargin < 0) params.topMargin = 0;
                 chevron.setLayoutParams(params);
             }
