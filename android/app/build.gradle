@@ -19,9 +19,9 @@ android {
     signingConfigs {
         release {
             storeFile file("../../android-wrapper/android.keystore")
-            storePassword "android"
+            storePassword "kuscher2026"
             keyAlias "android"
-            keyPassword "android"
+            keyPassword "kuscher2026"
         }
     }
     buildTypes {
