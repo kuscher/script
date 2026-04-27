@@ -48,30 +48,30 @@
 }
 
 /* Collapsed Header State for Desktop Windowing */
-.app-header.collapsed {
+body.header-collapsed .app-header {
   height: calc(32px + env(safe-area-inset-top, 0px));
   justify-content: center;
 }
-.app-header.collapsed .header-title-container,
-.app-header.collapsed .disk-warning-inline,
-.app-header.collapsed #btn-undo,
-.app-header.collapsed #btn-redo,
-.app-header.collapsed #btn-sync-reload,
-.app-header.collapsed #btn-toggle-word-wrap,
-.app-header.collapsed #btn-toggle-preview,
-.app-header.collapsed #btn-find-toggle,
-.app-header.collapsed #btn-smart-format {
+body.header-collapsed .app-header .header-title-container,
+body.header-collapsed .app-header .disk-warning-inline,
+body.header-collapsed .app-header #btn-undo,
+body.header-collapsed .app-header #btn-redo,
+body.header-collapsed .app-header #btn-sync-reload,
+body.header-collapsed .app-header #btn-toggle-word-wrap,
+body.header-collapsed .app-header #btn-toggle-preview,
+body.header-collapsed .app-header #btn-find-toggle,
+body.header-collapsed .app-header #btn-smart-format {
   display: none !important;
 }
-.app-header.collapsed .header-title-bar,
-.app-header.collapsed .header-actions-bar {
+body.header-collapsed .app-header .header-title-bar,
+body.header-collapsed .app-header .header-actions-bar {
   gap: 4px;
 }
-.app-header.collapsed .icon-btn {
+body.header-collapsed .app-header .icon-btn {
   width: 24px;
   height: 24px;
 }
-.app-header.collapsed .icon-btn svg {
+body.header-collapsed .app-header .icon-btn svg {
   width: 16px;
   height: 16px;
 }
@@ -211,6 +211,11 @@
   font-size: var(--editor-font-size);
   line-height: var(--editor-line-height);
   user-select: none;
+  transition: padding-top 0.2s;
+}
+
+body.header-collapsed .line-numbers-gutter {
+  padding-top: calc(48px + env(safe-area-inset-top, 0px));
 }
 
 /* Editor Centering Bounds */
@@ -229,6 +234,11 @@
   user-select: auto;
   -webkit-user-select: auto;
   -webkit-touch-callout: default;
+  transition: padding-top 0.2s;
+}
+
+body.header-collapsed #editor-root {
+  padding-top: calc(48px + env(safe-area-inset-top, 0px));
 }
 
 .ProseMirror {
@@ -255,6 +265,11 @@
   color: var(--text-primary);
   font-family: var(--font-sans);
   line-height: 1.6;
+  transition: padding-top 0.2s;
+}
+
+body.header-collapsed #markdown-preview {
+  padding-top: calc(48px + env(safe-area-inset-top, 0px));
 }
 #markdown-preview h1, #markdown-preview h2, #markdown-preview h3 { margin-top: 1.5em; margin-bottom: 0.5em; }
 #markdown-preview p { margin-bottom: 1em; }

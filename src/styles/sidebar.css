@@ -38,7 +38,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-top: 64px;
+  padding-top: calc(64px + env(safe-area-inset-top, 0px));
+  transition: padding-top 0.2s;
+}
+
+body.header-collapsed .sidebar-view {
+  padding-top: calc(32px + env(safe-area-inset-top, 0px));
 }
 
 .sidebar-header {

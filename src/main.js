@@ -50,7 +50,6 @@ const dom = {
   headerIcon: document.getElementById('header-file-icon'),
   btnPreview: document.getElementById('btn-toggle-preview'),
   diskWarning: document.getElementById('disk-warning'),
-  btnCollapseHeader: document.getElementById('btn-collapse-header'),
   
   // Status Bar
   statusBars: {
@@ -497,19 +496,6 @@ async function bootstrap() {
       });
     }
 
-    // Toggle Collapse Header
-    if (dom.btnCollapseHeader && dom.appHeader) {
-      dom.btnCollapseHeader.addEventListener('click', () => {
-        const isCollapsed = dom.appHeader.classList.toggle('collapsed');
-        if (isCollapsed) {
-          dom.btnCollapseHeader.innerHTML = '<i data-lucide="chevron-down"></i>';
-        } else {
-          dom.btnCollapseHeader.innerHTML = '<i data-lucide="chevron-up"></i>';
-        }
-        createIcons({ icons, nameAttr: 'data-lucide' });
-      });
-    }
-    
     document.getElementById('btn-undo')?.addEventListener('click', () => { undo(); focusEditor(); });
     document.getElementById('btn-redo')?.addEventListener('click', () => { redo(); focusEditor(); });
 
