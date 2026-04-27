@@ -222,7 +222,9 @@ async function bootstrap() {
     }
   });
 
-  dom.hamburger.addEventListener('click', actions.onToggleSidebar);
+  if (dom.hamburger) {
+    dom.hamburger.addEventListener('click', actions.onToggleSidebar);
+  }
   
   const mobileOverlay = document.getElementById('mobile-sidebar-overlay');
   if (mobileOverlay) {
