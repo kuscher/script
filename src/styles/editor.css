@@ -49,31 +49,15 @@
 
 /* Collapsed Header State for Desktop Windowing */
 body.header-collapsed .app-header {
-  height: calc(32px + env(safe-area-inset-top, 0px));
-  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  height: 0 !important;
+  overflow: hidden;
+  padding: 0 !important;
+  border-bottom: none !important;
 }
-body.header-collapsed .app-header .header-title-container,
-body.header-collapsed .app-header .disk-warning-inline,
-body.header-collapsed .app-header #btn-undo,
-body.header-collapsed .app-header #btn-redo,
-body.header-collapsed .app-header #btn-sync-reload,
-body.header-collapsed .app-header #btn-toggle-word-wrap,
-body.header-collapsed .app-header #btn-toggle-preview,
-body.header-collapsed .app-header #btn-find-toggle,
-body.header-collapsed .app-header #btn-smart-format {
+body.header-collapsed .app-header * {
   display: none !important;
-}
-body.header-collapsed .app-header .header-title-bar,
-body.header-collapsed .app-header .header-actions-bar {
-  gap: 4px;
-}
-body.header-collapsed .app-header .icon-btn {
-  width: 24px;
-  height: 24px;
-}
-body.header-collapsed .app-header .icon-btn svg {
-  width: 16px;
-  height: 16px;
 }
 
 .header-divider {
@@ -215,7 +199,7 @@ body.header-collapsed .app-header .icon-btn svg {
 }
 
 body.header-collapsed .line-numbers-gutter {
-  padding-top: calc(48px + env(safe-area-inset-top, 0px));
+  padding-top: calc(16px + env(safe-area-inset-top, 0px));
 }
 
 /* Editor Centering Bounds */
@@ -238,7 +222,7 @@ body.header-collapsed .line-numbers-gutter {
 }
 
 body.header-collapsed #editor-root {
-  padding-top: calc(48px + env(safe-area-inset-top, 0px));
+  padding-top: calc(16px + env(safe-area-inset-top, 0px));
 }
 
 .ProseMirror {
@@ -269,7 +253,7 @@ body.header-collapsed #editor-root {
 }
 
 body.header-collapsed #markdown-preview {
-  padding-top: calc(48px + env(safe-area-inset-top, 0px));
+  padding-top: calc(16px + env(safe-area-inset-top, 0px));
 }
 #markdown-preview h1, #markdown-preview h2, #markdown-preview h3 { margin-top: 1.5em; margin-bottom: 0.5em; }
 #markdown-preview p { margin-bottom: 1em; }

@@ -27,7 +27,7 @@ public class MainActivity extends BridgeActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             getWindow().getInsetsController().setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND,
-                WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND
+                WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND | WindowInsetsController.APPEARANCE_LIGHT_CAPTION_BARS
             );
         }
 
@@ -36,38 +36,45 @@ public class MainActivity extends BridgeActivity {
         ImageButton chevron = new ImageButton(this);
         chevron.setImageResource(R.drawable.ic_chevron);
         chevron.setBackgroundColor(Color.TRANSPARENT);
-        chevron.setPadding(0,0,0,0);
+        chevron.setPadding(32, 32, 32, 32);
         chevron.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
         
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                64, 64, Gravity.TOP | Gravity.CENTER_HORIZONTAL
+                128, 128, Gravity.TOP | Gravity.CENTER_HORIZONTAL
         );
         
         decorView.setOnApplyWindowInsetsListener((v, insets) -> {
             if (android.os.Build.VERSION.SDK_INT >= 35) { // API 35
-                java.util.List<android.graphics.Rect> rects = insets.getBoundingRects(WindowInsets.Type.captionBar());
-                // The rects usually occupy the far right/left. We render in the safe zone (center).
                 int captionBarTop = insets.getInsets(WindowInsets.Type.captionBar()).top;
                 if (captionBarTop > 0) {
-                    params.topMargin = (captionBarTop - 64) / 2;
+                    params.topMargin = (captionBarTop - 128) / 2;
                     if (params.topMargin < 0) params.topMargin = 0;
                     chevron.setLayoutParams(params);
                 }
             } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 int topInset = insets.getInsets(WindowInsets.Type.systemBars()).top;
-                params.topMargin = topInset > 64 ? (topInset - 64) / 2 : 0;
+                params.topMargin = topInset > 128 ? (topInset - 128) / 2 : 0;
                 chevron.setLayoutParams(params);
             }
             return v.onApplyWindowInsets(insets);
         });
 
         chevron.setLayoutParams(params);
-        chevron.setOnClickListener(v -> {
+        
+        final boolean[] isCollapsed = {false};
+        View.OnClickListener toggleListener = v -> {
+            isCollapsed[0] = !isCollapsed[0];
+            v.animate().rotation(isCollapsed[0] ? 180f : 0f).setDuration(300).start();
             if (bridge != null && bridge.getWebView() != null) {
                 bridge.getWebView().evaluateJavascript(
                         "document.body.classList.toggle('header-collapsed');", null
                 );
             }
+        };
+        chevron.setOnClickListener(toggleListener);
+        chevron.setOnLongClickListener(v -> {
+            toggleListener.onClick(v);
+            return true;
         });
         
         ((FrameLayout) decorView).addView(chevron);

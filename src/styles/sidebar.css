@@ -43,7 +43,7 @@
 }
 
 body.header-collapsed .sidebar-view {
-  padding-top: calc(32px + env(safe-area-inset-top, 0px));
+  padding-top: calc(16px + env(safe-area-inset-top, 0px));
 }
 
 .sidebar-header {
