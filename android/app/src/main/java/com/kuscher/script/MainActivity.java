@@ -31,37 +31,67 @@ public class MainActivity extends BridgeActivity {
             );
         }
 
-        // Native Chevron Injection
+        // Native Header Controls Injection
         View decorView = getWindow().getDecorView();
+        
+        int sizePx = (int) (48 * getResources().getDisplayMetrics().density);
+        int paddingPx = (int) (12 * getResources().getDisplayMetrics().density);
+        int marginPx = (int) (8 * getResources().getDisplayMetrics().density);
+
+        android.widget.LinearLayout container = new android.widget.LinearLayout(this);
+        container.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+        container.setGravity(Gravity.CENTER_VERTICAL);
+        
+        FrameLayout.LayoutParams containerParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.TOP | Gravity.START
+        );
+
+        ImageButton menuBtn = new ImageButton(this);
+        menuBtn.setImageResource(R.drawable.ic_menu);
+        menuBtn.setBackgroundResource(R.drawable.bg_circular);
+        menuBtn.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+        menuBtn.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+        android.widget.LinearLayout.LayoutParams menuParams = new android.widget.LinearLayout.LayoutParams(sizePx, sizePx);
+        menuParams.setMarginEnd(marginPx);
+        menuBtn.setLayoutParams(menuParams);
+
         ImageButton chevron = new ImageButton(this);
         chevron.setImageResource(R.drawable.ic_chevron);
-        chevron.setBackgroundColor(Color.TRANSPARENT);
-        chevron.setPadding(16, 16, 16, 16);
+        chevron.setBackgroundResource(R.drawable.bg_circular);
+        chevron.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
         chevron.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
-        
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                96, 96, Gravity.TOP | Gravity.CENTER_HORIZONTAL
-        );
-        
+        chevron.setLayoutParams(new android.widget.LinearLayout.LayoutParams(sizePx, sizePx));
+
+        container.addView(menuBtn);
+        container.addView(chevron);
+
         decorView.setOnApplyWindowInsetsListener((v, insets) -> {
+            int leftSafeMargin = marginPx;
+            int topSafeMargin = marginPx;
+            
             if (android.os.Build.VERSION.SDK_INT >= 35) { // API 35
                 int captionBarTop = insets.getInsets(WindowInsets.Type.captionBar()).top;
-                if (captionBarTop > 0) {
-                    params.topMargin = (captionBarTop - 96) / 2 - 32;
-                    chevron.setLayoutParams(params);
+                if (captionBarTop > 0) topSafeMargin = (captionBarTop - sizePx) / 2;
+                for (android.graphics.Rect rect : insets.getBoundingRects(WindowInsets.Type.captionBar())) {
+                    if (rect.left < 200) { // controls are on the left
+                        leftSafeMargin = Math.max(leftSafeMargin, rect.right + marginPx);
+                    }
                 }
             } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 int topInset = insets.getInsets(WindowInsets.Type.systemBars()).top;
-                params.topMargin = topInset > 96 ? (topInset - 96) / 2 - 32 : -16;
-                chevron.setLayoutParams(params);
+                if (topInset > 0) topSafeMargin = (topInset - sizePx) / 2;
             }
+            containerParams.topMargin = topSafeMargin;
+            containerParams.leftMargin = leftSafeMargin;
+            container.setLayoutParams(containerParams);
             return v.onApplyWindowInsets(insets);
         });
 
-        chevron.setLayoutParams(params);
+        container.setLayoutParams(containerParams);
         
         final boolean[] isCollapsed = {false};
-        Runnable toggleLogic = () -> {
+        Runnable toggleHeaderLogic = () -> {
             isCollapsed[0] = !isCollapsed[0];
             chevron.animate().rotation(isCollapsed[0] ? 180f : 0f).setDuration(300).start();
             if (bridge != null && bridge.getWebView() != null) {
@@ -71,20 +101,30 @@ public class MainActivity extends BridgeActivity {
             }
         };
 
-        View.OnClickListener toggleListener = v -> toggleLogic.run();
-        chevron.setOnClickListener(toggleListener);
-        chevron.setOnLongClickListener(v -> {
-            toggleLogic.run();
-            return true;
-        });
+        chevron.setOnClickListener(v -> toggleHeaderLogic.run());
+        chevron.setOnLongClickListener(v -> { toggleHeaderLogic.run(); return true; });
         chevron.setOnTouchListener((v, event) -> {
             if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                toggleLogic.run();
-                return true; // Consume the event to prevent duplicate onClick
+                toggleHeaderLogic.run(); return true;
+            } return false;
+        });
+
+        Runnable toggleSidebarLogic = () -> {
+            if (bridge != null && bridge.getWebView() != null) {
+                bridge.getWebView().evaluateJavascript(
+                        "document.body.classList.toggle('sidebar-collapsed');", null
+                );
             }
-            return false;
+        };
+
+        menuBtn.setOnClickListener(v -> toggleSidebarLogic.run());
+        menuBtn.setOnLongClickListener(v -> { toggleSidebarLogic.run(); return true; });
+        menuBtn.setOnTouchListener((v, event) -> {
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                toggleSidebarLogic.run(); return true;
+            } return false;
         });
         
-        ((FrameLayout) decorView).addView(chevron);
+        ((FrameLayout) decorView).addView(container);
     }
 }
