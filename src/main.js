@@ -45,10 +45,12 @@ const dom = {
   findBar: document.getElementById('find-bar'),
   
   // Header details
+  appHeader: document.querySelector('.app-header'),
   headerTitle: document.getElementById('header-title'),
   headerIcon: document.getElementById('header-file-icon'),
   btnPreview: document.getElementById('btn-toggle-preview'),
   diskWarning: document.getElementById('disk-warning'),
+  btnCollapseHeader: document.getElementById('btn-collapse-header'),
   
   // Status Bar
   statusBars: {
@@ -492,6 +494,19 @@ async function bootstrap() {
     if (btnSyncReload) {
       btnSyncReload.addEventListener('click', async () => {
         await forceFetch(true);
+      });
+    }
+
+    // Toggle Collapse Header
+    if (dom.btnCollapseHeader && dom.appHeader) {
+      dom.btnCollapseHeader.addEventListener('click', () => {
+        const isCollapsed = dom.appHeader.classList.toggle('collapsed');
+        if (isCollapsed) {
+          dom.btnCollapseHeader.innerHTML = '<i data-lucide="chevron-down"></i>';
+        } else {
+          dom.btnCollapseHeader.innerHTML = '<i data-lucide="chevron-up"></i>';
+        }
+        createIcons({ icons, nameAttr: 'data-lucide' });
       });
     }
     
