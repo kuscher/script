@@ -34,8 +34,8 @@ public class MainActivity extends BridgeActivity {
         // Native Header Controls Injection
         View decorView = getWindow().getDecorView();
         
-        int sizePx = (int) (48 * getResources().getDisplayMetrics().density);
-        int paddingPx = (int) (12 * getResources().getDisplayMetrics().density);
+        int sizePx = (int) (40 * getResources().getDisplayMetrics().density);
+        int paddingPx = (int) (10 * getResources().getDisplayMetrics().density);
         int marginPx = (int) (8 * getResources().getDisplayMetrics().density);
 
         android.widget.LinearLayout container = new android.widget.LinearLayout(this);
@@ -53,7 +53,6 @@ public class MainActivity extends BridgeActivity {
         menuBtn.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
         menuBtn.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
         menuBtn.setColorFilter(android.graphics.Color.parseColor("#A626A4"));
-        menuBtn.setElevation(8f * getResources().getDisplayMetrics().density);
         android.widget.LinearLayout.LayoutParams menuParams = new android.widget.LinearLayout.LayoutParams(sizePx, sizePx);
         menuParams.setMarginEnd(marginPx);
         menuBtn.setLayoutParams(menuParams);
@@ -64,7 +63,6 @@ public class MainActivity extends BridgeActivity {
         chevron.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
         chevron.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
         chevron.setColorFilter(android.graphics.Color.parseColor("#A626A4"));
-        chevron.setElevation(8f * getResources().getDisplayMetrics().density);
         chevron.setLayoutParams(new android.widget.LinearLayout.LayoutParams(sizePx, sizePx));
 
         container.addView(menuBtn);
@@ -108,9 +106,19 @@ public class MainActivity extends BridgeActivity {
         chevron.setOnClickListener(v -> toggleHeaderLogic.run());
         chevron.setOnLongClickListener(v -> { toggleHeaderLogic.run(); return true; });
         chevron.setOnTouchListener((v, event) -> {
-            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                toggleHeaderLogic.run(); return true;
-            } return false;
+            switch(event.getAction()) {
+                case android.view.MotionEvent.ACTION_DOWN:
+                    v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                    break;
+                case android.view.MotionEvent.ACTION_UP:
+                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                    toggleHeaderLogic.run();
+                    return true;
+                case android.view.MotionEvent.ACTION_CANCEL:
+                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                    break;
+            }
+            return false;
         });
 
         Runnable toggleSidebarLogic = () -> {
@@ -124,9 +132,19 @@ public class MainActivity extends BridgeActivity {
         menuBtn.setOnClickListener(v -> toggleSidebarLogic.run());
         menuBtn.setOnLongClickListener(v -> { toggleSidebarLogic.run(); return true; });
         menuBtn.setOnTouchListener((v, event) -> {
-            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                toggleSidebarLogic.run(); return true;
-            } return false;
+            switch(event.getAction()) {
+                case android.view.MotionEvent.ACTION_DOWN:
+                    v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                    break;
+                case android.view.MotionEvent.ACTION_UP:
+                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                    toggleSidebarLogic.run();
+                    return true;
+                case android.view.MotionEvent.ACTION_CANCEL:
+                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                    break;
+            }
+            return false;
         });
         
         ((FrameLayout) decorView).addView(container);
