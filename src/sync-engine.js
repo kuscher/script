@@ -13,6 +13,8 @@ let isSyncing = false;
 let lastSyncedContent = null;
 let updateCallback = null;
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 // Convert the plaintext passphrase to a SHA-256 hash so we never send the raw password
 async function hashKey(key) {
   const encoder = new TextEncoder();
@@ -86,7 +88,7 @@ export function queueSyncSave(content) {
     
     updateSyncingState(true);
     try {
-      const res = await fetch(`/api/sync?key=${syncKey}`, {
+      const res = await fetch(`${API_BASE}/api/sync?key=${syncKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content })
@@ -131,7 +133,7 @@ export async function forceFetch(userInitiated = false) {
   
   updateSyncingState(true, userInitiated);
   try {
-    const res = await fetch(`/api/sync?key=${syncKey}`);
+    const res = await fetch(`${API_BASE}/api/sync?key=${syncKey}`);
     if (res.ok) {
       const data = await res.json();
       if (data.content !== undefined && data.content !== lastSyncedContent) {
