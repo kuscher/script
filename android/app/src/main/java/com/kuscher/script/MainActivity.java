@@ -26,7 +26,7 @@ public class MainActivity extends BridgeActivity {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             getWindow().getInsetsController().setSystemBarsAppearance(
-                WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND,
+                WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND | WindowInsetsController.APPEARANCE_LIGHT_CAPTION_BARS,
                 WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND | WindowInsetsController.APPEARANCE_LIGHT_CAPTION_BARS
             );
         }
