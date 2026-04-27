@@ -114,7 +114,8 @@ public class MainActivity extends BridgeActivity {
         Runnable toggleSidebarLogic = () -> {
             if (bridge != null && bridge.getWebView() != null) {
                 bridge.getWebView().evaluateJavascript(
-                        "document.body.classList.toggle('sidebar-collapsed');", null
+                        "var s = document.getElementById('sidebar'); if (s) { s.classList.toggle('collapsed'); " +
+                        "var o = document.getElementById('mobile-sidebar-overlay'); if(o) { if (s.classList.contains('collapsed')) { o.classList.add('hidden'); } else { o.classList.remove('hidden'); } } }", null
                 );
             }
         };

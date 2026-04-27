@@ -67,6 +67,10 @@ let statusBarCtrl;
 async function bootstrap() {
   if (Capacitor && Capacitor.isNativePlatform()) {
     document.documentElement.classList.add('is-native');
+    if (dom.hamburger) {
+      dom.hamburger.remove();
+      dom.hamburger = null;
+    }
     try {
       await StatusBar.setStyle({ style: Style.Default });
       await StatusBar.setOverlaysWebView({ overlay: false });
