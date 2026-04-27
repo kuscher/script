@@ -36,24 +36,25 @@ public class MainActivity extends BridgeActivity {
         ImageButton chevron = new ImageButton(this);
         chevron.setImageResource(R.drawable.ic_chevron);
         chevron.setBackgroundColor(Color.TRANSPARENT);
-        chevron.setPadding(32, 32, 32, 32);
+        chevron.setPadding(16, 16, 16, 16);
         chevron.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
         
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                128, 128, Gravity.TOP | Gravity.CENTER_HORIZONTAL
+                96, 96, Gravity.TOP | Gravity.CENTER_HORIZONTAL
         );
         
         decorView.setOnApplyWindowInsetsListener((v, insets) -> {
             if (android.os.Build.VERSION.SDK_INT >= 35) { // API 35
                 int captionBarTop = insets.getInsets(WindowInsets.Type.captionBar()).top;
                 if (captionBarTop > 0) {
-                    params.topMargin = (captionBarTop - 128) / 2;
+                    params.topMargin = (captionBarTop - 96) / 2 - 16;
                     if (params.topMargin < 0) params.topMargin = 0;
                     chevron.setLayoutParams(params);
                 }
             } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 int topInset = insets.getInsets(WindowInsets.Type.systemBars()).top;
-                params.topMargin = topInset > 128 ? (topInset - 128) / 2 : 0;
+                params.topMargin = topInset > 96 ? (topInset - 96) / 2 - 16 : 0;
+                if (params.topMargin < 0) params.topMargin = 0;
                 chevron.setLayoutParams(params);
             }
             return v.onApplyWindowInsets(insets);
@@ -62,19 +63,28 @@ public class MainActivity extends BridgeActivity {
         chevron.setLayoutParams(params);
         
         final boolean[] isCollapsed = {false};
-        View.OnClickListener toggleListener = v -> {
+        Runnable toggleLogic = () -> {
             isCollapsed[0] = !isCollapsed[0];
-            v.animate().rotation(isCollapsed[0] ? 180f : 0f).setDuration(300).start();
+            chevron.animate().rotation(isCollapsed[0] ? 180f : 0f).setDuration(300).start();
             if (bridge != null && bridge.getWebView() != null) {
                 bridge.getWebView().evaluateJavascript(
                         "document.body.classList.toggle('header-collapsed');", null
                 );
             }
         };
+
+        View.OnClickListener toggleListener = v -> toggleLogic.run();
         chevron.setOnClickListener(toggleListener);
         chevron.setOnLongClickListener(v -> {
-            toggleListener.onClick(v);
+            toggleLogic.run();
             return true;
+        });
+        chevron.setOnTouchListener((v, event) -> {
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                toggleLogic.run();
+                return true; // Consume the event to prevent duplicate onClick
+            }
+            return false;
         });
         
         ((FrameLayout) decorView).addView(chevron);
