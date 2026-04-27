@@ -65,6 +65,9 @@ const dom = {
 let statusBarCtrl;
 
 async function bootstrap() {
+  if (Capacitor && Capacitor.isNativePlatform()) {
+    if (dom.hamburger) dom.hamburger.style.display = 'none';
+  }
   if (Capacitor.isNativePlatform()) {
     try {
       await StatusBar.setStyle({ style: Style.Default });

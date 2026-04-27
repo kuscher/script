@@ -52,6 +52,8 @@ public class MainActivity extends BridgeActivity {
         menuBtn.setBackgroundResource(R.drawable.bg_circular);
         menuBtn.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
         menuBtn.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+        menuBtn.setColorFilter(android.graphics.Color.parseColor("#A626A4"));
+        menuBtn.setElevation(8f * getResources().getDisplayMetrics().density);
         android.widget.LinearLayout.LayoutParams menuParams = new android.widget.LinearLayout.LayoutParams(sizePx, sizePx);
         menuParams.setMarginEnd(marginPx);
         menuBtn.setLayoutParams(menuParams);
@@ -61,6 +63,8 @@ public class MainActivity extends BridgeActivity {
         chevron.setBackgroundResource(R.drawable.bg_circular);
         chevron.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
         chevron.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+        chevron.setColorFilter(android.graphics.Color.parseColor("#A626A4"));
+        chevron.setElevation(8f * getResources().getDisplayMetrics().density);
         chevron.setLayoutParams(new android.widget.LinearLayout.LayoutParams(sizePx, sizePx));
 
         container.addView(menuBtn);
