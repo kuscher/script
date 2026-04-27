@@ -106,19 +106,9 @@ public class MainActivity extends BridgeActivity {
         chevron.setOnClickListener(v -> toggleHeaderLogic.run());
         chevron.setOnLongClickListener(v -> { toggleHeaderLogic.run(); return true; });
         chevron.setOnTouchListener((v, event) -> {
-            switch(event.getAction()) {
-                case android.view.MotionEvent.ACTION_DOWN:
-                    v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
-                    break;
-                case android.view.MotionEvent.ACTION_UP:
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                    toggleHeaderLogic.run();
-                    return true;
-                case android.view.MotionEvent.ACTION_CANCEL:
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                    break;
-            }
-            return false;
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                toggleHeaderLogic.run(); return true;
+            } return false;
         });
 
         Runnable toggleSidebarLogic = () -> {
@@ -132,19 +122,9 @@ public class MainActivity extends BridgeActivity {
         menuBtn.setOnClickListener(v -> toggleSidebarLogic.run());
         menuBtn.setOnLongClickListener(v -> { toggleSidebarLogic.run(); return true; });
         menuBtn.setOnTouchListener((v, event) -> {
-            switch(event.getAction()) {
-                case android.view.MotionEvent.ACTION_DOWN:
-                    v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
-                    break;
-                case android.view.MotionEvent.ACTION_UP:
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                    toggleSidebarLogic.run();
-                    return true;
-                case android.view.MotionEvent.ACTION_CANCEL:
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                    break;
-            }
-            return false;
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                toggleSidebarLogic.run(); return true;
+            } return false;
         });
         
         ((FrameLayout) decorView).addView(container);

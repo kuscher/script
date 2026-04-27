@@ -113,6 +113,10 @@ body.header-collapsed .app-header * {
 .hamburger-btn svg { width: 20px; height: 20px; stroke-width: 1.5 !important; }
 .hamburger-btn:hover { background-color: var(--accent-subtle); color: var(--icon-hover); }
 
+html.is-native #btn-hamburger {
+  display: none !important;
+}
+
 .editor-container {
   flex: 1;
   display: flex;
